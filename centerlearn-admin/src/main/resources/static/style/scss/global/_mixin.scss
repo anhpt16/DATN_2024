@@ -1,0 +1,36 @@
+.reset-taga {
+  text-decoration: none;
+}
+// Số lượng dòng hiển thị tối đa
+@mixin wrap-text($line-clamp) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line-clamp;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+// Fixed glutter
+@mixin fixed-padding-h($padding) {
+  padding-left: $padding !important;
+  padding-right: $padding !important;
+}
+// Fixed margin
+
+// Change Color
+@mixin change-text-color($start-color, $end-color, $second: 0.3s) {
+  color: $start-color;
+  transition: color $second ease;
+  &:hover {
+    color: $end-color;
+  }
+}
+@mixin change-background-color($start-color, $end-color) {
+  background-color: $start-color;
+  transition: background-color 0.1s ease;
+  &:hover {
+    background-color: $end-color;
+  }
+}
+
+
+

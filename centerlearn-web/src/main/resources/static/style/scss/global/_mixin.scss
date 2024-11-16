@@ -1,0 +1,10 @@
+.reset-taga {
+  text-decoration: none;
+}
+@mixin wrap-text($line-clamp) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line-clamp;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

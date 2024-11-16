@@ -1,0 +1,106 @@
+/* styles.scss */
+
+/* Lớp cha bao bọc toàn bộ trang quản lý tiết học */
+
+.admin-addperiod-container {
+    background-color: $main-backgroud-light;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    .add-timeslot-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: $color-text-menu-hover;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: $color-text-menu-hover;
+        }
+
+        input[type="text"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid $line-color-light;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: $line-color-blue;
+                outline: none;
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: $primary-color-success;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken($primary-color-success, 10%);
+            }
+        }
+    }
+}
+
+.admin-listperiod-container {
+    background-color: $main-backgroud-light;
+    border-radius: 8px;
+    padding: 20px;
+    table {
+        th, td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        th {
+            background-color: $color-table-head;
+            color: $color-white;
+        }
+
+        button {
+            margin-right: 5px;
+        }
+    }
+
+    .pagination {
+        .page-link {
+            color: $color-table-head;
+
+            &:hover {
+                text-decoration: none;
+                background-color: $color-text-menu;
+            }
+        }
+    }
+}
+
+.view-timeslot-modal {
+    .modal-content {
+        .modal-body {
+            p {
+                .view-term-lable {
+                    width: 100px; 
+                }
+            }
+        }
+    }
+}
+

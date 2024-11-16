@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{page}">
+<body>
+<div layout:fragment="content">
+    <div class="login-container">
+        <div class="login-box">
+            <p>[[#{admin}]]</p>
+            <form>
+                <div class="input-group">
+                    <label for="username">[[#{login_username}]]</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">[[#{login_password}]]</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="login-btn">[[#{login}]]</button>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">[[#{login_forgot_password}]]?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="post-scripts">
+
+</th:block>
+</body>
+</html>

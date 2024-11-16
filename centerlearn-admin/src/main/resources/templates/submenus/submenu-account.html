@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="submenu-account" class="admin-submenu">
+  <div class="admin-content-list-section">
+    <p>Trang chủ</p>
+  </div>
+  <div class="admin-content-submenu">
+    <ul class="admin-content-submenu-container">
+      <li class="admin-content-submenu-item"><a href="#"><p>[[#{manage_account}]]</p></a></li>
+      <li class="admin-content-submenu-item"><a href="#"><p>[[#{manage_role}]]</p></a></li>
+      <li class="admin-content-submenu-item"><a href="#"><p>[[#{manage_permission}]]</p></a></li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

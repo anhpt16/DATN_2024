@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="list-timeslot" class="content admin-content-col">
+        <div class="admin-content-container">
+            <div th:replace="~{submenus/submenu-room :: submenu-room}"></div>
+            <div class="admin-content-menu">
+                <div class="row admin-content-menu-container">
+                    <!-- Phần Tạo Tiết Học -->
+                    <div class="col-lg-3">
+                        <div class="admin-addperiod-container">
+                            <p class="add-timeslot-title">[[#{add_timeslot_title}]]</p>
+                            <form id="timeslot-form" action="" method="post">
+                                <!-- Period -->
+                                <div class="form-group">
+                                    <label for="timeslot-period">[[#{timeslot_period}]]</label>
+                                    <input type="number" min="1" id="timeslot-period" name="timeslot-period" autocomplete="off" class="form-control" required>
+                                </div>
+                                <!-- Time Start -->
+                                <div class="form-group">
+                                    <label for="timeslot-time-start">[[#{timeslot_time_start}]]</label>
+                                    <input type="time" id="timeslot-time-start" name="timeslot-time-start" autocomplete="off" class="form-control" required>
+                                </div>
+                                <!-- Time End -->
+                                <div class="form-group">
+                                    <label for="timeslot-time-end">[[#{timeslot_time_end}]]</label>
+                                    <input type="time" id="timeslot-time-end" name="timeslot-time-end" autocomplete="off" class="form-control" required>
+                                </div>
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label for="timeslot-description">[[#{timeslot_description}]]</label>
+                                    <textarea id="timeslot-description" name="timeslot-description" autocomplete="off" class="form-control" rows="4"></textarea>
+                                </div>
+                                <!-- Nút Tạo -->
+                                <div class="form-group">
+                                    <button type="submit" id="createButton" class="btn btn-success">[[#{create}]]</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            
+                    <!-- Phần Xem Danh Sách Tiết Học -->
+                    <div class="col-lg-9">
+                        <div class="admin-listperiod-container">
+                            <!-- Dòng thứ nhất: Bảng hiển thị danh sách tiết học -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>[[#{timeslot_id}]]</th>
+                                                <th>[[#{timeslot_period}]]</th>
+                                                <th>[[#{timeslot_time_start}]]</th>
+                                                <th>[[#{timeslot_time_end}]]</th>
+                                                <th>[[#{timeslot_status}]]</th>
+                                                <th class="d-none">[[#{timeslot_description}]]</th>
+                                                <th class="d-none">[[#{timeslot_created_at}]]</th>
+                                                <th class="d-none">[[#{timeslot-updated_at}]]</th>
+                                                <th>[[#{timeslot_action}]]</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="timeslot-tbody">
+                                            <tr th:each="timeslot : ${timeslots.items}" data-id="${timeslot.items.id}">
+                                                <td class="item-timeslot-id" th:text="${timeslot.id}"></td>
+                                                <td class="item-timeslot-period" th:text="${timeslot.period}"></td>
+                                                <td class="item-timeslot-time-start" th:text="${timeslot.timeStart}"></td>
+                                                <td class="item-timeslot-time-end" th:text="${timeslot.timeEnd}"></td>
+                                                <td class="item-timeslot-status"  
+                                                    th:style="${timeslot.status.colorCode} != null ? 'color:' + ${timeslot.status.colorCode} : ''" 
+                                                    th:text="${timeslot.status.displayName}"></td>
+                                                <td class="d-none item-timeslot-description" th:text="${timeslot.description}"></td>
+                                                <td class="d-none item-timeslot-created" th:text="${timeslot.createdAt}"></td>
+                                                <td class="d-none item-timeslot-updated" th:text="${timeslot.updatedAt}"></td>
+                                                <td>
+                                                    <i class="fa-regular fa-eye view-btn"></i>
+                                                    <i class="fa-regular fa-pen-to-square edit-btn"></i>
+                                                    <i class="fa-solid fa-trash-can delete-btn"></i>
+                                                </td>
+                                            </tr>
+                                            <!-- Thêm các hàng dữ liệu khác ở đây -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+            
+                            <!-- Dòng thứ hai: Phân trang -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <i class="fa-solid fa-arrows-rotate refresh-btn" id="refresh-btn"></i>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-end align-items-center" id="pagination">
+                                            <li class="page-item"><a id="prev-page" class="page-link disabled-link">
+                                                <i class="fa-solid fa-backward-step"></i></a></li>
+                                            <li class="page-item"><a id="next-page" class="page-link" th:classappend="${timeslots.totalPage == 1} ? ' disabled-link' : ''">
+                                                <i class="fa-solid fa-forward-step"></i></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Notification -->
+            <div class="notification-container">
+                <div id="successNotification" class="notification success" style="display: none;">
+                    <div class="d-flex">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div class="d-flex">
+                            <p id="notification-title"></p>
+                            <p id="notification-detail"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorNotification" class="notification error" style="display: none;">
+                    <div class="d-flex">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div class="d-flex">
+                            <p id="notification-title"></p>
+                            <p id="notification-detail"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- View detail -->
+            <div class="view-modal view-timeslot-modal" id="view-modal">
+                <div class="modal-content">
+                    <p class="view-term-title">[[#{view_timeslot_detail}]]</p>
+                    <div class="modal-body">
+                        <p><label class="view-term-lable">[[#{timeslot_id}]]:</label> <span class="view-timeslot-id" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_period}]]:</label> <span class="view-timeslot-period" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_time_start}]]:</label> <span class="view-timeslot-time-start" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_time_end}]]:</label> <span class="view-timeslot-time-end" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_status}]]:</label> <span class="view-timeslot-status" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_created_at}]]:</label> <span class="view-timeslot-created" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{timeslot_updated_at}]]:</label> <span class="view-timeslot-updated" id=""></span></p>
+                        <p class="row">
+                            <label class="col-lg-3 p-0 view-term-lable">[[#{timeslot_description}]]:</label> 
+                            <span class="col-lg-9 p-0 view-timeslot-description" id=""></span></p>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="text" id="close-view-btn">[[#{close}]]</button>
+                    </div>
+                </div>
+            </div>
+            <!--Edit Modal -->
+            <div id="edit-timeslot-modal" class="edit-term-modal">
+                <div class="modal-content">
+                    <p class="edit-term-title">[[#{edit_timeslot}]]</p>
+                    <form id="edit-timeslot-form" method="" action="">
+                        <div class="form-group">
+                            <label for="edit-timeslot-id">[[#{timeslot_id}]]</label>
+                            <input type="text" id="edit-timeslot-id" name="id" autocomplete="off" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-timeslot-period">[[#{timeslot_period}]]</label>
+                            <input type="number" min="0" id="edit-timeslot-period" autocomplete="off" name="slot">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-timeslot-time-start">[[#{timeslot_time_start}]]</label>
+                            <input type="time" id="edit-timeslot-time-start" autocomplete="off" name="start">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-timeslot-time-end">[[#{timeslot_time_end}]]</label>
+                            <input type="time" id="edit-timeslot-time-end" autocomplete="off" name="end">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-timeslot-status">[[#{timeslot_status}]]</label>
+                            <select id="edit-timeslot-status" name="timeslot-status" autocomplete="off" class="form-control">
+                                <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-timeslot-description">[[#{timeslot_description}]]</label>
+                            <textarea id="edit-timeslot-description" autocomplete="off" name="description"></textarea>
+                        </div>
+                        <div class="btn-save-term">
+                            <button type="button" class="btn-close-modal">[[#{close}]]</button>
+                            <button type="submit" class="submit-button">[[#{save}]]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Delete confirmation modal -->
+            <div class="delete-modal" id="delete-modal">
+                <div class="modal-content">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p class="delete-term-title">[[#{delete_confirm_title}]]</p>
+                    <p class="delete-timeslot-detail"></p>
+                    <div class="modal-actions">
+                        <button class="confirm-delete-btn" id="confirm-delete-btn">[[#{yes}]]</button>
+                        <button class="cancel-delete-btn">[[#{no}]]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<script th:fragment="scripts" type="text/javascript">
+    $(document).ready(function() {
+        // Timeslot
+        const tbodyEl = $("#timeslot-tbody");
+        const timeslotFormEl = $("#timeslot-form");
+        const timeslotPeriodEl = $("#timeslot-period");
+        const timeslotTimeStartEl = $("#timeslot-time-start");
+        const timeslotTimeEndEl = $("#timeslot-time-end");
+        const timeslotDescriptionEl = $("#timeslot-description");
+        // Notification
+        const successNotification = $("#successNotification");
+        const errorNotification = $("#errorNotification");
+        const successNoticeTitle = $("#successNotification #notification-title");
+        const successNoticeDetail = $("#successNotification #notification-detail");
+        const errorNoticeTitle = $("#errorNotification #notification-title");
+        const errorNoticeDetail = $("#errorNotification #notification-detail");
+        // View timeslot detail
+        const viewTimeslotModal = $("#view-modal");
+        const closeViewModal = $("#close-view-btn");
+        const viewTimeslotId = $(".view-timeslot-id");
+        const viewTimeslotPeriod = $(".view-timeslot-period");
+        const viewTimeslotTimeStart = $(".view-timeslot-time-start");
+        const viewTimeslotTimeEnd = $(".view-timeslot-time-end");
+        const viewTimeslotStatus = $(".view-timeslot-status");
+        const viewTimeslotDescription = $(".view-timeslot-description");
+        const viewTimeslotCreated = $(".view-timeslot-created");
+        const viewTimeslotUpdated = $(".view-timeslot-updated");
+        // Edit timeslot
+        const editTimeslotId = $("#edit-timeslot-id");
+        const editTimeslotModal = $("#edit-timeslot-modal");
+        const editTimeslotPeriod = $("#edit-timeslot-period");
+        const editTimeslotTimeStart = $("#edit-timeslot-time-start");
+        const editTimeslotTimeEnd = $("#edit-timeslot-time-end");
+        const editTimeslotStatus = $("#edit-timeslot-status");
+        const editTimeslotDescription = $("#edit-timeslot-description");
+        const closeTimeslotModal = $(".btn-close-modal");
+        const editTimeslotFormEl = $("#edit-timeslot-form");
+        // Delete timeslot
+        const deleteTimeslotModal = $("#delete-modal");
+        const confirmDeleteBtn = $("#confirm-delete-btn");
+        const cancelDeleteBtn = $(".cancel-delete-btn");
+        const deleteTimeslotDetail = $(".delete-timeslot-detail");
+        // Table button
+        const refreshBtn = $("#refresh-btn");
+        // Pagination
+        const prevPage = $("#prev-page");
+        const nextPage = $("#next-page");
+
+        // Add Timeslot
+        timeslotFormEl.on('submit', function(event) {
+            event.preventDefault();
+            let formData = {
+                period: timeslotPeriodEl.val(),
+                timeStart: timeslotTimeStartEl.val(),
+                timeEnd: timeslotTimeEndEl.val(),
+                description: timeslotDescriptionEl.val()
+            }
+            $.ajax({
+                url: '/api/v1/timeslots?lang=vi',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                console.log("Done: " + response);
+                showSuccessNotification("Tạo mới thành công !", "");
+                resetInput();
+            })
+            .fail(function(e) {
+                console.log("Error: " + e.responseText);
+                showErrorNotification("Tạo mới thất bại: ", e.responseText);
+            })
+        });
+        // Reset when create success
+        function resetInput() {
+            timeslotPeriodEl.val('');
+            timeslotTimeStartEl.val('');
+            timeslotTimeEndEl.val('');
+            timeslotDescriptionEl.val('');
+        }
+
+        // View detail
+        tbodyEl.on('click', '.view-btn', function() {
+            const getTimeslotRow = $(this).closest("tr");
+            const getTimeslotId = getTimeslotRow.find(".item-timeslot-id").text();
+            const getTimeslotPeriod = getTimeslotRow.find(".item-timeslot-period").text();
+            const getTimeslotTimeStart = getTimeslotRow.find(".item-timeslot-time-start").text();
+            const getTimeslotTimeEnd = getTimeslotRow.find(".item-timeslot-time-end").text();
+            const getTimeslotStatus = getTimeslotRow.find(".item-timeslot-status").text();
+            const getTimeslotDescription = getTimeslotRow.find(".item-timeslot-description").text();
+            const getTimeslotCreated = getTimeslotRow.find(".item-timeslot-created").text().replace("T", " ");
+            const getTimeslotUpdated = getTimeslotRow.find(".item-timeslot-updated").text().replace("T", " ");
+            // console.log(getTimeslotTimeEnd)
+            // console.log(getTimeslotCreated)
+            // console.log(getTimeslotUpdated)
+            // console.log($(".view-timeslot-time-end"));
+            // console.log(viewTimeslotTimeEnd);
+            viewTimeslotId.text(getTimeslotId);
+            viewTimeslotPeriod.text(getTimeslotPeriod);
+            viewTimeslotTimeStart.text(getTimeslotTimeStart);
+            viewTimeslotTimeEnd.text(getTimeslotTimeEnd);
+            viewTimeslotStatus.text(getTimeslotStatus);
+            viewTimeslotCreated.text(getTimeslotCreated);
+            viewTimeslotUpdated.text(getTimeslotUpdated);
+            viewTimeslotDescription.text(getTimeslotDescription);
+            viewTimeslotModal.css('display', 'flex');
+        })
+        closeViewModal.on('click', function() {
+            viewTimeslotModal.css('display', 'none');
+        })
+
+        // Edit timeslot by id (tbody)
+        tbodyEl.on('click', '.edit-btn', function() {
+            const getTimeslotRow = $(this).closest("tr");
+            const getTimeslotId = getTimeslotRow.find(".item-timeslot-id").text();
+            const getTimeslotPeriod = getTimeslotRow.find(".item-timeslot-period").text();
+            const getTimeslotTimeStart = getTimeslotRow.find(".item-timeslot-time-start").text();
+            const getTimeslotTimeEnd = getTimeslotRow.find(".item-timeslot-time-end").text();
+            const getTimeslotStatus = getTimeslotRow.find(".item-timeslot-status").text();
+            const getTimeslotDescription = getTimeslotRow.find(".item-timeslot-description").text();
+
+            console.log("CLick")
+
+            editTimeslotId.val(getTimeslotId);
+            editTimeslotPeriod.val(getTimeslotPeriod);
+            editTimeslotTimeStart.val(getTimeslotTimeStart);
+            editTimeslotTimeEnd.val(getTimeslotTimeEnd);
+            editTimeslotStatus.val(getTimeslotStatus);
+            editTimeslotDescription.val(getTimeslotDescription);
+
+            editTimeslotModal.css('display', 'flex'); // Show the modal
+        });
+        editTimeslotFormEl.on('submit', function(event) {
+            event.preventDefault();
+            console.log("Done save");
+            let timeslotId = editTimeslotId.val();
+            let formData = {
+                period: editTimeslotPeriod.val(),
+                timeStart: editTimeslotTimeStart.val(),
+                timeEnd: editTimeslotTimeEnd.val(),
+                status: editTimeslotStatus.val()
+            }
+            console.log(formData);
+            $.ajax({
+                url: '/api/v1/timeslots/' + timeslotId + '?lang=vi',
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Cập nhật thành công !", "");
+            })
+            .fail(function(e) {
+                showErrorNotification("Cập nhật thất bại: ", e.responseText);
+            });
+        })
+
+        //Delete timeslot by id
+        tbodyEl.on('click', '.delete-btn', function() {
+            const getTimeslotRow = $(this).closest("tr");
+            const getTimeslotId = getTimeslotRow.find(".item-timeslot-id").text();
+            const getTimeslotPeriod = getTimeslotRow.find(".item-timeslot-period").text();
+            const getTimeslotTimeStart = getTimeslotRow.find(".item-timeslot-time-start").text();
+            const getTimeslotTimeEnd = getTimeslotRow.find(".item-timeslot-time-end").text();
+
+            confirmDeleteBtn.data('id', getTimeslotId);
+
+            deleteTimeslotDetail.text(getTimeslotPeriod + ": " + getTimeslotTimeStart + " - " + getTimeslotTimeEnd);
+            deleteTimeslotModal.css('display', 'flex');
+        })
+        cancelDeleteBtn.on('click', function() {
+            deleteTimeslotModal.css('display', 'none');
+        })
+        confirmDeleteBtn.on('click', function() {
+            const timeslotId = $(this).data('id');
+            $.ajax({
+                url: '/api/v1/timeslots/' + timeslotId + '?lang=vi',
+                type: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Xóa thành công !", "");
+            })
+            .fail(function(e){
+                showErrorNotification("Xóa thất bại: ", e.responseText);
+            });
+            deleteTimeslotModal.css('display', 'none');
+        })
+
+        // Hide Modal
+        closeTimeslotModal.on('click', function() {
+            editTimeslotModal.css('display', 'none');
+        });
+        // Refresh
+        refreshBtn.on('click', function() {
+            renderTableByType();
+        })
+
+
+        // Render table by term type
+        function renderTableByType(page = 0, size = 10) {
+            let queryString = '';
+            // let selectedTerm = termSelect.val();
+            // queryString += "&id=" + selectedTerm;
+            queryString += "&page=" + page;
+            queryString += "&size=" + size;
+            $.ajax({
+                url: '/api/v1/timeslots/by-type?lang=vi' + queryString,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(data) {
+                renderTimeslots(data.items);
+                currentPage = data.currentPage;
+                totalPage = data.totalPage;
+                validatePageNumber(currentPage, totalPage);
+                console.log(data.currentPage, data.totalPage)
+            })
+            .fail(function(e) {
+                console.log("Error: " + e);
+            });
+        }
+
+        // Render room
+        function renderTimeslots(timeslots) {
+            tbodyEl.empty();
+            if (timeslots.length === 0) {
+                tbodyEl.append('<tr><td colspan="8">No terms available</td></tr>');
+                return;
+            }
+            timeslots.forEach(function(timeslot) {
+                let row = '<tr class="fade-in" data-id="' + timeslot.id + '">' +
+                    '<td class="item-timeslot-id">' + timeslot.id + '</td>' +
+                    '<td class="item-timeslot-period">' + timeslot.period + '</td>' +
+                    '<td class="item-timeslot-time-start">' + timeslot.timeStart.substring(0, 5) + '</td>' +
+                    '<td class="item-timeslot-time-end">' + timeslot.timeEnd.substring(0, 5) + '</td>' +
+                    '<td class="item-timeslot-status" ' +
+                        (timeslot.status.colorCode ? 'style="color:' + timeslot.status.colorCode + '"' : '') + '>' +
+                        timeslot.status.displayName + 
+                    '</td>' +
+                    '<td class="d-none item-timeslot-description">' + timeslot.description + '</td>' +
+                    '<td class="d-none item-timeslot-created">' + timeslot.createdAt + '</td>' +
+                    '<td class="d-none item-timeslot-updated">' + timeslot.updatedAt + '</td>' +
+                    '<td>' +
+                        '<i class="fa-regular fa-eye view-btn"></i>' +
+                        '<i class="fa-regular fa-pen-to-square edit-btn"></i>' +
+                        '<i class="fa-solid fa-trash-can delete-btn"></i>' +
+                    '</td>' +
+                '</tr>';
+                tbodyEl.append(row);
+            });
+            setTimeout(function() {
+                tbodyEl.find('.fade-in').addClass('show');
+            }, 100); 
+        }
+
+        // Show notification success
+        function showSuccessNotification(title, message) {
+            successNoticeTitle.text(title);
+            successNoticeDetail.text(message);
+            successNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(300);
+        }
+
+        // Show notification error
+        function showErrorNotification(title, message) {
+            errorNoticeTitle.text(title);
+            errorNoticeDetail.text(message);
+            errorNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(400);
+        }
+
+         /*<![CDATA[*/
+            let currentPage = [[${timeslots.currentPage}]];
+            let totalPage = [[${timeslots.totalPage}]];
+        /*]]>*/
+
+        // Pagination
+        function validatePageNumber(currentPage, totalPage) {
+            nextPage.toggleClass('disabled-link', currentPage >= (totalPage - 1));
+            prevPage.toggleClass('disabled-link', currentPage <= 0);
+        }
+        nextPage.on('click', function() {
+            if (currentPage < totalPage - 1) {
+                currentPage += 1;
+            }            
+            // Render
+            renderTableByType(currentPage);
+        })
+        prevPage.on('click', function() {
+            if (currentPage > 0) {
+                currentPage -= 1;
+            }            
+            // Render
+            renderTableByType(currentPage);
+        })
+    })
+</script>
+</body>
+</html>

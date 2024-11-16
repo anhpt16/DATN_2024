@@ -1,0 +1,40 @@
+
+
+.nav-container-fluid {
+  background-color: $main-backgroud-light;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.05);
+  height: 80px;
+}
+
+.nav-container {
+  max-width: 1600px;
+  .nav-main {
+    gap: 40px;
+    h1 {
+      margin-bottom: 0;
+      img {
+        width: 130px;
+        object-fit: cover;
+      }
+    }
+    .nav-left {
+      gap: 30px
+    }
+  }
+  .nav-option {
+    i {
+      font-size: $nav-icon;
+    }
+  }
+
+}
+
+a.nav-link {
+  color: $primary-color-light;
+  font-size: $nav-main-content;
+  font-weight: 600;
+  &:hover {
+    color: $primary-hover-color-light;
+  }
+}
+

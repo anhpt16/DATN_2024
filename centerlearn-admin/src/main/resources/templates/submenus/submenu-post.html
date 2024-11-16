@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="submenu-post" class="admin-submenu">
+    <div class="admin-content-list-section">
+        <p>Trang chủ</p>
+    </div>
+    <div class="admin-content-submenu">
+        <ul class="admin-content-submenu-container">
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{manage_term}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{post_write}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{post_list}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{post_review}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{post_draft}]]</p></a></li>
+        </ul>
+    </div>
+</div>
+<th:block th:fragment="post-scripts">
+</th:block>
+</body>
+</html>

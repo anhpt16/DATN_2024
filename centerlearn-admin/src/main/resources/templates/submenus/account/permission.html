@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="permission" class="content admin-content-col">
+  <div class="admin-content-container">
+    <div th:replace="~{submenus/submenu-account :: submenu-account}"></div>
+    <div class="admin-content-menu">
+      <div class="admin-content-menu-container">
+        <div class="row1 d-flex justify-content-between">
+          <div class="select-role">
+            <label for="">[[#{select_role}]]</label>
+            <select id="role-select" class="form-select" autocomplete="off" aria-label="Default select example">
+              <option value="">[[#{all}]]</option>
+              <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-between detail-role">
+            <div class="detail-item">
+              <label for="">[[#{role_id}]]</label>
+              <div id="role-detail-id"></div>
+            </div>
+            <div class="detail-item">
+              <label for="">[[#{role_name}]]</label>
+              <div id="role-detail-name"></div>
+            </div>
+            <div class="detail-item">
+              <label for="">[[#{role_display_name}]]</label>
+              <div id="role-detail-display-name"></div>
+            </div>
+          </div>
+        </div>
+        <div class="filter-permission">
+          <div class="select-role">
+            <label for="">[[#{select_status_role}]]</label>
+            <select id="status-select" class="form-select" autocomplete="off" aria-label="Default select example">
+              <option value="">[[#{all}]]</option>
+              <option th:each="permissionStatus : ${permissionStatuses}" th:value="${permissionStatus.code}" th:text="${permissionStatus.displayName}"></option>
+            </select>
+          </div>
+          <div class="select-role">
+            <label for="">[[#{select_method_role}]]</label>
+            <select id="method-select" class="form-select" autocomplete="off" aria-label="Default select example">
+              <option value="">[[#{all}]]</option>
+              <option th:each="methodName : ${methodNames}" th:value="${methodName.displayName}" th:text="${methodName.displayName}"></option>
+            </select>
+          </div>
+        </div>
+        <div class="row permission-table-container">
+          <div class="col-12 mt-2 table-wrapper">
+            <table class="table permission-table">
+              <thead>
+                <tr>
+                  <th scope="col">[[#{per_choose}]]</th>
+                  <th scope="col">[[#{per_path}]]</th>
+                  <th scope="col">[[#{per_method}]]</th>
+                  <th scope="col">[[#{per_action}]]</th>
+                </tr>
+              </thead>
+              <tbody id="permission-tbody">
+                <tr th:each="uriModel : ${uriModelSorted}">
+                  <td>
+                      <input autocomplete="off" type="checkbox" 
+                            th:disabled="${uriModel.status == null}">
+                  </td>
+                  <td class="permission-uri" 
+                    th:text="${uriModel.uriPath}"></td>
+                  <td class="permission-method" 
+                    
+                    th:text="${uriModel.uriMethod}"></td>
+                  <td>
+                      <i class="fa-regular fa-square-plus add-btn" 
+                        th:classappend="${uriModel.status == null} ? 'disabled-action' : ''"></i>
+                      <i class="fa-solid fa-trash-can delete-btn" 
+                        th:classappend="${uriModel.status == null} ? 'disabled-action' : ''"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!-- Notification -->
+    <div class="notification-container">
+      <div id="successNotification" class="notification success" style="display: none;">
+          <div class="d-flex">
+              <i class="fa-regular fa-circle-check"></i>
+              <div class="d-flex">
+                  <p id="notification-title"></p>
+                  <p id="notification-detail"></p>
+              </div>
+          </div>
+      </div>
+      <div id="errorNotification" class="notification error" style="display: none;">
+          <div class="d-flex">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <div class="d-flex">
+                  <p id="notification-title"></p>
+                  <p id="notification-detail"></p>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- Delete confirmation modal -->
+    <div class="delete-modal" id="delete-modal">
+      <div class="modal-content">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p class="delete-term-title">[[#{delete_confirm_title}]]</p>
+        <p class="delete-term-detail"></p>
+        <div class="modal-actions">
+            <button class="confirm-delete-btn" id="confirm-delete-btn">[[#{yes}]]</button>
+            <button class="cancel-delete-btn">[[#{no}]]</button>
+        </div>
+      </div>
+    </div>  
+  </div>
+  </div>
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+  $(document).ready(function() {
+
+    const roleSelect = $("#role-select");
+    const statusSelect = $("#status-select");
+    const methodSelect = $("#method-select");
+    const permissionTbody = $("#permission-tbody");
+
+    const roleDetailId = $("#role-detail-id");
+    const roleDetailName = $("#role-detail-name");
+    const roleDetailDisplayName = $("#role-detail-display-name");
+    // Notification
+    const successNotification = $("#successNotification");
+    const errorNotification = $("#errorNotification");
+    const successNoticeTitle = $("#successNotification #notification-title");
+    const successNoticeDetail = $("#successNotification #notification-detail");
+    const errorNoticeTitle = $("#errorNotification #notification-title");
+    const errorNoticeDetail = $("#errorNotification #notification-detail");
+    // Delete term
+    const deleteTermModal = $("#delete-modal");
+    const confirmDeleteBtn = $("#confirm-delete-btn");
+    const cancelDeleteBtn = $(".cancel-delete-btn");
+    const deleteTermDetail = $(".delete-term-detail");     
+  
+    // Get role detail by role selected
+    roleSelect.on('change', function() {
+      console.log("Kich hoat role change")
+      let roleId = roleSelect.val();
+      if (roleId === "") {
+        renderRoleDetail(null);
+      }
+      $.ajax({
+        url: '/api/v1/roles/' + roleId + '?lang=vi',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(response) {
+        renderRoleDetail(response);
+      })
+      .fail(function(e) {
+        console.log("Error: " + e);
+      });
+      fetchFilteredData();
+    })
+    statusSelect.on('change', fetchFilteredData);
+    methodSelect.on('change', fetchFilteredData);
+
+    // Add permission
+    permissionTbody.on('click', '.add-btn', function() {
+      const getRow = $(this).closest("tr");
+      const id = roleSelect.val();
+      const getFeatureUri = getRow.find(".permission-uri").text();
+      const getFeatureMethod = getRow.find(".permission-method").text();
+      let formData = {
+        roleId: id,
+        uriFeature: getFeatureUri,
+        uriMethod: getFeatureMethod
+      }
+      console.log(formData);
+      $.ajax({
+        url: '/api/v1/permissions/add/?lang=vi',
+        type: 'POST',
+        data: JSON.stringify(formData),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(response) {
+        showSuccessNotification("Thêm thành công !", "");
+        fetchFilteredData();
+      })
+      .fail(function(e) {
+        showErrorNotification("Thêm thất bại: ", e.responseText);
+      });
+    })
+
+    // Delete permission
+    permissionTbody.on('click', '.delete-btn', function() {
+      const getRow = $(this).closest("tr");
+      const id = roleSelect.val();
+      const getFeatureUri = getRow.find(".permission-uri").text();
+      const getFeatureMethod = getRow.find(".permission-method").text();
+      let formData = {
+        roleId: id,
+        uriFeature: getFeatureUri,
+        uriMethod: getFeatureMethod
+      }
+      confirmDeleteBtn.data('form', formData);
+      deleteTermDetail.text('id:' + id + " " + 'uri: ' + getFeatureUri + " " + "method: " + getFeatureMethod);
+      deleteTermModal.css('display', 'flex');
+    })
+    cancelDeleteBtn.on('click', function() {
+      deleteTermModal.css('display', 'none');
+    })
+    confirmDeleteBtn.on('click', function() {
+      const formData = $(this).data('form');
+      $.ajax({
+        url: '/api/v1/permissions/delete/?lang=vi',
+        type: 'DELETE',
+        data: JSON.stringify(formData),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(response) {
+          showSuccessNotification("Xóa thành công !", "");
+          fetchFilteredData();
+      })
+      .fail(function(e){
+          showErrorNotification("Xóa thất bại: ", e.responseText);
+      });
+      deleteTermModal.css('display', 'none');
+    })
+
+    // Functions
+
+    // 
+    function fetchFilteredData() {
+      let queryString = '';
+      let roleId = roleSelect.val();
+      let status = statusSelect.val();
+      let method = methodSelect.val();
+
+      if (roleId) queryString += `&roleId=${roleId}`;
+      if (status) queryString += `&status=${status}`;
+      if (method) queryString += `&method=${method}`;
+      
+      $.ajax({
+          url: '/api/v1/permissions/by-type?lang=vi' + queryString,
+          type: 'GET',
+          dataType: 'json',
+          contentType: 'application/json'
+      })
+      .done(function(response) {
+          console.log(response);
+          renderPermissionTable(response);
+      })
+      .fail(function(e) {
+          console.log("Error: " + e);
+      });
+    }
+
+    // Render permission table
+    function renderPermissionTable(data) {
+      permissionTbody.empty();
+      let roleId = roleSelect.val();
+      let status = statusSelect.val();
+      let method = methodSelect.val();
+      // Đảm bảo rằng roleId và method được kiểm tra chính xác
+      let isRoleIdInvalid = (roleId == null) || (roleId === "");
+      let isMethodInvalid = (method == null) || (method === "");
+      data.forEach(function(uriModel) {
+        let row = $('<tr>').addClass('fade-in');
+        // Điều kiện để disable checkbox và các nút
+        let disableCheckbox = (uriModel.status === null || isRoleIdInvalid || isMethodInvalid);
+        let disableAddBtn = (uriModel.status === null || uriModel.status.code === 2 || uriModel.status.code === 0 || isRoleIdInvalid);
+        let disableDeleteBtn = (uriModel.status === null || uriModel.status.code === 1 || isRoleIdInvalid);
+        // Tạo ô checkbox
+        let checkbox = $('<input>')
+            .attr('type', 'checkbox')
+            .attr('autocomplete', 'off')
+            .toggleClass('disabled-link', disableCheckbox);
+        let checkboxCell = $('<td>').append(checkbox);
+        // Tạo ô uriPath
+        let uriPathCell = $('<td>')
+          .addClass("permission-uri")
+            .text(uriModel.uriPath)
+            .css('color', uriModel.status && uriModel.status.colorCode ? uriModel.status.colorCode : '');
+        // Tạo ô uriMethod
+        let uriMethodCell = $('<td>')
+          .addClass("permission-method")
+            .text(uriModel.uriMethod.displayName)
+            .css('color', uriModel.uriMethod.colorCode || '');
+        // Tạo nút Add
+        let addBtn = $('<i>')
+            .addClass('fa-regular fa-square-plus add-btn')
+            .toggleClass('disabled-action', disableAddBtn);
+        // Tạo nút Delete
+        let deleteBtn = $('<i>')
+            .addClass('fa-solid fa-trash-can delete-btn')
+            .toggleClass('disabled-action', disableDeleteBtn);
+        let actionCell = $('<td>')
+            .append(addBtn)
+            .append(deleteBtn);
+        // Thêm tất cả các ô vào hàng
+        row.append(checkboxCell)
+            .append(uriPathCell)
+            .append(uriMethodCell)
+            .append(actionCell);
+        // Thêm hàng vào tbody
+        permissionTbody.append(row);
+        // Hiệu ứng fade-in
+        setTimeout(function() {
+            permissionTbody.find('.fade-in').addClass('show');
+        }, 100);
+      });
+    }
+
+    // Render role detail
+    function renderRoleDetail(data) {
+      if (data) {
+        roleDetailId.text(data.id || "N/A");
+        roleDetailName.text(data.name || "N/A");
+        roleDetailDisplayName.text(data.displayName || "N/A");
+      } else {
+        roleDetailId.text("N/A");
+        roleDetailName.text("N/A");
+        roleDetailDisplayName.text("N/A");
+      }
+    }
+
+    // Show notification success
+    function showSuccessNotification(title, message) {
+      successNoticeTitle.text(title);
+      successNoticeDetail.text(message);
+      successNotification
+      .fadeIn(500)
+      .delay(1500)
+      .fadeOut(300);
+    }
+    // Show notification error
+    function showErrorNotification(title, message) {
+      errorNoticeTitle.text(title);
+      errorNoticeDetail.text(message);
+      errorNotification
+      .fadeIn(500)
+      .delay(1500)
+      .fadeOut(400);
+    }
+
+
+  })
+</script>
+</body>
+</html>

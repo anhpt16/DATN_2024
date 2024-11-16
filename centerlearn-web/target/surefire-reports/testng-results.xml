@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="0" passed="0">
+  <reporter-output>
+  </reporter-output>
+  <suite name="AllTests" duration-ms="24" started-at="2024-08-13T00:10:00 ICT" finished-at="2024-08-13T00:10:00 ICT">
+    <groups>
+    </groups>
+    <test name="All" duration-ms="24" started-at="2024-08-13T00:10:00 ICT" finished-at="2024-08-13T00:10:00 ICT">
+    </test> <!-- All -->
+  </suite> <!-- AllTests -->
+</testng-results>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">centerlearn-common</a> &gt; <a href="index.source.html" class="el_package">com.nhatanh.centerlearn.common.entity</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.nhatanh.centerlearn.common.entity;
+
+import com.tvd12.ezyfox.io.EzyStrings;
+import lombok.*;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Getter
+<span class="nc" id="L10">@Setter</span>
+<span class="nc" id="L11">@ToString</span>
+@Entity
+@Table(name = &quot;ezy_users&quot;)
+<span class="nc" id="L14">@AllArgsConstructor</span>
+<span class="nc" id="L15">@NoArgsConstructor</span>
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="nc" id="L19">    private long id;</span>
+
+<span class="nc" id="L21">    private String uuid;</span>
+
+<span class="nc" id="L23">    private String username;</span>
+
+    @Column(name = &quot;display_name&quot;)
+<span class="nc" id="L26">    private String displayName;</span>
+
+<span class="nc" id="L28">    private String password;</span>
+
+<span class="nc" id="L30">    private String email;</span>
+
+<span class="nc" id="L32">    private String phone;</span>
+
+<span class="nc" id="L34">    private String url;</span>
+
+<span class="nc" id="L36">    private String roleName;</span>
+
+    @Column(name = &quot;avatar_image_id&quot;)
+<span class="nc" id="L39">    private long avatarImageId;</span>
+
+    @Column(name = &quot;cover_image_id&quot;)
+<span class="nc" id="L42">    private long coverImageId;</span>
+
+<span class="nc" id="L44">    private String status;</span>
+
+    @Column(name = &quot;activation_key&quot;)
+<span class="nc" id="L47">    private String activationKey;</span>
+
+    @Column(name = &quot;created_at&quot;)
+<span class="nc" id="L50">    private LocalDateTime createdAt;</span>
+
+    @Column(name = &quot;updated_at&quot;)
+<span class="nc" id="L53">    private LocalDateTime updatedAt;</span>
+
+    public String getName() {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        return EzyStrings.isBlank(displayName) ? username : displayName;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

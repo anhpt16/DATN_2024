@@ -1,0 +1,46 @@
+.admin-content-col {
+    @include fixed-padding-h(0px);
+    flex: 1;
+    height: 2000px;
+    .admin-submenu {
+        padding: 0 10px;
+        margin: 10px;
+        border-radius: 8px;
+        .admin-content-list-section {
+            p {
+                font-size: $text-size-small;
+                margin-bottom: 5px;
+                color: $primary-color-light-dark;
+                padding: 8px 20px;
+            }
+        }
+        .admin-content-submenu {
+            .admin-content-submenu-container {
+                display: flex;
+                background-color: $main-backgroud-light;
+                border-radius: 8px;
+                flex-flow: row;
+                list-style: none;
+                padding-left: 0;
+                margin-bottom: 0;
+                .admin-content-submenu-item {
+                    a {
+                        display: flex;
+                        align-items: center;
+                        text-decoration: none;
+                        padding: 15px;
+                        @include change-text-color($color-text-menu, $line-color-darkblue, 0.2s);
+                        p {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .admin-content-menu {
+        padding: 15px;
+    }
+}
+
+

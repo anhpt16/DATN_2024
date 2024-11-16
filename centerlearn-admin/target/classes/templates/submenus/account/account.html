@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="account" class="content admin-content-col">
+  <div class="admin-content-container">
+    <div th:replace="~{submenus/submenu-account :: submenu-account}"></div>
+    <div class="admin-content-menu">
+      <div class="admin-content-menu-container">
+        <div class="account-content-container">
+          <div class="add-account">
+            <div id="button-toggle" class="d-flex justify-content-center align-items-center button-toggle">
+              <i class="fa-solid fa-minus"></i>
+            </div>
+            <div id="add-account-container" class="add-account-container">
+              <div class="add-account-title-container">
+                <p class="add-account-title">[[#{add_account}]]</p>
+              </div>
+              <div class="add-account-content-container">
+                <form id="form-add-user">
+                  <div>
+                    <label for="">[[#{account_username}]]</label>
+                    <input type="text" autocomplete="off" id="add-account-username">
+                  </div>
+                  <div>
+                    <label for="">[[#{account_password}]]</label>
+                    <input type="text" autocomplete="off" id="add-account-password">
+                  </div>
+                  <div>
+                    <label for="">[[#{account_display_name}]]</label>
+                    <input type="text" autocomplete="off" id="add-account-display-name">
+                  </div>
+                  <div>
+                    <label for="">[[#{account_email}]]</label>
+                    <input type="text" autocomplete="off" id="add-account-email">
+                  </div>
+                  <div>
+                    <label for="">[[#{account_phone}]]</label>
+                    <input type="text" autocomplete="off" id="add-account-phone">
+                  </div>
+                  <div>
+                    <label for="">[[#{account_role}]]</label>
+                    <select name="" id="add-account-role" autocomplete="off">
+                      <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}"></option>
+                    </select>
+                  </div>
+                  <div class="add-account-action-container">
+                    <button type="submit">[[#{create}]]</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="table-account">
+            <div class="d-flex justify-content-between align-items-center table-menu">
+              <div class="table-search">
+                <input type="text" th:placeholder="#{account_search}">
+              </div>
+              <div class="d-flex justify-content-between menu-filter">
+                <div>
+                  <label for="">[[#{account_status}]]</label>
+                  <select name="" id="select-account-status" autocomplete="off">
+                    <option value="0">[[#{all}]]</option>
+                    <option th:each="status : ${statuses}" th:text="${status.displayName}" th:value="${status.code}"></option>
+                  </select>
+                </div>
+                <div>
+                  <label for="">[[#{account_role}]]</label>
+                  <select name="" id="select-account-role" autocomplete="off">
+                    <option value="0">[[#{all}]]</option>
+                    <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}"></option>
+                  </select>
+                </div>
+                <div>
+                  <label for="">[[#{from}]]</label>
+                  <input type="date" id="select-account-from" autocomplete="off">
+                </div>
+                <div>
+                  <label for="">[[#{to}]]</label>
+                  <input type="date" id="select-account-to" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <table class="account-table">
+              <thead>
+                  <tr>
+                      <th>[[#{account_image}]]</th>
+                      <th>[[#{account_username}]]</th>
+                      <th>[[#{account_display_name}]]</th>
+                      <th>[[#{account_email}]]</th>
+                      <th>[[#{account_phone}]]</th>
+                      <th>[[#{account_status}]]</th>
+                      <th>[[#{account_action}]]</th>
+                  </tr>
+              </thead>
+              <tbody id="table-account">
+                  <tr th:each="account : ${accountPagination.items}" data-id="${account.id}">
+                      <td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>
+                      <td class="item-account-username" th:text="${account.username}"></td>
+                      <td class="item-account-display-name" th:text="${account.displayName}"></td>
+                      <td class="item-account-email" th:text="${account.email}"></td>
+                      <td class="item-account-phone" th:text="${account.phone}"></td>
+                      <td class="item-account-status" 
+                        th:text="${account.status.displayName}" 
+                        th:style="${account.status.colorCode} != null ? 'color:' + ${account.status.colorCode} : ''" 
+                        ></td>
+                      <td>
+                        <i class="fa-regular fa-eye view-btn"></i>
+                        <i class="fa-regular fa-pen-to-square edit-btn"></i>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            <!-- Phân trang -->
+            <div class="row mt-3">
+              <div class="col-md-6">
+                  <i class="fa-solid fa-arrows-rotate refresh-btn" id="refresh-btn"></i>
+              </div>
+              <div class="col-md-6 text-right">
+                  <nav aria-label="Page navigation">
+                      <ul class="pagination justify-content-end align-items-center" id="pagination">
+                          <li class="page-item"><a id="prev-page" class="page-link disabled-link">
+                              <i class="fa-solid fa-backward-step"></i></a></li>
+                          <!-- Dynamic page numbers will be inserted here -->
+                          <li class="page-item"><a id="next-page" class="page-link" th:classappend="${accountPagination.totalPage == 1} ? ' disabled-link' : ''">
+                              <i class="fa-solid fa-forward-step"></i></a></li>
+                      </ul>
+                  </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Notification -->
+    <div class="notification-container">
+      <div id="successNotification" class="notification success" style="display: none;">
+          <div class="d-flex">
+              <i class="fa-regular fa-circle-check"></i>
+              <div class="d-flex">
+                  <p id="notification-title"></p>
+                  <p id="notification-detail"></p>
+              </div>
+          </div>
+      </div>
+      <div id="errorNotification" class="notification error" style="display: none;">
+          <div class="d-flex">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <div class="d-flex">
+                  <p id="notification-title"></p>
+                  <p id="notification-detail"></p>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+  $(document).ready(function() {
+    const tbodyEl = $("#table-account");
+    const buttonToggle = $("#button-toggle");
+    const formAddUserContainer = $("#add-account-container");
+    // Add Account
+    const formAddAccount = $("#form-add-user");
+    const addAccountUsername = $("#add-account-username");
+    const addAccountPassword = $("#add-account-password");
+    const addAccountDisplayName = $("#add-account-display-name");
+    const addAccountEmail = $("#add-account-email");
+    const addAccountPhone = $("#add-account-phone");
+    const addAccountRole = $("#add-account-role");
+    const selectAccountStatus = $("#select-account-status");
+    const selectAccountRole = $("#select-account-role");
+    const selectAccountFrom = $("#select-account-from");
+    const selectAccountTo = $("#select-account-to");
+    // Notification
+    const successNotification = $("#successNotification");
+    const errorNotification = $("#errorNotification");
+    const successNoticeTitle = $("#successNotification #notification-title");
+    const successNoticeDetail = $("#successNotification #notification-detail");
+    const errorNoticeTitle = $("#errorNotification #notification-title");
+    const errorNoticeDetail = $("#errorNotification #notification-detail");
+    // Pagination
+    const prevPage = $("#prev-page");
+    const nextPage = $("#next-page");
+
+    // Zoom-in Zôm-out Form Add User
+    buttonToggle.on('click', function() {
+      formAddUserContainer.toggleClass('zoom-in')
+      const icon = $(this).find('i');
+      if (icon.hasClass('fa-minus')) {
+        icon.removeClass('fa-minus').addClass('fa-plus');
+      } else {
+        icon.removeClass('fa-plus').addClass('fa-minus');
+      }
+    })
+
+    // Create new Account
+    formAddAccount.on('submit', function(event) {
+      event.preventDefault();
+      let formData = {
+        username: addAccountUsername.val(),
+        password: addAccountPassword.val(),
+        displayName: addAccountDisplayName.val(),
+        email: addAccountEmail.val(),
+        phoneNumber: addAccountPhone.val(),
+        roleId: addAccountRole.val()
+      }
+      console.log(formData);
+      $.ajax({
+        url: '/api/v1/accounts/add?lang=vi',
+        type: 'POST',
+        data: JSON.stringify(formData),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(response) {
+        showSuccessNotification("Tạo mới thành công !", "");
+        resetInput();
+      })
+      .fail(function(e) {
+        showErrorNotification("Lỗi: ", e.responseText);
+      }); 
+    })
+
+    // Filter Account
+    selectAccountStatus.on('change', function(){
+      renderTableByAccountFilter();
+    });
+    selectAccountRole.on('change', function(){
+      renderTableByAccountFilter();
+    });
+    selectAccountFrom.on('change', function(){
+      renderTableByAccountFilter();
+    });
+    selectAccountTo.on('change', function(){
+      renderTableByAccountFilter();
+    });
+
+
+
+    // Function
+
+    // Render table by filter account
+    function renderTableByAccountFilter(page = 0, size = 10) {
+      console.log(typeof(page));
+      console.log(typeof(size));
+      let queryString = '';
+      queryString += "&page=" + page;
+      queryString += "&size=" + size;
+      
+      let accountStatus = selectAccountStatus.val();
+      let accountRole = selectAccountRole.val();
+      let accountDateStart = selectAccountFrom.val();
+      let accountDateEnd = selectAccountTo.val();
+      accountStatus = accountStatus && accountStatus.trim() !== '' ? accountStatus : null;
+      accountRole = accountRole && accountRole.trim() !== '' ? accountRole : null;
+      let dates = processDates(accountDateStart, accountDateEnd);
+
+      if (accountStatus !== null && accountStatus !== undefined && accountStatus !== '') {
+        queryString += "&status=" + accountStatus;
+      }
+      if (accountRole !== null && accountRole !== undefined && accountRole !== '') {
+        queryString += "&roleId=" + accountRole;
+      }
+      if (dates.startDate !== null && dates.startDate !== undefined && dates.startDate !== '') {
+        queryString += "&startDate=" + dates.startDate;
+      }
+      if (dates.endDate !== null && dates.endDate !== undefined && dates.endDate !== '') {
+        queryString += "&endDate=" + dates.endDate;
+      }
+      console.log("dates: ", dates.startDate);
+      console.log("datee: ", dates.endDate);
+      $.ajax({
+        url: '/api/v1/accounts?lang=vi' + queryString,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(data) {
+        console.log(data);
+        renderTable(data.items);
+        currentPage = data.currentPage;
+        totalPage = data.totalPage;
+        validatePageNumber(currentPage, totalPage);
+      })
+      .fail(function() {
+        console.log("Error: " + e);
+      });
+    }
+
+    function renderTable(accounts) {
+      tbodyEl.empty();
+      if (accounts.length === 0) {
+        tbodyEl.append('<tr><td colspan="8">No accounts available</td></tr>');
+        return;
+      }
+      accounts.forEach(function(account) {
+        let row = '<tr class="fade-in" data-id="' + account.id + '">' +
+            '<td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>' +
+            '<td class="item-account-username">' + account.username + '</td>' +
+            '<td class="item-account-display-name">' + account.displayName + '</td>' +
+            '<td class="item-account-email">' + account.email + '</td>' +
+            '<td class="item-account-phone">' + account.phone + '</td>' +
+            '<td class="item-account-status" '
+               + (account.status.colorCode ? 'style="color:' + account.status.colorCode + '"' : '') + '>' +
+               account.status.displayName + '</td>' +
+            '<td>' +
+                '<i class="fa-regular fa-eye view-btn"></i>' +
+                '<i class="fa-regular fa-pen-to-square edit-btn"></i>' +
+            '</td>' +
+        '</tr>';
+        tbodyEl.append(row);
+      })
+      setTimeout(function() {
+        tbodyEl.find('.fade-in').addClass('show');
+      }, 100);
+    }
+
+    function processDates(startDate, endDate) {
+      // Hàm kiểm tra tính hợp lệ của ngày tháng
+      console.log("start: " + startDate + "|| end: " + endDate);
+      function isValidDate(dateString) {
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return dateString && regex.test(dateString) && !isNaN(new Date(dateString).getTime());
+      }
+      // Kiểm tra tính hợp lệ của từng trường ngày
+      const validStartDate = isValidDate(startDate) ? startDate : null;
+      const validEndDate = isValidDate(endDate) ? endDate : null;
+
+      // Xóa class lỗi trước đó nếu có
+      selectAccountFrom.removeClass('invalid');
+      selectAccountTo.removeClass('invalid');
+
+      // Nếu cả hai trường đều không có giá trị hợp lệ, trả về null
+      if (!validStartDate && !validEndDate) {
+        if (startDate) {
+            selectAccountFrom.addClass('invalid');
+        }
+        if (endDate) {
+            selectAccountTo.addClass('invalid');
+        }
+        return { startDate: null, endDate: null };
+      }
+      // Nếu cả hai ngày đều hợp lệ, kiểm tra ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc
+      if (validStartDate && validEndDate && new Date(validStartDate) > new Date(validEndDate)) {
+        selectAccountFrom.addClass('invalid');
+        selectAccountTo.addClass('invalid');
+        return { startDate: null, endDate: null };
+      }
+      // Trả về kết quả sau khi đã xử lý
+      return { startDate: validStartDate, endDate: validEndDate };
+    }
+
+    function resetInput() {
+      addAccountUsername.val("");
+      addAccountPassword.val("");
+      addAccountDisplayName.val("");
+      addAccountEmail.val("");
+      addAccountPhone.val("");
+      addAccountRole.val(addAccountRole.find("option:first").val());
+    }
+    // Show notification success
+    function showSuccessNotification(title, message) {
+        successNoticeTitle.text(title);
+        successNoticeDetail.text(message);
+        successNotification
+        .fadeIn(500)
+        .delay(1500)
+        .fadeOut(300);
+    }
+    // Show notification error
+    function showErrorNotification(title, message) {
+        errorNoticeTitle.text(title);
+        errorNoticeDetail.text(message);
+        errorNotification
+        .fadeIn(500)
+        .delay(1500)
+        .fadeOut(400);
+    }
+    /*<![CDATA[*/
+    let currentPage = [[${accountPagination.currentPage}]];
+    let totalPage = [[${accountPagination.totalPage}]];
+    /*]]>*/
+
+    // Pagination
+    function validatePageNumber(currentPage, totalPage) {
+        nextPage.toggleClass('disabled-link', currentPage >= (totalPage - 1));
+        prevPage.toggleClass('disabled-link', currentPage <= 0);
+    }
+    nextPage.on('click', function() {
+        if (currentPage < totalPage - 1) {
+            currentPage += 1;
+        }            
+        // Render
+        renderTableByAccountFilter(currentPage);
+    })
+    prevPage.on('click', function() {
+        if (currentPage > 0) {
+            currentPage -= 1;
+        }            
+        // Render
+        renderTableByAccountFilter(currentPage);
+    })
+
+  })
+</script>
+</body>
+</html>

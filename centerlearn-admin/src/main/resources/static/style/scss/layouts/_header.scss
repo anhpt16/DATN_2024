@@ -1,0 +1,38 @@
+
+
+div.nav-container {
+  background-color: $main-backgroud-light;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.05);
+  height: $header-admin-height;
+  padding: 0 30px;
+  background-color: aquamarine;
+  .logo {
+    h1 {
+      margin-bottom: 0;
+      img {
+        width: 130px;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.avatar {
+  a {
+    text-decoration: none;
+    color: $primary-color-light;
+    font-size: $nav-main-content;
+    gap: 10px;
+    i {
+      font-size: $nav-main-content;
+    }
+    p {
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+    &:hover {
+      color: $primary-hover-color-light;
+    }
+  }
+}
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="submenu-room" class="admin-submenu">
+    <div class="admin-content-list-section">
+        <p>Trang chủ</p>
+    </div>
+    <div class="admin-content-submenu">
+        <ul class="admin-content-submenu-container">
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{list_room}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{list_timeslot}]]</p></a></li>
+            <li class="admin-content-submenu-item"><a href="#"><p>[[#{manage_timeslot}]]</p></a></li>
+        </ul>
+    </div>
+</div>
+<th:block th:fragment="post-scripts">
+</th:block>
+</body>
+</html>
+

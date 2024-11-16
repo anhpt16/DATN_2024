@@ -1,0 +1,39 @@
+
+
+
+.footer-container {
+  padding: 50px;
+  background: linear-gradient(179deg,#fbfbfb 5%, #ffffff 20%);
+  .company-info {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+  }
+
+  .footer-category {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    align-items: center;
+    a {
+      text-decoration: none;
+      color: $primary-color-light;
+      padding: 10px;
+      border-bottom: .5px solid $line-color-light;
+      &:hover {
+        color: $primary-hover-color-light;
+      }
+    }
+  }
+
+  .footer-detail {
+    margin-top: 50px;
+    a {
+      text-decoration: none;
+      color: $primary-color-light;
+      &:hover {
+        color: $primary-hover-color-light;
+      }
+    }
+  }
+}

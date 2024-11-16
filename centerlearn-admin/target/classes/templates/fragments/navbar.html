@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navbar" class="content admin-menu-col">
+        <div class="admin-menu-container">
+            <div class="d-flex justify-content-between align-items-center admin-menu-title">
+                <div class="title-name">
+                    <div class="admin-avatar">
+                        <img src="/images/user_image_default.jpg" alt="Avatar">
+                    </div>
+                    <p>[[#{admin_name}]]</p>
+                </div>
+                <i class="fa-solid fa-circle-chevron-left title-icon" id="btn-zoom"></i>
+            </div>
+            <div class="admin-menu-scroll-container">
+                <ul class="admin-menu-list-container">
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-display"></i>
+                            <p>[[#{display_web}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-regular fa-newspaper"></i>
+                            <p>[[#{manage_post}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <p>[[#{manage_employee}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-person-chalkboard"></i>
+                            <p>[[#{manage_teacher}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                            <p>[[#{manage_course}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-scroll"></i>
+                            <p>[[#{manage_subject}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-book"></i>
+                            <p>[[#{manage_textbook}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-chalkboard"></i>
+                            <p>[[#{manage_class}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-person-shelter"></i>
+                            <p>[[#{manage_room}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                            <p>[[#{manage_student}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-truck"></i>
+                            <p>[[#{manage_order}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-user-gear"></i>
+                            <p>[[#{manage_account}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-regular fa-calendar-days"></i>
+                            <p>[[#{see_schedule}]]</p>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <p>[[#{fix_info}]]</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>
+<script th:fragment="scripts" type="text/javascript">
+</script>
+</body>
+</html>

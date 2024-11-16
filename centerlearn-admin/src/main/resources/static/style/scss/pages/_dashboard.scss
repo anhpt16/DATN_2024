@@ -1,0 +1,23 @@
+
+.dashboard-container-fluid {
+    @include fixed-padding-h(20px);
+    background-color: #F5F5F5;
+    font-family: "Roboto", sans-serif;
+    padding-top: 15px;
+}
+
+.dashboard-container {
+    display: flex;
+}
+
+
+.admin-content-menu-container {
+    padding: 20px 10px 10px 10px;
+}
+
+.list-term {
+    .list-menu-container {
+        margin-bottom: 20px
+    }
+}
+

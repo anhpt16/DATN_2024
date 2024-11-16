@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="term" class="content admin-content-col">
+        <div class="admin-content-container">
+            <div th:replace="~{submenus/submenu-post :: submenu-post}"></div>
+            <div class="admin-content-menu">
+                <div class="row admin-content-menu-container">
+                    <div class="col-lg-3 add-term">
+                        <div class="add-term-container">
+                            <form id="term-form" action="" method="post">
+                                <p>[[#{term_add_title}]]</p>
+                                <div class="form-group">
+                                    <label for="term">[[#{term_name}]]</label>
+                                    <input type="text" id="term-name" name="term" th:placeholder="#{enter_term_name}" autocomplete="off" required>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="type">[[#{term_type}]]</label>
+                                    <input type="text" id="term-type" name="type" th:placeholder="#{enter_term_type}" autocomplete="off" required>
+                                </div>
+                        
+                                <div class="form-group" id="input-term-parent">
+                                    <label for="parent">[[#{term_parent}]]</label>
+                                    <input type="text" id="term-parent" name="parent" th:placeholder="#{enter_term_parent}" autocomplete="off">
+                                    <div id="term-suggestion" class="suggestions-list" style="display: none;"></div>
+                                    <select id="parent-type-dropdown" class="" style="display: none;">
+                                        <!-- Các tùy chọn sẽ được thêm vào đây bởi JavaScript -->
+                                    </select>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <label for="description">[[#{term_description}]]</label>
+                                    <textarea id="term-description" name="description" rows="4" th:placeholder="#{enter_term_description}" autocomplete="off"></textarea>
+                                </div>
+                        
+                                <button type="submit" class="submit-button">[[#{term_create}]]</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 list-term">
+                        <div class="list-menu-container">
+                            <div class="form-group">
+                                <label for="search">[[#{search}]]</label>
+                                <input type="text" id="search-term" name="search" th:placeholder="#{enter_term_search}" autocomplete="off">
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="term-type">[[#{term_type}]]</label>
+                                <select id="term-type-select" name="term-type" autocomplete="off">
+                                    <option value="" selected="true">[[#{select_all_term}]]</option>
+                                    <option th:each="termType : ${termTypes}" th:value="${termType}" th:text="${termType}"></option>
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="sort-order">[[#{sort_order}]]</label>
+                                <select id="sort-order" name="sort-order" autocomplete="off">
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-list-container">
+                            <table id="term-table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th>[[#{term_id}]]</th>
+                                        <th>[[#{term_name}]]</th>
+                                        <th>[[#{slug}]]</th>
+                                        <th>[[#{term_type}]]</th>
+                                        <th>[[#{term_parent}]]</th>
+                                        <th>[[#{term_description}]]</th>
+                                        <th>[[#{term_action}]]</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="term-tbody">
+                                    <!-- Vòng lặp Thymeleaf để ánh xạ danh sách terms -->
+                                    <tr th:each="term : ${terms.items}" data-id="${term.items.id}">
+                                        <td><input type="checkbox"></td>
+                                        <td class="item-term-id" th:text="${term.id}"></td>
+                                        <td class="item-term-name" th:text="${term.name}"></td>
+                                        <td class="item-term-slug" th:text="${term.slug}"></td>
+                                        <td class="item-term-type" th:text="${term.termType}"></td>
+                                        <td class="item-term-parent" th:text="${term.parentName}"></td>
+                                        <td class="item-term-description" th:text="${term.description}"></td>
+                                        <td>
+                                            <i class="fa-regular fa-eye view-btn"></i>
+                                            <i class="fa-regular fa-pen-to-square edit-btn"></i>
+                                            <i class="fa-solid fa-trash-can delete-btn"></i>
+                                        </td>
+                                    </tr>
+                                    <!-- Nếu không có dữ liệu -->
+                                    <tr th:if="${terms.items.isEmpty()}">
+                                        <td colspan="8">No terms available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row mt-3 web-pagination">
+                                <!-- Phần xóa và refresh nằm ở đầu -->
+                                <div class="col-md-4">
+                                    <i class="fa-solid fa-arrows-rotate refresh-btn" id="refresh-btn"></i>
+                                    <i class="fa-solid fa-trash-can delete-all-btn" id="delete-btn"></i>
+                                </div>
+                                <!-- Phần chuyển tiếp trang nằm ở giữa -->
+                                <div class="col-md-4 text-center">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center align-items-center" id="pagination">
+                                            <li class="page-item"><a id="first-page" class="page-link disabled-link">
+                                                <i class="fa-solid fa-backward-fast"></i></a></li>
+                                            <li class="page-item"><a id="prev-page" class="page-link disabled-link">
+                                                <i class="fa-solid fa-backward-step"></i></a></li>
+                                            <!-- Dynamic page numbers will be inserted here -->
+                                             <li class="current-page page-item" id="current-page" th:text="${terms.totalPage == 0 ? 0 : terms.currentPage + 1}"></li>
+                                            <li class="page-item"><a id="next-page" class="page-link">
+                                                <i class="fa-solid fa-forward-step"></i></a></li>
+                                            <li class="page-item"><a id="last-page" class="page-link">
+                                                <i class="fa-solid fa-forward-fast"></i></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- Phần đi đến một trang nằm ở cuối -->
+                                <div class="col-md-4 text-right">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <input type="number" id="goto-page" class="d-inline"><div id="total-page">/[[${terms.totalPage}]]</div>
+                                        <button class="btn btn-primary" id="goto-page-btn">[[#{go}]]</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Edit Modal -->
+            <div id="editTermModal" class="edit-term-modal">
+                <div class="modal-content">
+                    <p class="edit-term-title">[[#{edit_term}]]</p>
+                    <form id="edit-term-form" method="" action="">
+                        <div class="form-group">
+                            <label for="edit-term-id">[[#{term_id}]]</label>
+                            <input type="text" id="edit-term-id" name="id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-term-name">[[#{term_name}]]</label>
+                            <input type="text" id="edit-term-name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-term-slug">[[#{slug}]]</label>
+                            <input type="text" id="edit-term-slug" name="slug" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-term-type">[[#{term_type}]]</label>
+                            <input type="text" id="edit-term-type" name="termType">
+                        </div>
+                        <div class="form-group position-relative">
+                            <label for="edit-term-parent-name">[[#{term_parent}]]</label>
+                            <input type="text" id="edit-term-parent-name" name="parentName">
+                            <div id="edit-term-suggestion" class="suggestions-list" style="display: none;"></div>
+                            <select id="edit-parent-type-dropdown" class="" style="display: none;">
+                                <!-- Các tùy chọn sẽ được thêm vào đây bởi JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-term-description">[[#{term_description}]]</label>
+                            <textarea id="edit-term-description" name="description"></textarea>
+                        </div>
+                        <div class="btn-save-term">
+                            <button type="button" class="btn-close-modal">[[#{close}]]</button>
+                            <button type="submit" class="submit-button">[[#{save}]]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Notification -->
+            <div class="notification-container">
+                <div id="successNotification" class="notification success" style="display: none;">
+                    <div class="d-flex">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div class="d-flex">
+                            <p id="notification-title"></p>
+                            <p id="notification-detail"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorNotification" class="notification error" style="display: none;">
+                    <div class="d-flex">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div class="d-flex">
+                            <p id="notification-title"></p>
+                            <p id="notification-detail"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Delete confirmation modal -->
+            <div class="delete-modal" id="delete-modal">
+                <div class="modal-content">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p class="delete-term-title">[[#{delete_confirm_title}]]</p>
+                    <p class="delete-term-detail"></p>
+                    <div class="modal-actions">
+                        <button class="confirm-delete-btn" id="confirm-delete-btn">[[#{yes}]]</button>
+                        <button class="cancel-delete-btn">[[#{no}]]</button>
+                    </div>
+                </div>
+            </div>
+            <!-- View detail -->
+            <div class="view-modal" id="view-modal">
+                <div class="modal-content">
+                    <p class="view-term-title">[[#{view_term_detail}]]</p>
+                    <div class="modal-body">
+                        <p><label class="view-term-lable">[[#{term_id}]]:</label> <span class="view-term-id" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{term_name}]]:</label> <span class="view-term-name" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{slug}]]:</label> <span class="view-term-slug" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{term_type}]]:</label> <span class="view-term-type" id=""></span></p>
+                        <p><label class="view-term-lable">[[#{term_parent}]]:</label> <span class="view-term-parent" id=""></span></p>
+                        <p class="row">
+                            <label class="col-lg-3 p-0 view-term-lable">[[#{term_description}]]:</label> 
+                            <span class="col-lg-9 p-0 view-term-description" id=""></span></p>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="text" id="close-view-btn">[[#{close}]]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+    $(document).ready(function() {
+        // Flag
+        let suggestionSelected = false;
+        let editSuggestionSelected = false;
+        // Term
+        const termTypeSelect = $("#term-type-select");
+        const tbodyEl = $('#term-tbody');
+        const termParentInput = $("#term-parent");
+        const termSuggestionEl = $("#term-suggestion");
+        const termFormEl = $("#term-form");
+        const termNameInput = $("#term-name");
+        const termTypeInput = $("#term-type");
+        const termDescriptionInput = $("#term-description");
+        const parentTypeDropdown = $("#parent-type-dropdown");
+        const searchTerm = $("#search-term");
+        // Notification
+        const successNotification = $("#successNotification");
+        const errorNotification = $("#errorNotification");
+        const successNoticeTitle = $("#successNotification #notification-title");
+        const successNoticeDetail = $("#successNotification #notification-detail");
+        const errorNoticeTitle = $("#errorNotification #notification-title");
+        const errorNoticeDetail = $("#errorNotification #notification-detail");
+        // Table button
+        const refreshBtn = $("#refresh-btn");
+        const deleteBtn = $("#delete-all-btn");
+        // Edit Term
+        const editModalBtn = $(".edit-btn");
+        const editTermFormEl = $("#edit-term-form");
+        const editTermModal = $("#editTermModal");
+        const editTermIdInput = $("#edit-term-id");
+        const editTermNameInput = $("#edit-term-name");
+        const editTermSlugInput = $("#edit-term-slug");
+        const editTermTypeInput = $("#edit-term-type");
+        const editTermParentNameInput = $("#edit-term-parent-name");
+        const editTermDescriptionInput = $("#edit-term-description");
+        const closeTermModal = $(".btn-close-modal");
+        const editTermSuggestion = $("#edit-term-suggestion");
+        const editParentTypeDropdownEl = $("#edit-parent-type-dropdown");
+        // Delete term
+        const deleteTermModal = $("#delete-modal");
+        const confirmDeleteBtn = $("#confirm-delete-btn");
+        const cancelDeleteBtn = $(".cancel-delete-btn");
+        const deleteTermDetail = $(".delete-term-detail");
+        // View term detail
+        const viewTermModal = $("#view-modal");
+        const closeViewModal = $("#close-view-btn");
+        const viewTermId = $(".view-term-id");
+        const viewTermName = $(".view-term-name");
+        const viewTermSlug = $(".view-term-slug");
+        const viewTermType = $(".view-term-type");
+        const viewTermParent = $(".view-term-parent");
+        const viewTermDescription = $(".view-term-description");
+        // Pagination
+        const firstPage = $("#first-page");
+        const prevPage = $("#prev-page");
+        const nextPage = $("#next-page");
+        const lastPage = $("#last-page");
+        const currentPageEl = $("#current-page");
+        const totalPageEl = $("#total-page")
+
+        // Init
+        const init = function() {
+        }
+
+        // Event On Document
+        $(document).on('click', function(event) {
+            // Kiểm tra nếu bấm ra ngoài ô input hoặc danh sách gợi ý
+            if (!$(event.target).closest('#term-parent, #term-suggestion').length) {
+                $('#term-suggestion').hide(); // Ẩn danh sách gợi ý
+            }
+            if (!$(event.target).closest('#edit-term-parent, #edit-term-suggestion').length) {
+                $('#edit-term-suggestion').hide(); // Ẩn danh sách gợi ý
+            }
+        });
+
+        // Create new term
+        termFormEl.on('submit', function(event) {
+            event.preventDefault();
+            let formData = {
+                name: termNameInput.val(),
+                termType: termTypeInput.val(),
+                parentName: termParentInput.val(),
+                parentType: parentTypeDropdown.val(),
+                description: termDescriptionInput.val()
+            }
+            $.ajax({
+                url: '/api/v1/terms?lang=vi',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                console.log("Done: " + response);
+                showSuccessNotification("Tạo mới thành công !", "");
+                resetInput();
+            })
+            .fail(function(e) {
+                console.log("Error: " + e.responseText);
+                showErrorNotification("Tạo mới thất bại: ", e.responseText);
+            })
+        })
+        // Reset when create success
+        function resetInput() {
+            termNameInput.val('');
+            termTypeInput.val('');
+            termParentInput.val('');
+            termDescriptionInput.val('');
+            parentTypeDropdown.empty();
+            parentTypeDropdown.hide();
+        }
+
+        // Get term parent suggestion
+        termParentInput.on('input', function() {
+            let query = $(this).val().trim();
+
+            if (query.length > 0) {
+                $.ajax({
+                url: '/api/v1/terms/by-name?lang=vi',
+                type: 'GET',
+                data: { keyword: query },
+                dataType: 'json',
+                })
+                .done(function(data) {
+                    if (!suggestionSelected) {
+                        renderSuggestions(data.name);
+                    } else {
+                        suggestionSelected = false;
+                    }
+
+                    let exactMatch = data.name.some(function(term) {
+                        return term.toUpperCase() === query.toUpperCase();
+                    });
+
+                    if (!exactMatch) {
+                        termParentInput.css('border', '1px solid red');
+                    } else {
+                        termParentInput.css('border', '');
+                    }
+                    if (query.length === 0) {
+                        termParentInput.css('border', '');
+                    }
+                    renderParentType(data.type);
+
+                })
+                .fail(function(e) {
+                    console.log("Error: " + e);
+                    termParentInput.css('border', '2px solid red'); // Trong trường hợp có lỗi khi kết nối với server
+                });
+            } else {
+                // Nếu ô input trống, bỏ border đỏ
+                termSuggestionEl.empty().hide(); // Ẩn danh sách gợi ý nếu không có ký tự
+                parentTypeDropdown.hide();
+                termParentInput.css('border', '');
+            }
+        });
+
+        // Get edit term parent suggestion
+        editTermParentNameInput.on('input', function() {
+            let query = $(this).val().trim();
+
+            if (query.length > 0) {
+                $.ajax({
+                url: '/api/v1/terms/by-name?lang=vi',
+                type: 'GET',
+                data: { keyword: query },
+                dataType: 'json',
+                })
+                .done(function(data) {
+                    if (!suggestionSelected) {
+                        renderEditSuggestion(data.name);
+                    } else {
+                        suggestionSelected = false;
+                    }
+
+                    let exactMatch = data.name.some(function(term) {
+                        return term.toUpperCase() === query.toUpperCase();
+                    });
+
+                    if (!exactMatch) {
+                        editTermParentNameInput.css('border', '1px solid red');
+                    } else {
+                        editTermParentNameInput.css('border', '');
+                    }
+                    if (query.length === 0) {
+                        editTermParentNameInput.css('border', '');
+                    }
+                    renderEditParentType(data.type);
+
+                })
+                .fail(function(e) {
+                    console.log("Error: " + e);
+                    editTermParentNameInput.css('border', '2px solid red'); // Trong trường hợp có lỗi khi kết nối với server
+                });
+            } else {
+                // Nếu ô input trống, bỏ border đỏ
+                editTermSuggestion.empty().hide(); // Ẩn danh sách gợi ý nếu không có ký tự
+                editParentTypeDropdownEl.hide();
+                editTermParentNameInput.css('border', '');
+            }
+        });
+
+        // Get term by term type
+        termTypeSelect.change(function() {
+            renderTableByTermType();
+        })
+        
+        // View detail term by id
+        tbodyEl.on('click', '.view-btn', function() {
+            const getTermRow = $(this).closest("tr");
+            const getTermId = getTermRow.find(".item-term-id").text();
+            const getTermName = getTermRow.find(".item-term-name").text();
+            const getTermSlug = getTermRow.find(".item-term-slug").text();
+            const getTermType = getTermRow.find(".item-term-type").text();
+            const getTermParent= getTermRow.find(".item-term-parent").text();
+            const getTermDescription = getTermRow.find(".item-term-description").text();
+
+            viewTermId.text(getTermId);
+            viewTermName.text(getTermName);
+            viewTermSlug.text(getTermSlug);
+            viewTermType.text(getTermType);
+            viewTermParent.text(getTermParent);
+            viewTermDescription.text(getTermDescription);
+            console.log(viewTermId);
+            viewTermModal.css('display','flex');
+        })
+        closeViewModal.on('click', function() {
+            viewTermModal.css('display', 'none');
+        })
+
+        // Edit term by id (tbody)
+        tbodyEl.on('click', '.edit-btn', function() {
+            const editTermRow = $(this).closest("tr");
+            const editTermId = editTermRow.find(".item-term-id").text();
+            const editTermName = editTermRow.find(".item-term-name").text();
+            const editTermSlug = editTermRow.find(".item-term-slug").text();
+            const editTermType = editTermRow.find(".item-term-type").text();
+            const editTermParentName = editTermRow.find(".item-term-parent").text();
+            const editTermDescription = editTermRow.find(".item-term-description").text();
+
+            editTermIdInput.val(editTermId);
+            editTermNameInput.val(editTermName);
+            editTermSlugInput.val(editTermSlug);
+            editTermTypeInput.val(editTermType);
+            editTermParentNameInput.val(editTermParentName);
+            if (editTermParentName === null || editTermParentName === '') {
+                editParentTypeDropdownEl.empty();
+                editParentTypeDropdownEl.hide();
+            }
+            editTermDescriptionInput.val(editTermDescription);
+
+            editTermModal.css('display', 'flex'); // Show the modal
+        });
+
+        //Delete term by id
+        tbodyEl.on('click', '.delete-btn', function() {
+            const deleteTermRow = $(this).closest("tr");
+            const deleteTermId = deleteTermRow.find(".item-term-id").text();
+            const deleteTermName = deleteTermRow.find(".item-term-name").text();
+
+            confirmDeleteBtn.data('id', deleteTermId);
+
+            deleteTermDetail.text(deleteTermId + ": " + deleteTermName);
+            deleteTermModal.css('display', 'flex');
+        })
+        cancelDeleteBtn.on('click', function() {
+            deleteTermModal.css('display', 'none');
+        })
+        confirmDeleteBtn.on('click', function() {
+            const termId = $(this).data('id');
+            $.ajax({
+                url: '/api/v1/terms/' + termId + '?lang=vi',
+                type: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Xóa thành công !", "");
+            })
+            .fail(function(e){
+                showErrorNotification("Xóa thất bại: ", e.responseText);
+            });
+            deleteTermModal.css('display', 'none');
+        })
+
+        // Update term by id
+        editTermFormEl.on('submit', function(event) {
+            event.preventDefault();
+            console.log("Done save");
+            let termId = editTermIdInput.val();
+            let formData = {
+                name: editTermNameInput.val(),
+                termType: editTermTypeInput.val(),
+                parentName: editTermParentNameInput.val(),
+                parentType: editParentTypeDropdownEl.val(),
+                description: editTermDescriptionInput.val()
+            }
+            console.log(formData);
+            $.ajax({
+                url: '/api/v1/terms/' + termId + '?lang=vi',
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Cập nhật thành công !", "");
+            })
+            .fail(function(e) {
+                showErrorNotification("Cập nhật thất bại: ", e.responseText);
+            });
+        })
+
+        // Hide Modal
+        closeTermModal.on('click', function() {
+            editTermModal.css('display', 'none');
+        });
+
+        // Refresh
+        refreshBtn.on('click', function() {
+            renderTableByTermType();
+        })
+
+        // Search term
+        searchTerm.on('keydown', function(event) {
+            if (event.key === "Enter") {
+                const inputValue = $(this).val();
+                $.ajax({
+
+                })
+                .done(function(response) {
+
+                })
+                .fail(function(e) {
+
+                });
+            }
+        })
+
+        // Render term suggestion
+        function renderSuggestions(terms) {
+            termSuggestionEl.empty(); // Xóa danh sách gợi ý cũ
+            if (terms.length > 0) {
+                terms.forEach(function(term) {
+                    termSuggestionEl.append('<div class="suggestion-item">' + term + '</div>');
+                });
+                termSuggestionEl.show(); // Hiển thị danh sách gợi ý
+            } else {
+                termSuggestionEl.hide(); // Ẩn nếu không có gợi ý nào
+            }
+            // Xử lý sự kiện click vào một gợi ý
+            $('.suggestion-item').on('click', function() {
+                suggestionSelected=true;
+                termParentInput.val($(this).text()); // Điền giá trị được chọn vào ô input
+                termParentInput.css('border', ''); // Xóa border đỏ khi người dùng chọn một gợi ý
+                termSuggestionEl.hide(); // Ẩn danh sách gợi ý sau khi chọn
+                termParentInput.trigger('input');
+            });
+        }
+        
+        // Render edit term suggestion
+        function renderEditSuggestion(terms) {
+            editTermSuggestion.empty(); // Xóa danh sách gợi ý cũ
+            if (terms.length > 0) {
+                terms.forEach(function(term) {
+                    editTermSuggestion.append('<div class="suggestion-item">' + term + '</div>');
+                });
+                editTermSuggestion.show(); // Hiển thị danh sách gợi ý
+            } else {
+                editTermSuggestion.hide(); // Ẩn nếu không có gợi ý nào
+            }
+            // Xử lý sự kiện click vào một gợi ý
+            $('.suggestion-item').on('click', function() {
+                suggestionSelected=true;
+                editTermParentNameInput.val($(this).text()); // Điền giá trị được chọn vào ô input
+                editTermParentNameInput.css('border', ''); // Xóa border đỏ khi người dùng chọn một gợi ý
+                editTermSuggestion.hide(); // Ẩn danh sách gợi ý sau khi chọn
+                editTermParentNameInput.trigger('input');
+            });
+        }
+
+        // Render term parent type
+        function renderParentType(types) {
+            parentTypeDropdown.empty(); // Xóa các tùy chọn cũ
+            if (types && types.length > 0) {
+                types.forEach(function(type) {
+                    parentTypeDropdown.append('<option>' + type + '</option>'); // Thêm type vào dropdown
+                });
+                // Hiển thị dropdown
+                parentTypeDropdown.show();
+            } else {
+                // Ẩn dropdown nếu không có type
+                parentTypeDropdown.hide();
+                parentTypeDropdown.empty();
+            }
+        }
+
+        //Render edit term parent type
+        function renderEditParentType(types) {
+            editParentTypeDropdownEl.empty(); // Xóa các tùy chọn cũ
+            if (types && types.length > 0) {
+                types.forEach(function(type) {
+                    editParentTypeDropdownEl.append('<option>' + type + '</option>'); // Thêm type vào dropdown
+                });
+                // Hiển thị dropdown
+                editParentTypeDropdownEl.show();
+            } else {
+                // Ẩn dropdown nếu không có type
+                editParentTypeDropdownEl.hide();
+                editParentTypeDropdownEl.empty();
+            }
+        }
+
+        // Render table by term type
+        function renderTableByTermType(page = 0, size = 10) {
+            let queryString = '';
+            let selectedTermType = termTypeSelect.val();
+            queryString += "&type=" + selectedTermType;
+            queryString += "&page=" + page;
+            queryString += "&size=" + size;
+            $.ajax({
+                url: '/api/v1/terms/by-term-type?lang=vi' + queryString,
+                type: 'GET',
+                dataType: 'json'
+            })
+            .done(function(data) {
+                renderTerms(data.items);
+                currentPage = data.currentPage;
+                totalPage = data.totalPage;
+                validatePageNumber(currentPage, totalPage);
+                currentPageEl.text(currentPage + 1);
+                totalPageEl.text(totalPage);
+            })
+            .fail(function(e) {
+                console.log("Error: " + e);
+            });
+        }
+
+        // Render table
+        function renderTerms(terms) {
+            tbodyEl.empty();
+            // Kiểm tra nếu không có dữ liệu
+            if (terms.length === 0) {
+                tbodyEl.append('<tr><td colspan="8">No terms available</td></tr>');
+                return;
+            }
+            // Lặp qua từng term và thêm vào bảng
+            terms.forEach(function(term) {
+                let row = '<tr class="fade-in" data-id="' + term.id + '">' +
+                    '<td><input type="checkbox"></td>' +
+                    '<td class="item-term-id">' + term.id + '</td>' +
+                    '<td class="item-term-name">' + term.name + '</td>' +
+                    '<td class="item-term-slug">' + term.slug + '</td>' +
+                    '<td class="item-term-type">' + term.termType + '</td>' +
+                    '<td class="item-term-parent">' + (term.parentName ? term.parentName : '') + '</td>' +
+                    '<td class="item-term-description">' + (term.description ? term.description : '') + '</td>' +
+                    '<td>' +
+                        '<i class="fa-regular fa-eye view-btn"></i>' +
+                        '<i class="fa-regular fa-pen-to-square edit-btn"></i>' +
+                        '<i class="fa-solid fa-trash-can delete-btn"></i>' +
+                    '</td>' +
+                '</tr>';
+                tbodyEl.append(row);
+            });
+            setTimeout(function() {
+                tbodyEl.find('.fade-in').addClass('show');
+            }, 100); 
+        }
+    
+        // Show notification success
+        function showSuccessNotification(title, message) {
+            successNoticeTitle.text(title);
+            successNoticeDetail.text(message);
+            successNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(300);
+        }
+
+        // Show notification error
+        function showErrorNotification(title, message) {
+            errorNoticeTitle.text(title);
+            errorNoticeDetail.text(message);
+            errorNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(400);
+        }
+    
+        /*<![CDATA[*/
+            let currentPage = /*[[${terms.currentPage}]]*/;
+            let totalPage = /*[[${terms.totalPage}]]*/;
+        /*]]>*/
+
+        //Pagination
+        function validatePageNumber(currentPage, totalPage) {
+            nextPage.toggleClass('disabled-link', currentPage >= (totalPage - 1));
+            lastPage.toggleClass('disabled-link', currentPage >= (totalPage - 1));
+            prevPage.toggleClass('disabled-link', currentPage <= 0);
+            firstPage.toggleClass('disabled-link', currentPage <= 0);
+        }
+        nextPage.on('click', function() {
+            if (currentPage < totalPage - 1) {
+                currentPage += 1;
+            }            
+            // Render
+            renderTableByTermType(currentPage);
+        })
+        prevPage.on('click', function() {
+            if (currentPage > 0) {
+                currentPage -= 1;
+            }            
+            // Render
+            renderTableByTermType(currentPage);
+        })
+        firstPage.on('click', function() {
+            renderTableByTermType(0);
+        })
+        lastPage.on('click', function() {
+            renderTableByTermType(totalPage - 1);
+        })
+    })
+</script>
+</body>
+</html>

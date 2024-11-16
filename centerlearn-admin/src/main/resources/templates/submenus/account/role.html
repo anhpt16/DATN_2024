@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="role" class="content admin-content-col">
+    <div class="admin-content-container">
+        <div th:replace="~{submenus/submenu-account :: submenu-account}"></div>
+        <div class="admin-content-menu">
+        <div class=" row role-management">
+            <!-- Add Role Card -->
+            <div class="col-lg-3">
+                <div class="add-role-card">
+                    <p>[[#{add_role_title}]]</p>
+                    <form id="form-add-role" action="" method="post">
+                        <div class="form-group">
+                            <label for="role-name">[[#{role_name}]]</label>
+                            <input type="text" id="role-add-name" autocomplete="off" th:placeholder="#{enter_role_name}">
+                        </div>
+                        <div class="form-group">
+                            <label for="display-name">[[#{role_display_name}]]</label>
+                            <input type="text" id="role-add-display-name" autocomplete="off" th:placeholder="#{enter_display_name}">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn-create">[[#{create}]]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+            <!-- Role List Table -->
+            <div class="col-lg-9">
+                <div class="role-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>[[#{role_id}]]</th>
+                                <th>[[#{role_name}]]</th>
+                                <th>[[#{role_display_name}]]</th>
+                                <th>[[#{role_created_at}]]</th>
+                                <th>[[#{role_action}]]</th>
+                            </tr>
+                        </thead>
+                        <tbody id="role-tbody">
+                            <tr th:each="role : ${roles.items}" >
+                                <td class="item-role-id" th:text="${role.id}"></td>
+                                <td class="item-role-name" th:text="${role.name}"></td>
+                                <td class="item-role-display-name" th:text="${role.displayName}"></td>
+                                <td class="item-role-created" th:text="${#strings.replace(role.createdAt, 'T', ' ')}"></td>
+                                <td>
+                                    <i class="fa-regular fa-pen-to-square edit-btn"></i>
+                                    <i class="fa-solid fa-trash-can delete-btn"></i>
+                                </td>
+                            </tr>
+                            <!-- Nếu không có dữ liệu -->
+                            <tr th:if="${roles.items.isEmpty()}">
+                                <td colspan="8">No role available</td>
+                            </tr>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+                <!--Phân trang -->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <i class="fa-solid fa-arrows-rotate refresh-btn" id="refresh-btn"></i>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-end align-items-center" id="pagination">
+                                <li class="page-item"><a id="prev-page" class="page-link disabled-link">
+                                    <i class="fa-solid fa-backward-step"></i></a></li>
+                                <!-- Dynamic page numbers will be inserted here -->
+                                <li class="page-item"><a id="next-page" class="page-link" th:classappend="${roles.totalPage == 1} ? ' disabled-link' : ''">
+                                    <i class="fa-solid fa-forward-step"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Notification -->
+        <div class="notification-container">
+        <div id="successNotification" class="notification success" style="display: none;">
+            <div class="d-flex">
+                <i class="fa-regular fa-circle-check"></i>
+                <div class="d-flex">
+                    <p id="notification-title"></p>
+                    <p id="notification-detail"></p>
+                </div>
+            </div>
+        </div>
+        <div id="errorNotification" class="notification error" style="display: none;">
+            <div class="d-flex">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="d-flex">
+                    <p id="notification-title"></p>
+                    <p id="notification-detail"></p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--Edit Modal -->
+        <div id="edit-role-modal" class="edit-term-modal">
+            <div class="modal-content">
+                <p class="edit-term-title">[[#{edit_role_modal}]]</p>
+                <form id="edit-role-form" method="" action="">
+                    <div class="form-group">
+                        <label for="edit-role-id">[[#{role_id}]]</label>
+                        <input type="text" id="edit-role-id" name="id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-role-name">[[#{role_name}]]</label>
+                        <input type="text" id="edit-role-name" name="name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-role-display-name">[[#{role_display_name}]]</label>
+                        <input type="text" id="edit-role-display-name" name="display-name">
+                    </div>
+                    <div class="btn-save-term">
+                        <button type="button" class="btn-close-modal">[[#{close}]]</button>
+                        <button type="submit" class="submit-button">[[#{save}]]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Delete confirmation modal -->
+        <div class="delete-modal" id="delete-modal">
+            <div class="modal-content">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p class="delete-term-title">[[#{delete_confirm_title}]]</p>
+                <p class="delete-role-detail"></p>
+                <div class="modal-actions">
+                    <button class="confirm-delete-btn" id="confirm-delete-btn">[[#{yes}]]</button>
+                    <button class="cancel-delete-btn">[[#{no}]]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+    $(document).ready(function() {
+        tbodyEl = $("#role-tbody");
+        const refreshBtn = $(".refresh-btn")
+        // Add role
+        roleAddName = $("#role-add-name");
+        roleAddDisplayName = $("#role-add-display-name")
+        formAddRole = $("#form-add-role");
+        // Notification
+        const successNotification = $("#successNotification");
+        const errorNotification = $("#errorNotification");
+        const successNoticeTitle = $("#successNotification #notification-title");
+        const successNoticeDetail = $("#successNotification #notification-detail");
+        const errorNoticeTitle = $("#errorNotification #notification-title");
+        const errorNoticeDetail = $("#errorNotification #notification-detail");
+        // Edit role
+        const editRoleId = $("#edit-role-id");
+        const editRoleModal = $("#edit-role-modal");
+        const editRoleName = $("#edit-role-name");
+        const editRoleDisplayName = $("#edit-role-display-name");
+        const closeRoleModal = $(".btn-close-modal");
+        const editRoleFormEl = $("#edit-role-form");
+        // Delete role
+        const deleteRoleModal = $("#delete-modal");
+        const confirmDeleteBtn = $("#confirm-delete-btn");
+        const cancelDeleteBtn = $(".cancel-delete-btn");
+        const deleteRoleDetail = $(".delete-role-detail");
+        // Pagination
+        const prevPage = $("#prev-page");
+        const nextPage = $("#next-page");
+
+        formAddRole.on('submit', function(event) {
+            event.preventDefault();
+            let formData = {
+                name: roleAddName.val(),
+                displayName: roleAddDisplayName.val()
+            }
+            $.ajax({
+                url: '/api/v1/roles?lang=vi',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                console.log("Done: " + response);
+                showSuccessNotification("Tạo mới thành công !", "");
+                resetInput();
+            })
+            .fail(function(e) {
+                console.log("Error: " + e.responseText);
+                showErrorNotification("Tạo mới thất bại: ", e.responseText);
+            })
+        })
+
+        // Render table by term type
+        function renderTableByType(page = 0, size = 10) {
+            let queryString = '';
+            // let selectedTerm = termSelect.val();
+            // queryString += "&id=" + selectedTerm;
+            queryString += "&page=" + page;
+            queryString += "&size=" + size;
+            $.ajax({
+                url: '/api/v1/roles?lang=vi' + queryString,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(data) {
+                renderRoles(data.items);
+                currentPage = data.currentPage;
+                totalPage = data.totalPage;
+                validatePageNumber(currentPage, totalPage);
+                console.log(data.currentPage, data.totalPage)
+            })
+            .fail(function(e) {
+                console.log("Error: " + e);
+            });
+        }
+
+        //Delete term by id
+        tbodyEl.on('click', '.delete-btn', function() {
+            const getRoleRow = $(this).closest("tr");
+            const getRoleId = getRoleRow.find(".item-role-id").text();
+            const getRoleName = getRoleRow.find(".item-role-name").text();
+
+            confirmDeleteBtn.data('id', getRoleId);
+
+            deleteRoleDetail.text(getRoleId + ": " + getRoleName);
+            deleteRoleModal.css('display', 'flex');
+        })
+        cancelDeleteBtn.on('click', function() {
+            deleteRoleModal.css('display', 'none');
+        })
+        confirmDeleteBtn.on('click', function() {
+            const roleId = $(this).data('id');
+            $.ajax({
+                url: '/api/v1/roles/' + roleId + '?lang=vi',
+                type: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Xóa thành công !", "");
+            })
+            .fail(function(e){
+                showErrorNotification("Xóa thất bại: ", e.responseText);
+            });
+            deleteRoleModal.css('display', 'none');
+        })
+
+        // Refresh Modal
+        refreshBtn.on('click', function() {
+            renderTableByType();
+        })
+        
+        // Render room
+        function renderRoles(roles) {
+            tbodyEl.empty();
+            if (roles.length === 0) {
+                tbodyEl.append('<tr><td colspan="8">No roles available</td></tr>');
+                return;
+            }
+            roles.forEach(function(role) {
+                let row = '<tr class="fade-in" data-id="' + role.id + '">' +
+                    '<td class="item-role-id">' + role.id + '</td>' +
+                    '<td class="item-role-name">' + role.name + '</td>' +
+                    '<td class="item-role-display-name">' + role.displayName + '</td>' +
+                    '<td class="item-role-created">' + formatDateTime(role.createdAt) + '</td>' +
+                    '<td>' +
+                        '<i class="fa-regular fa-pen-to-square edit-btn"></i>' +
+                        '<i class="fa-solid fa-trash-can delete-btn"></i>' +
+                    '</td>' +
+                '</tr>';
+                tbodyEl.append(row);
+            });
+            setTimeout(function() {
+                tbodyEl.find('.fade-in').addClass('show');
+            }, 100); 
+        }
+
+        // Edit room
+        tbodyEl.on('click', '.edit-btn', function() {
+            const getRoleRow = $(this).closest("tr");
+            const getRoleId = getRoleRow.find(".item-role-id").text();
+            const getRoleName = getRoleRow.find(".item-role-name").text();
+            const getRoleDisplayName = getRoleRow.find(".item-role-display-name").text();
+
+            editRoleId.val(getRoleId);
+            editRoleName.val(getRoleName);
+            editRoleDisplayName.val(getRoleDisplayName);
+            editRoleModal.css('display', 'flex');
+        })
+        editRoleFormEl.on('submit', function(event) {
+            event.preventDefault();
+            console.log("Done save");
+            let roleId = editRoleId.val();
+            let formData = {
+                displayName: editRoleDisplayName.val()
+            }
+            console.log(formData);
+            $.ajax({
+                url: '/api/v1/roles/' + roleId + '?lang=vi',
+                type: 'PUT',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                contentType: 'application/json'
+            })
+            .done(function(response) {
+                showSuccessNotification("Cập nhật thành công !", "");
+            })
+            .fail(function(e) {
+                showErrorNotification("Cập nhật thất bại: ", e.responseText);
+            });
+        })
+        // Hide Modal
+        closeRoleModal.on('click', function() {
+            editRoleModal.css('display', 'none');
+        });
+
+        // Show notification success
+        function showSuccessNotification(title, message) {
+            successNoticeTitle.text(title);
+            successNoticeDetail.text(message);
+            successNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(300);
+        }
+
+        // Show notification error
+        function showErrorNotification(title, message) {
+            errorNoticeTitle.text(title);
+            errorNoticeDetail.text(message);
+            errorNotification
+            .fadeIn(500)
+            .delay(1500)
+            .fadeOut(400);
+        }
+
+        // Reset input form add room
+        function resetInput() {
+            roleAddName.val('');
+            roleAddDisplayName.val('');
+        }
+
+         /*<![CDATA[*/
+            let currentPage = [[${roles.currentPage}]];
+            let totalPage = [[${roles.totalPage}]];
+        /*]]>*/
+
+        // Pagination
+        function validatePageNumber(currentPage, totalPage) {
+            nextPage.toggleClass('disabled-link', currentPage >= (totalPage - 1));
+            prevPage.toggleClass('disabled-link', currentPage <= 0);
+        }
+        nextPage.on('click', function() {
+            if (currentPage < totalPage - 1) {
+                currentPage += 1;
+            }            
+            // Render
+            renderTableByType(currentPage);
+        })
+        prevPage.on('click', function() {
+            if (currentPage > 0) {
+                currentPage -= 1;
+            }            
+            // Render
+            renderTableByType(currentPage);
+        })
+
+        function formatDateTime(dateTime) {
+            // Tách phần date và time
+            let parts = dateTime.split('T');
+
+            // Loại bỏ phần mili giây nếu có (giữ lại giờ, phút, giây)
+            let timeWithoutMilliseconds = parts[1].split(':').slice(0, 3).join(':');
+
+            // Gộp lại phần ngày và giờ với dấu cách thay cho 'T'
+            let formattedDateTime = parts[0] + ' ' + timeWithoutMilliseconds;
+
+            return formattedDateTime;
+        }
+    })
+
+</script>
+</body>
+</html>

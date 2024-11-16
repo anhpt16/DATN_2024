@@ -1,0 +1,174 @@
+
+.blog-container-fluid {
+  background-color:   #fbfcfc ;
+}
+
+.blog-container {
+  max-width: 1600px;
+}
+
+.blog-main-container {
+  .blog-me-container {
+    .btn-blog-me, .btn-blog-write {
+      padding: 5px 10px;
+      font-size: $text-size-small;
+      color: $primary-color-dark;
+      background-color: $button-color-func;
+      border-radius: 8px;
+      outline: none;
+      border: none;
+    }
+  }
+  .blog-search-container {
+    padding: 12px;
+    .blog-input-search {
+      border: none;
+      height: 60px;
+      outline: none;
+      font-size: $text-size-big;
+      padding-left: 15px;
+      flex: auto;
+      border: .5px solid $line-color-light;
+      border-radius: 8px;
+    }
+    .blog-input-button-search {
+      background-color:  #e5e7e9 ;
+      border-radius: 16px;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: $primary-color-light;
+      height: 100%;
+      i {
+        font-size: $text-size-big;
+      }
+      margin-left: 10px;
+    }
+  }
+  .blog-tag-container {
+    .blog-tag {
+      background-color: $main-backgroud-light;
+      text-decoration: none;
+      color: $primary-color-light;
+      padding: 10px;
+      border: .5px solid $line-color-light;
+      border-radius: 8px;
+      &:hover {
+        color: $primary-hover-color-light;
+      }
+    }
+  }
+  .post-container {
+    border-radius: 8px;
+    box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.51);
+    transition: box-shadow 0.3s ease;
+    .post-image-container {
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px 8px 0 0;
+      }
+    }
+    .post-content-container {
+      padding-top: 10px;
+      .post-title {
+        padding: 0 10px;
+        font-size: $text-size-big;
+        color: $primary-color-light;
+        font-weight: 600;
+        @include wrap-text(2);
+      }
+      .post-author {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: $text-size-detail;
+        .author-name {
+          color: $primary-color-light;
+          &:hover {
+            color: $primary-hover-color-light;
+          }
+        }
+        a {
+          text-decoration: none;
+          color: $primary-hover-color-light;
+        }
+      }
+      .post-description {
+        margin: 10px 0;
+        padding: 0 15px;
+        font-size: $text-size-small;
+        color: $primary-color-light;
+        @include wrap-text(3);
+      }
+    }
+    .post-detail-container {
+      padding: 10px;
+      .post-author, .post-view, .post-date {
+        color: $primary-hover-color-light;
+        font-size: $text-size-detail;
+      }
+    }
+    &:hover {
+      box-shadow: 0px 0px 8px -1px rgba(0,0,0,0.51);
+    }
+  }
+}
+
+.blog-nav-container {
+  .blog-nav-view-container {
+    .nav-view-title {
+      font-size: $text-size-big;
+      color: $primary-color-light;
+      font-weight: 600;
+      position: relative;
+      padding: 0 0 5px 0;
+      &::after {
+        content: "";
+        display: block;
+        width: 50%;
+        height: 5px;
+        background-color: $line-color-blue;
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+      }
+    }
+    .nav-view-list {
+      padding: 15px 0px;
+      .nav-view-item-container {
+        .nav-view-post-top {
+          border-radius: 8px;
+          font-size: $text-size-big;
+          color: $primary-color-light;
+          padding: 10px;
+          height: fit-content;
+          box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.51);
+        }
+        .nav-view-post-container {
+          padding: 10px;
+          flex: 1;
+          border-radius: 8px;
+          box-shadow: 0px 0px 4px -1px rgba(0,0,0,0.51);
+          transition: box-shadow 0.3s ease;
+          .nav-view-post-title {
+            @include wrap-text(2);
+            font-size: $text-size-small;
+            margin-bottom: 10px;
+            color: $primary-color-light;
+          }
+          .nav-view-post-detail {
+            padding-top: 5px;
+            border-top: .5px solid $line-color-light;
+            .nav-view-post-view, .nav-view-post-date {
+              color: $primary-hover-color-light;
+              font-size: $text-size-detail - 5px;
+            }
+          }
+          &:hover{
+            box-shadow: 0px 0px 8px -1px rgba(0,0,0,0.51);
+          }
+        }
+      }
+    }
+  }
+
+}

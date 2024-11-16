@@ -1,0 +1,4 @@
+com\nhatanh\centerlearn\web\view\WebViewDecorator.class
+com\nhatanh\centerlearn\web\controller\view\HomeController.class
+com\nhatanh\centerlearn\web\controller\view\WebLearnBlogController.class
+com\nhatanh\centerlearn\web\controller\view\WebLearnCourseController.class

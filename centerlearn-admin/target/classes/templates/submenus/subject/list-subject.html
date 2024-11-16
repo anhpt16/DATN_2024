@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="list-subject" class="content admin-content-col">
+    <div class="admin-content-container">
+        <div th:replace="~{submenus/submenu-subject :: submenu-subject}"></div>
+        <div class="admin-content-menu">
+            
+        </div>
+    </div>
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+   
+</script>
+</body>
+</html>

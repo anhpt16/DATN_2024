@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+centerlearn-common,com.nhatanh.centerlearn.common.converter,WebLearnModelToEntityConverter,3,0,0,0,1,0,1,0,1,0
+centerlearn-common,com.nhatanh.centerlearn.common.converter,WebLearnResultToModelConverter,3,0,0,0,1,0,1,0,1,0
+centerlearn-common,com.nhatanh.centerlearn.common.converter,WebLearnRequestToModelConverter,3,0,0,0,1,0,1,0,1,0
+centerlearn-common,com.nhatanh.centerlearn.common.converter,WebLearnEntityToModelConverter,3,0,0,0,1,0,1,0,1,0
+centerlearn-common,com.nhatanh.centerlearn.common.converter,WebLearnModelToResponseConverter,3,0,0,0,1,0,1,0,1,0
+centerlearn-common,com.nhatanh.centerlearn.common.entity,Term,103,0,0,0,10,0,15,0,15,0
+centerlearn-common,com.nhatanh.centerlearn.common.entity,User,248,0,2,0,20,0,35,0,34,0

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{page}">
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid dashboard-container-fluid">
+        <div class="dashboard-container">
+            <div th:replace="~{fragments/navbar :: navbar}"></div>
+            <div th:replace="~{submenus/room/list-timeslot :: list-timeslot}"></div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="post-scripts">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script th:replace="~{submenus/room/list-timeslot :: scripts}"></script>
+</th:block>
+</body>
+</html>

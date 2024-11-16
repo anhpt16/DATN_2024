@@ -1,0 +1,8 @@
+com\nhatanh\centerlearn\common\entity\Term.class
+com\nhatanh\centerlearn\common\converter\WebLearnEntityToModelConverter.class
+com\nhatanh\centerlearn\common\converter\WebLearnModelToEntityConverter.class
+com\nhatanh\centerlearn\common\converter\WebLearnRequestToModelConverter.class
+com\nhatanh\centerlearn\common\repository\UserRepository.class
+com\nhatanh\centerlearn\common\converter\WebLearnModelToResponseConverter.class
+com\nhatanh\centerlearn\common\converter\WebLearnResultToModelConverter.class
+com\nhatanh\centerlearn\common\entity\User.class
