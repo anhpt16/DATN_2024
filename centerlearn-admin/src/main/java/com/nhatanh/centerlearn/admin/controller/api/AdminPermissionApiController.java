@@ -63,7 +63,7 @@ public class AdminPermissionApiController {
     ) {
         requests.forEach(this.permissionValidator::validateToSave);
         requests.forEach(request -> this.permissionService.addPermission(this.requestToModelConverter.toSavePermissionModelConverter(request)));
-        return ResponseEntity.noContent();
+        return ResponseEntity.noContent(); 
     }
 
     @DoDelete("/delete-all")

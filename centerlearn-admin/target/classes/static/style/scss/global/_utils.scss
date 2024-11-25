@@ -1,34 +1,213 @@
-.width-0 {
-    width: 0 !important;
-    overflow: hidden;
-}
-// Menu collapse
-.width-expand {
-    width: 260px !important;
-}
-.width-collapse {
-    width: 120px !important;
-}
-.left-expand {
-    left: 260px !important;
-}
-.left-collapse {
-    left: 120px !important;
+$scrollbar-bg: #f0f0f0; // Màu nền của thanh cuộn
+$scrollbar-thumb: #c0c0c0; // Màu của thanh kéo
+$scrollbar-thumb-hover: #a0a0a0; // Màu khi hover
+
+.row {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0 !important;
 }
 
-.width-auto {
-    width: auto !important;
+.scrollable {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
-.center-content-by-flex {
-    display: flex;
-    justify-content: center;
+
+.content {
+    background-color: $content-bg;
 }
-.position-fixed {
-    width: 100%;
+
+.content-detail {
+    padding: 20px !important;
+}
+
+.location-detail {
+    color: $text-muted;
+}
+
+.edit-btn {
+    color: $edit-color;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-size: $text-size-small;
+    &:hover {
+        color: $edit-color-hover;
+    }
+}
+.refresh-btn {
+    color: $refresh-color;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    font-size: $text-size-small;
+    padding: 5px 10px;
+    &:hover {
+        color: $refresh-color-hover;
+    }
+}
+.delete-btn {
+    color: $delete-color;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-size: $text-size-small;
+    &:hover {
+        color: $delete-color-hover;
+    }
+}
+.view-btn {
+    color: $primary-color-light;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: $text-size-small;
+    transition: color 0.2s ease;
+    &:hover {
+        color: $primary-hover-color-light;
+    }
+}
+.add-btn {
+    color: $button-add;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: $text-size-small;
+    transition: color 0.2s ease;
+    &:hover {
+        color: $button-add-hover;
+    }
+}
+
+.table-list {
+    padding: 0px 20px !important;
+    .table-role {
+        width: 100%;
+        th, td {
+            padding: 10px 20px;
+
+        }
+        th {
+            border-bottom: 1px solid #6e6e6e;
+        }
+        tr {
+            &:hover {
+                background-color: #ffffff;
+            }
+        }
+    }
+}
+
+.btn-create {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #218838;
+    }
+}
+.notification-container {
+    max-width: 250px;
+}
+.notification {
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: $primary-color-light-dark;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 80px;
+    right: 50px;
+    &.success {
+        background-color: $success-background;
+        border: .5px solid $success-border;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: $success-color;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p#notification-title {
+                    color: $success-color;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p#notification-detail {
+                    color: $success-detail;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
+
+    &.error {
+        background-color: $error-background;
+        border: .5px solid $error-border;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: $error-color;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p#notification-title {
+                    color: $error-color;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p#notification-detail {
+                    color: $error-detail;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
 }
-.position-relative {
-    position: relative;
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fade-in.show {
+    opacity: 1;
+}
+
+.disabled-link {
+    color: $line-color-light;
+    pointer-events: none !important;
+    background-color: $line-color-light;
+    i {
+        color: $line-color-light;
+    }
+    &:hover {
+        color: $line-color-light;
+        background-color: $line-color-light;
+    }
+}
+.page-link {
+    cursor: pointer;
 }

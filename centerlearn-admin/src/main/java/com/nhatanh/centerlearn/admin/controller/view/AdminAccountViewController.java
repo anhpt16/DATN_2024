@@ -44,7 +44,7 @@ public class AdminAccountViewController {
         PaginationModel<AdminRoleResponse> roles = this.roleServiceController.getAllRole(page, size);
         return View.builder()
             .addVariable("roles", roles)
-            .template("/contents/account/account-role")
+            .template("/contents/role/role")
             .build();
     }
 

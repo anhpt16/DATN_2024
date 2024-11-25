@@ -5,23 +5,8 @@
 
 @import "layouts/header";
 @import "layouts/footer";
-@import "layouts/navbar";
+@import "layouts/admin-sidebar";
 
-@import "global/submenu/admin-submenu";
-
-@import "components/post/term";
-@import "components/post/writing";
-@import "components/post/list";
-@import "components/post/review";
-@import "components/post/draft";
-@import "components/room/room";
-@import "components/room/room-timeslot";
-@import "components/account/role";
-@import "components/account/permission";
-@import "components/account/user";
-
-@import "pages/dashboard";
-@import "pages/post-term";
-@import "pages/login";
+@import "components/role/role";
 
 @import "global/responsive";
