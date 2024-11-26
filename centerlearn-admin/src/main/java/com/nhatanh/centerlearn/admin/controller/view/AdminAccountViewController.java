@@ -68,7 +68,7 @@ public class AdminAccountViewController {
             .addVariable("roles", roles)
             .addVariable("permissionStatuses", permissionStatuses)
             .addVariable("methodNames", methodNames)
-            .template("/contents/account/account-permission")
+            .template("/contents/role/permission")
             .build();
     }
 

@@ -16,6 +16,21 @@ const roleService = {
             console.log("Error: " + error);
         }
     },
+    getRoleById: async (roleId) => {
+        try {
+            const response = await fetch(`${apiUrl}/roles/${roleId}?lang=vi`, {
+                method: "GET",
+                headers: {"Content-Type": "application/json"},
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log("Error: " + error); 
+        }
+    },
     addRole: async (formData) => {
         try {
             const response = await fetch(`${apiUrl}/roles?lang=vi`, {
@@ -26,8 +41,6 @@ const roleService = {
             if(!response.ok) {
                 throw new Error(await response.text());
             }
-            const data = await response.json();
-            return data;
         } catch(error) {
             console.log("Error: " + error);
         }

@@ -2,6 +2,16 @@ $scrollbar-bg: #f0f0f0; // Màu nền của thanh cuộn
 $scrollbar-thumb: #c0c0c0; // Màu của thanh kéo
 $scrollbar-thumb-hover: #a0a0a0; // Màu khi hover
 
+body {
+    main .content{
+        .content-detail {
+            max-height: calc(100vh - 72px);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    }
+}
+
 .row {
     --bs-gutter-x: 0 !important;
     --bs-gutter-y: 0 !important;

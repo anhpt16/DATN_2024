@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{page}">
+<body>
+<div layout:fragment="content" class="row content">
+  <th:block th:replace="~{sidebar/admin-sidebar :: admin-sidebar}"></th:block>
+  <div class="col-lg-10 content-detail">
+    <div class="location-detail">
+      Phân quyền > Quyền hạn
+    </div>
+    <div class="row content-detail-container">
+        <div class="row1 d-flex justify-content-between">
+            <div class="select-role">
+              <label for="">[[#{select_role}]]</label>
+              <select id="role-select" class="form-select" autocomplete="off" aria-label="Default select example">
+                <option value="">[[#{all}]]</option>
+                <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+              </select>
+            </div>
+            <div class="d-flex justify-content-between detail-role">
+              <div class="detail-item">
+                <label for="">[[#{role_id}]]</label>
+                <div id="role-detail-id"></div>
+              </div>
+              <div class="detail-item">
+                <label for="">[[#{role_name}]]</label>
+                <div id="role-detail-name"></div>
+              </div>
+              <div class="detail-item">
+                <label for="">[[#{role_display_name}]]</label>
+                <div id="role-detail-display-name"></div>
+              </div>
+            </div>
+        </div>
+        <div class="filter-permission">
+        <div class="select-role">
+            <label for="">[[#{select_status_role}]]</label>
+            <select id="status-select" class="form-select" autocomplete="off" aria-label="Default select example">
+            <option value="">[[#{all}]]</option>
+            <option th:each="permissionStatus : ${permissionStatuses}" th:value="${permissionStatus.code}" th:text="${permissionStatus.displayName}"></option>
+            </select>
+        </div>
+        <div class="select-role">
+            <label for="">[[#{select_method_role}]]</label>
+            <select id="method-select" class="form-select" autocomplete="off" aria-label="Default select example">
+            <option value="">[[#{all}]]</option>
+            <option th:each="methodName : ${methodNames}" th:value="${methodName.displayName}" th:text="${methodName.displayName}"></option>
+            </select>
+        </div>
+        </div>
+        <div class="row permission-table-container">
+            <div class="col-12 mt-2 table-wrapper">
+                <table class="table permission-table">
+                <thead>
+                    <tr>
+                    <th scope="col">[[#{per_choose}]]</th>
+                    <th scope="col">[[#{per_path}]]</th>
+                    <th scope="col">[[#{per_method}]]</th>
+                    <th scope="col">[[#{per_action}]]</th>
+                    </tr>
+                </thead>
+                <tbody id="permission-tbody">
+                    <tr th:each="uriModel : ${uriModelSorted}">
+                    <td>
+                        <input autocomplete="off" type="checkbox" 
+                                th:disabled="${uriModel.status == null}">
+                    </td>
+                    <td class="permission-uri" 
+                        th:text="${uriModel.uriPath}"></td>
+                    <td class="permission-method" 
+                        
+                        th:text="${uriModel.uriMethod}"></td>
+                    <td>
+                        <i class="fa-regular fa-square-plus add-btn" 
+                            th:classappend="${uriModel.status == null} ? 'disabled-action' : ''"></i>
+                        <i class="fa-solid fa-trash-can delete-btn" 
+                            th:classappend="${uriModel.status == null} ? 'disabled-action' : ''"></i>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div id="notification-container"></div>
+  <div id="confirmation-modal"></div>
+</div>
+<th:block layout:fragment="post-scripts">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  <script src="/js/sidebar/admin-sidebar.js"></script>
+  <script type="module" src="/js/contents/permission.js"></script>
+</th:block>
+</body>
+</html>
