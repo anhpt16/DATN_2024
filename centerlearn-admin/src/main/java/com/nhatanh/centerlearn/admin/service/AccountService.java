@@ -74,10 +74,6 @@ public class AccountService {
 
     public boolean getAccountByUsernameAndPassword(AccountLoginModel model) {
         Account account = this.accountRepository.findByUsernameAndPassword(model.getUsername(), model.getPassword());
-        if (account == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return account != null;
     }
 }

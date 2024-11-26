@@ -221,3 +221,7 @@ body {
 .page-link {
     cursor: pointer;
 }
+
+.invalid {
+    border: 1px solid $delete-color !important;
+}

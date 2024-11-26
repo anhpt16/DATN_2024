@@ -29,6 +29,26 @@ public class AccountRepositoryCustomImpl extends EzyJpaRepository<Long, Account>
 
         Map<String, Object> parameters = new HashMap<>();
 
+        if (criteria.getUsername() != null) {
+            jpql.append("AND a.username LIKE :username ");
+            parameters.put("username", "%" + criteria.getUsername() + "%");
+        }
+
+        if (criteria.getDisplayName() != null) {
+            jpql.append("AND a.displayName LIKE :displayName ");
+            parameters.put("displayName", "%" + criteria.getDisplayName() + "%");
+        }
+
+        if (criteria.getEmail() != null) {
+            jpql.append("AND a.email LIKE :email ");
+            parameters.put("email", "%" + criteria.getEmail() + "%");
+        }
+
+        if (criteria.getPhone() != null) {
+            jpql.append("AND a.phone LIKE :phone ");
+            parameters.put("phone", "%" + criteria.getPhone() + "%");
+        }
+
         if (criteria.getStatus() > 0) {
             jpql.append("AND a.status = :status ");
             parameters.put("status", AccountStatus.getNameByCode(criteria.getStatus()));
@@ -70,6 +90,26 @@ public class AccountRepositoryCustomImpl extends EzyJpaRepository<Long, Account>
         }
 
         Map<String, Object> parameters = new HashMap<>();
+
+        if (criteria.getUsername() != null) {
+            jpql.append("AND a.username LIKE :username ");
+            parameters.put("username", "%" + criteria.getUsername() + "%");
+        }
+
+        if (criteria.getDisplayName() != null) {
+            jpql.append("AND a.displayName LIKE :displayName ");
+            parameters.put("displayName", "%" + criteria.getDisplayName() + "%");
+        }
+
+        if (criteria.getEmail() != null) {
+            jpql.append("AND a.email LIKE :email ");
+            parameters.put("email", "%" + criteria.getEmail() + "%");
+        }
+
+        if (criteria.getPhone() != null) {
+            jpql.append("AND a.phone LIKE :phone ");
+            parameters.put("phone", "%" + criteria.getPhone() + "%");
+        }
 
         if (criteria.getStatus() > 0) {
             jpql.append("AND a.status = :status ");

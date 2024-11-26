@@ -35,6 +35,10 @@ public class AdminAccountApiController {
 
     @DoGet("/")
     public PaginationModel<AdminAccountResponse> getAccountByType(
+        @RequestParam (value = "username") String username,
+        @RequestParam (value = "displayName") String displayName,
+        @RequestParam (value = "email") String email,
+        @RequestParam (value = "phone") String phone,
         @RequestParam (value = "status") int status,
         @RequestParam (value = "roleId") long roleId,
         @RequestParam (value = "startDate") LocalDate startDate,
@@ -43,6 +47,10 @@ public class AdminAccountApiController {
         @RequestParam (value = "size", defaultValue = "10") int size
     ) {
         AccountFilterCriteria criteria = AccountFilterCriteria.builder()
+            .username(username)
+            .displayName(displayName)
+            .email(email)
+            .phone(phone)
             .status(status)
             .roleId(roleId)
             .startDate(startDate)

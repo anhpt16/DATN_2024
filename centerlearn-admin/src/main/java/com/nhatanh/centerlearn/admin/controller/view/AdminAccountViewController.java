@@ -89,7 +89,7 @@ public class AdminAccountViewController {
             .addVariable("accountPagination", accountPagination)
             .addVariable("statuses", statuses)
             .addVariable("roles", roles)
-            .template("/contents/account/account-user")
+            .template("/contents/account/account")
             .build();
     }
 }

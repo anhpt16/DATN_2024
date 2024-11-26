@@ -1,0 +1,145 @@
+.table-account {
+    flex: 1 0 auto;
+    .account-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-color: $color-white;
+
+        th, td {
+          padding: 12px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+      
+        th {
+          background-color: $line-color-blue;
+          color: $color-white;
+          font-weight: bold;
+        }
+      
+        tbody {
+          tr {
+            &:hover {
+              background-color: #f9f9f9;
+            }
+      
+            td {
+              &:last-child {
+                button {
+                  margin-right: 5px;
+                  padding: 5px 10px;
+                  font-size: 14px;
+                  border: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  transition: background-color 0.3s ease;
+      
+                  &.btn-primary {
+                    background-color: #007bff;
+                    color: #fff;
+      
+                    &:hover {
+                      background-color: #0056b3;
+                    }
+                  }
+      
+                  &.btn-danger {
+                    background-color: #dc3545;
+                    color: #fff;
+      
+                    &:hover {
+                      background-color: #c82333;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      
+        img {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+        }
+      
+        .status {
+          padding: 5px 10px;
+          border-radius: 12px;
+          font-weight: bold;
+      
+          &.active {
+            background-color: #28a745;
+            color: #fff;
+          }
+      
+          &.inactive {
+            background-color: #dc3545;
+            color: #fff;
+          }
+        }
+      }
+    .table-menu {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    
+    .table-search {
+        label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        };
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 5px;
+        };
+        select,
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        };
+        select {
+            width: 150px;
+        };
+        button {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: $button-color-func;
+            color: $color-white;
+            width: 125px;
+            &:hover {
+                background-color: $line-color-darkblue;
+            }
+        }
+    }
+    
+    .menu-filter {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+    
+        div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        label {
+            font-weight: 500;
+        }
+    
+        select, 
+        input[type="date"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 150px;
+        }
+        }
+    }
+    }
+}
