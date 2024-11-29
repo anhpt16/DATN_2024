@@ -44,6 +44,14 @@ public class RoleService {
         }
     }
 
+    public List<RoleModel> getNotAssignedRolesByAccountId(long id) {
+        List<Role> roles = this.roleRepository.findNotAssignedRolesByAccountId(id);
+        if (roles.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(roles, this.entityToModelConverter::toModel);
+    }
+
     public RoleModel getRoleByDisplayName(String displayName) {
         Role role = this.roleRepository.findByDisplayName(displayName);
         return role == null ? null : this.entityToModelConverter.toModel(role);

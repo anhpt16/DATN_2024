@@ -23,7 +23,17 @@ $(document).ready(function() {
     });
 
     tbodyEl.on('click', '.edit-btn', async function() {
-        
+        // Lấy dòng được chọn
+        const getDelegationRow = $(this).closest('tr');
+        // Lấy id
+        const accountId = getDelegationRow.find(".item-role-id").text();
+        // Lấy thông tin chi tiết tài khoản
+
+        // Lấy thông tin các vai trò của tài khoản
+
+        // Hiển thị thông tin chi tiết tài khoản
+
+        // Hiển thị các vai trò tài khoản
     })
 
     // Tìm tài khoản

@@ -3,9 +3,9 @@
     input[type="number"],
     input[type="text"] {
         padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 200px;
     }
     button {
         padding: 5px;
@@ -16,6 +16,63 @@
         width: 125px;
         &:hover {
             background-color: $line-color-darkblue;
+        }
+    }
+}
+
+.table-info-container {
+    table {
+        width: 100%;
+        tr {
+            th,
+            td {
+                padding: 5px
+            }
+            th {
+                width: 30%;
+            } 
+            td {
+                width: 70%;
+            }
+            &:hover {
+                background-color: rgb(239, 239, 239);
+            }
+        }
+    }
+}
+
+.account-role-container {
+    .menu-account-role {
+        select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+        button {
+            margin-left: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: $button-color-func;
+            color: $color-white;
+            width: 125px;
+            &:hover {
+            background-color: $line-color-darkblue;
+        }
+        }
+    }
+    table {
+        margin-top: 20px;
+        width: 100%;
+        tr {
+            th,
+            td {
+                text-align: center;
+            }
+            &:hover {
+                background-color: rgb(239, 239, 239);
+            }
         }
     }
 }

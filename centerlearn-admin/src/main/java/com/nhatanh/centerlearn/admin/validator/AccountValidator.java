@@ -130,4 +130,15 @@ public class AccountValidator {
             throw new HttpBadRequestException(errors);
         }
     }
+
+    public void validateGetNotAssignedRoles(long accountId) {
+        Map<String, String> errors = new HashMap<>();
+        AccountModel accountModel = this.accountService.getAccountById(accountId);
+        if (accountModel == null) {
+            errors.put("Account with id: " + accountId, " invalid");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
 }

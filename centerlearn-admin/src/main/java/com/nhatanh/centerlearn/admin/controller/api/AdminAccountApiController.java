@@ -116,6 +116,15 @@ public class AdminAccountApiController {
         return roleResponses;
     }
 
+    @DoGet("/{id}/roles/not-assigned")
+    public List<AdminRoleResponse> getNotAssignedRolesByAccountId(
+        @PathVariable long id
+    ) {
+        this.accountValidator.validateGetNotAssignedRoles(id);
+        List<AdminRoleResponse> roleResponses = this.accountServiceController.getNotAssignedRolesByAccountId(id);
+        return roleResponses;
+    }
+
     @DoPost("/{accountId}/roles/{roleId}")
     public ResponseEntity addAccountRole(
         @PathVariable long accountId,

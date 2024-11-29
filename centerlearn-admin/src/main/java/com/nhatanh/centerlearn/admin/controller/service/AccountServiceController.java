@@ -6,15 +6,13 @@ import com.nhatanh.centerlearn.admin.converter.AdminModelToEntityConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToModelConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
-import com.nhatanh.centerlearn.admin.model.AccountLoginModel;
-import com.nhatanh.centerlearn.admin.model.AccountModel;
-import com.nhatanh.centerlearn.admin.model.AccountRoleModel;
-import com.nhatanh.centerlearn.admin.model.SaveAccountModel;
+import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
+import com.nhatanh.centerlearn.admin.service.RoleService;
 import com.nhatanh.centerlearn.common.exception.AccountCreationException;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
@@ -24,11 +22,13 @@ import lombok.AllArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @Service
 @AllArgsConstructor
 public class AccountServiceController {
     private final AccountService accountService;
+    private final RoleService roleService;
     private final AccountRoleService accountRoleService;
     private final AdminModelToModelConverter modelToModelConverter;
     private final AdminAccountModelDecorator accountModelDecorator;
@@ -43,6 +43,14 @@ public class AccountServiceController {
         }
         AccountRoleModel model = this.modelToModelConverter.toAccountRoleModelConverter(accountId, accountModel.getRoleId());
         this.accountRoleService.addAccountRole(model);
+    }
+
+    public List<AdminRoleResponse> getNotAssignedRolesByAccountId(long id) {
+        List<RoleModel> roleModels = this.roleService.getNotAssignedRolesByAccountId(id);
+        if (roleModels.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(roleModels, this.modelToResponseConverter::toRoleResponse);
     }
 
     public void addAccountRole(AccountRoleModel accountRoleModel) {

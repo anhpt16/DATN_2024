@@ -431,6 +431,53 @@ div.row.permission-table-container {
   background-color: #027ac5;
 }
 
+.table-info-container table {
+  width: 100%;
+}
+.table-info-container table tr th,
+.table-info-container table tr td {
+  padding: 5px;
+}
+.table-info-container table tr th {
+  width: 30%;
+}
+.table-info-container table tr td {
+  width: 70%;
+}
+.table-info-container table tr:hover {
+  background-color: rgb(239, 239, 239);
+}
+
+.account-role-container .menu-account-role select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+.account-role-container .menu-account-role button {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: #fff;
+  width: 125px;
+}
+.account-role-container .menu-account-role button:hover {
+  background-color: #027ac5;
+}
+.account-role-container table {
+  margin-top: 20px;
+  width: 100%;
+}
+.account-role-container table tr th,
+.account-role-container table tr td {
+  text-align: center;
+}
+.account-role-container table tr:hover {
+  background-color: rgb(239, 239, 239);
+}
+
 .table-account {
   flex: 1 0 auto;
 }
