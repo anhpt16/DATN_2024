@@ -126,4 +126,11 @@ public class AdminRequestToModelConverter {
             .password(base64Util.encodePassword(request.getPassword()))
             .build();
     }
+
+    public AccountRoleModel toAccountRoleModel(long accountId, long roleId) {
+        return AccountRoleModel.builder()
+            .accountId(accountId)
+            .roleId(roleId)
+            .build();
+    }
 }

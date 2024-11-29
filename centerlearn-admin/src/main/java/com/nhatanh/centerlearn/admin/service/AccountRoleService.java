@@ -41,4 +41,12 @@ public class AccountRoleService {
         IdResult roleId = this.accountRoleRepository.findRoleIdByAccountId(id);
         return roleId == null ? 0L : roleId.getId();
     }
+
+    public AccountRoleModel getAccountRole(long accountId, long roleId) {
+        AccountRole accountRole = this.accountRoleRepository.findAccountRole(accountId, roleId);
+        if (accountRole == null) {
+            return null;
+        }
+        return this.entityToModelConverter.toModel(accountRole);
+    }
 }

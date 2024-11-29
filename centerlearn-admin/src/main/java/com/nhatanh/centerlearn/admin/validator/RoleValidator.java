@@ -18,6 +18,7 @@ public class RoleValidator {
     private final FormValidator formValidator;
     private final RoleService roleService;
 
+
     public void validate(SaveRoleRequest request) {
         Map<String, String> errors = new HashMap<>();
         // Check blank

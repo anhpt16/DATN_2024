@@ -1,7 +1,11 @@
 package com.nhatanh.centerlearn.admin.validator;
 
 import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
+import com.nhatanh.centerlearn.admin.model.AccountModel;
+import com.nhatanh.centerlearn.admin.model.AccountRoleModel;
+import com.nhatanh.centerlearn.admin.model.RoleModel;
 import com.nhatanh.centerlearn.admin.request.SaveAccountResquest;
+import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
@@ -17,6 +21,7 @@ public class AccountValidator {
     private final FormValidator formValidator;
     private final RoleService roleService;
     private final AccountService accountService;
+    private final AccountRoleService accountRoleService;
 
     public void validate(SaveAccountResquest resquest) {
         Map<String, String> errors = new HashMap<>();
@@ -88,5 +93,22 @@ public class AccountValidator {
         }
     }
 
-
+    public void validateAddAccountRole(long accountId, long roleId) {
+        Map<String, String> errors = new HashMap<>();
+        AccountModel accountModel = this.accountService.getAccountById(accountId);
+        if (accountModel == null) {
+            errors.put("Account with id: " + accountId, " invalid");
+        }
+        RoleModel roleModel = this.roleService.getRoleById(roleId);
+        if (roleModel == null) {
+            errors.put("Role with id: " + roleId, " invalid");
+        }
+        AccountRoleModel accountRoleModel = this.accountRoleService.getAccountRole(accountId, roleId);
+        if (accountRoleModel != null) {
+            errors.put("AccountId :" + accountId + " with RoleId: " + roleId, " exist");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
 }

@@ -21,6 +21,9 @@ public interface AccountRoleRepository extends EzyDatabaseRepository<AccountRole
     @EzyQuery("SELECT a.roleId FROM AccountRole a WHERE a.accountId = ?0")
     List<IdResult> findRoleIdsByAccountId(long id);
 
+    @EzyQuery("SELECT a FROM AccountRole a WHERE a.accountId = ?0 AND a.roleId = ?1")
+    AccountRole findAccountRole(long accountId, long roleId);
+
     List<AccountRole> findByAccountId(long id);
 
 }

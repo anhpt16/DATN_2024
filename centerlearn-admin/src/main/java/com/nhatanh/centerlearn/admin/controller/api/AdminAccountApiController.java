@@ -105,8 +105,8 @@ public class AdminAccountApiController {
         return ResponseEntity.ok(adminAccountResponse);
     }
 
-    @DoGet("/roles/{id}")
-    public List<AdminRoleResponse> getAccountRolesById(
+    @DoGet("/{id}/roles/")
+    public List<AdminRoleResponse> getAccountRolesByAccountId(
         @PathVariable long id
     ) {
         List<AdminRoleResponse> roleResponses = this.accountServiceController.getAccountRolesById(id);
@@ -114,6 +114,16 @@ public class AdminAccountApiController {
             return Collections.emptyList();
         }
         return roleResponses;
+    }
+
+    @DoPost("/{accountId}/roles/{roleId}")
+    public ResponseEntity addAccountRoleByAccountId(
+        @PathVariable long accountId,
+        @PathVariable long roleId
+    ) {
+        this.accountValidator.validateAddAccountRole(accountId, roleId);
+        this.accountServiceController.addAccountRole(this.requestToModelConverter.toAccountRoleModel(accountId, roleId));
+        return ResponseEntity.noContent();
     }
 
     @DoGet("/phone/{phone}")

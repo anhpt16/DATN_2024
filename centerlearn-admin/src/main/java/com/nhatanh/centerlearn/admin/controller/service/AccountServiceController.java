@@ -45,6 +45,10 @@ public class AccountServiceController {
         this.accountRoleService.addAccountRole(model);
     }
 
+    public void addAccountRole(AccountRoleModel accountRoleModel) {
+        this.accountRoleService.addAccountRole(accountRoleModel);
+    }
+
     public AdminAccountDetailResponse getAccountDetailById(long id) {
         AccountModel accountModel = this.accountService.getAccountById(id);
         if (accountModel == null) {
