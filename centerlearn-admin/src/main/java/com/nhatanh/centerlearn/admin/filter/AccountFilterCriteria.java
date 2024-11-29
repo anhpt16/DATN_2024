@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class AccountFilterCriteria {
+    private long id;
     private String username;
     private String displayName;
     private String email;

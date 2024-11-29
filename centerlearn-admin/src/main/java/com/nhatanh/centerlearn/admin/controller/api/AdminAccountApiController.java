@@ -5,6 +5,7 @@ import com.nhatanh.centerlearn.admin.controller.service.AccountServiceController
 import com.nhatanh.centerlearn.admin.converter.AdminRequestToModelConverter;
 import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.SaveAccountResquest;
+import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.validator.AccountValidator;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
@@ -34,7 +35,8 @@ public class AdminAccountApiController {
     }
 
     @DoGet("/")
-    public PaginationModel<AdminAccountResponse> getAccountByType(
+    public PaginationModel<AdminAccountResponse> getAccountsByType(
+        @RequestParam (value = "id") long id,
         @RequestParam (value = "username") String username,
         @RequestParam (value = "displayName") String displayName,
         @RequestParam (value = "email") String email,
@@ -47,6 +49,7 @@ public class AdminAccountApiController {
         @RequestParam (value = "size", defaultValue = "10") int size
     ) {
         AccountFilterCriteria criteria = AccountFilterCriteria.builder()
+            .id(id)
             .username(username)
             .displayName(displayName)
             .email(email)
@@ -58,11 +61,55 @@ public class AdminAccountApiController {
             .build();
         System.out.println(criteria.toString());
         this.accountValidator.validateCriteriaFilter(criteria);
-        PaginationModel<AdminAccountResponse> accountResponsePagination = this.accountServiceController.getAccountByType(
+        PaginationModel<AdminAccountResponse> accountResponsePagination = this.accountServiceController.getAccountsByType(
             criteria,
             page,
             size
         );
         return accountResponsePagination;
+    }
+
+    @DoGet("/{id}")
+    public ResponseEntity getAccountDetailById(
+        @PathVariable long id
+    ) {
+        AdminAccountDetailResponse accountDetailResponse = this.accountServiceController.getAccountDetailById(id);
+        if (accountDetailResponse == null) {
+            return ResponseEntity.notFound("Account with Id: " + id + " not found");
+        }
+        return ResponseEntity.ok(accountDetailResponse);
+    }
+
+    @DoGet("/email/{email}")
+    public ResponseEntity getAccountByEmail(
+        @PathVariable String email
+    ) {
+        AdminAccountResponse adminAccountResponse = this.accountServiceController.getAccountByEmail(email);
+        if (adminAccountResponse == null) {
+            return ResponseEntity.notFound("Account with email: " + email + " not found");
+        }
+        return ResponseEntity.ok(adminAccountResponse);
+    }
+
+    @DoGet("/id/{id}")
+    public ResponseEntity getAccountById(
+        @PathVariable long id
+    ) {
+        AdminAccountResponse adminAccountResponse = this.accountServiceController.getAccountById(id);
+        if (adminAccountResponse == null) {
+            return ResponseEntity.notFound("Account with id: " + id + " not found");
+        }
+        return ResponseEntity.ok(adminAccountResponse);
+    }
+
+    @DoGet("/phone/{phone}")
+    public ResponseEntity getAccountByPhone(
+        @PathVariable String phone
+    ) {
+        AdminAccountResponse adminAccountResponse = this.accountServiceController.getAccountByPhone(phone);
+        if (adminAccountResponse == null) {
+            return ResponseEntity.notFound("Account with phone: " + phone + " not found");
+        }
+        return ResponseEntity.ok(adminAccountResponse);
     }
 }

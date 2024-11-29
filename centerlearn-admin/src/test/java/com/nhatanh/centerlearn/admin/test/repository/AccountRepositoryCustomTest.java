@@ -18,7 +18,6 @@ import java.util.List;
 public class AccountRepositoryCustomTest implements EzyBeanConfig
 {
     private final AccountRepositoryCustom accountRepositoryCustom;
-    private final AccountRepository accountRepository;
     @Override
     public void config() {
 

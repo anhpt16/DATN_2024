@@ -55,13 +55,13 @@ public class AccountValidator {
         if (this.roleService.getRoleById(resquest.getRoleId()) == null) {
             errors.put("Role", "invalid");
         }
-        if (this.accountService.getAccountByUsername(resquest.getUsername()) > 0) {
+        if (this.accountService.getAccountIdByUsername(resquest.getUsername()) > 0) {
             errors.put("Username", "exist");
         }
-        if (this.accountService.getAccountByEmail(resquest.getEmail()) > 0) {
+        if (this.accountService.getAccountIdByEmail(resquest.getEmail()) > 0) {
             errors.put("Email", "exist");
         }
-        if (this.accountService.getAccountByPhone(resquest.getPhoneNumber()) > 0) {
+        if (this.accountService.getAccountIdByPhone(resquest.getPhoneNumber()) > 0) {
             errors.put("PhoneNumber", "exist");
         }
         if (errors.size() > 0) {
@@ -71,6 +71,7 @@ public class AccountValidator {
 
     public void validateCriteriaFilter(AccountFilterCriteria criteria) {
         Map<String, String> errors = new HashMap<>();
+
         if (criteria.getRoleId() > 0) {
             if(this.roleService.getRoleById(criteria.getRoleId()) == null) {
                 errors.put("RoleId", "is not exist");

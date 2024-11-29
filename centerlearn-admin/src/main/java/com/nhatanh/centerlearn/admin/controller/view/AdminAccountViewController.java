@@ -78,7 +78,7 @@ public class AdminAccountViewController {
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        PaginationModel<AdminAccountResponse> accountPagination = this.accountServiceController.getAccountByType(
+        PaginationModel<AdminAccountResponse> accountPagination = this.accountServiceController.getAccountsByType(
             AccountFilterCriteria.builder().build(),
             page,
             size
@@ -90,6 +90,16 @@ public class AdminAccountViewController {
             .addVariable("statuses", statuses)
             .addVariable("roles", roles)
             .template("/contents/account/account")
+            .build();
+    }
+
+    @DoGet("/delegation")
+    public View initDelegation(
+
+    ) {
+
+        return View.builder()
+            .template("/contents/role/delegation")
             .build();
     }
 }

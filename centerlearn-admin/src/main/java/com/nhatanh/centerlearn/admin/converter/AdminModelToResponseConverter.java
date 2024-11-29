@@ -86,4 +86,20 @@ public class AdminModelToResponseConverter {
             .updatedAt(model.getUpdatedAt())
             .build();
     }
+
+    public AdminAccountDetailResponse toAccountDetailResponse(AccountModel model, String creatorName) {
+        return AdminAccountDetailResponse.builder()
+            .id(model.getId())
+            .username(model.getUsername())
+            .displayName(model.getDisplayName())
+            .email(model.getEmail())
+            .phone(model.getPhone())
+            .status(AccountStatus.fromString(model.getStatus()))
+            .avatarId(model.getAvatarId())
+            .creatorId(model.getCreatorId())
+            .creatorName(creatorName)
+            .createdAt(model.getCreatedAt())
+            .updatedAt(model.getUpdatedAt())
+            .build();
+    }
 }

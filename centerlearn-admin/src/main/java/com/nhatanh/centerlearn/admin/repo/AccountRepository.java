@@ -15,14 +15,20 @@ import java.util.List;
 public interface AccountRepository extends EzyDatabaseRepository<Long, Account> {
 
     @EzyQuery("SELECT a.id FROM Account a WHERE a.username = ?0")
-    IdResult findAccountByUsername(String username);
+    IdResult findAccountIdByUsername(String username);
     @EzyQuery("SELECT a.id FROM Account a WHERE a.email = ?0")
-    IdResult findAccountByEmail(String email);
+    IdResult findAccountIdByEmail(String email);
     @EzyQuery("SELECT a.id FROM Account a WHERE a.phone = ?0")
-    IdResult findAccountByPhone(String phone);
+    IdResult findAccountIdByPhone(String phone);
+
+    @EzyQuery("SELECT a.displayName FROM Account a WHERE a.id = ?0")
+    String findDisplayNameById(long id);
+
+    Account findById(long id);
+    Account findByEmail(String email);
+    Account findByPhone(String phone);
 
     List<Account> findByStatus(String status);
     Account findByUsernameAndPassword(String username, String password);
-
 
 }

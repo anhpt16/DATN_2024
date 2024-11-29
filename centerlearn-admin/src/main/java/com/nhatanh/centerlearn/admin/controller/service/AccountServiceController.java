@@ -3,11 +3,13 @@ package com.nhatanh.centerlearn.admin.controller.service;
 import com.nhatanh.centerlearn.admin.controller.decorator.AdminAccountModelDecorator;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToEntityConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToModelConverter;
+import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
 import com.nhatanh.centerlearn.admin.model.AccountLoginModel;
 import com.nhatanh.centerlearn.admin.model.AccountModel;
 import com.nhatanh.centerlearn.admin.model.AccountRoleModel;
 import com.nhatanh.centerlearn.admin.model.SaveAccountModel;
+import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
@@ -25,6 +27,7 @@ public class AccountServiceController {
     private final AccountRoleService accountRoleService;
     private final AdminModelToModelConverter modelToModelConverter;
     private final AdminAccountModelDecorator accountModelDecorator;
+    private final AdminModelToResponseConverter modelToResponseConverter;
     private final JWTUtil jwtUtil;
 
     public void addAccount(SaveAccountModel accountModel) {
@@ -36,13 +39,36 @@ public class AccountServiceController {
         this.accountRoleService.addAccountRole(model);
     }
 
-    public PaginationModel<AdminAccountResponse> getAccountByType(
+    public AdminAccountDetailResponse getAccountDetailById(long id) {
+        AccountModel accountModel = this.accountService.getAccountById(id);
+        if (accountModel == null) {
+            return null;
+        }
+        return this.accountModelDecorator.decorateAccountDetailModel(accountModel);
+    }
+
+    public PaginationModel<AdminAccountResponse> getAccountsByType(
         AccountFilterCriteria accountFilterCriteria,
         int page,
         int size
     ) {
-        PaginationModel<AccountModel> accountModelPagination = this.accountService.getAccountByType(accountFilterCriteria, page, size);
-        return this.accountModelDecorator.decorateAccountModel(accountModelPagination);
+        PaginationModel<AccountModel> accountModelPagination = this.accountService.getAccountsByType(accountFilterCriteria, page, size);
+        return this.accountModelDecorator.decorateAccountModels(accountModelPagination);
+    }
+
+    public AdminAccountResponse getAccountByEmail(String email) {
+        AccountModel model = this.accountService.getAccountByEmail(email);
+        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
+    }
+
+    public AdminAccountResponse getAccountById(long id) {
+        AccountModel model = this.accountService.getAccountById(id);
+        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
+    }
+
+    public AdminAccountResponse getAccountByPhone(String phone) {
+        AccountModel model = this.accountService.getAccountByPhone(phone);
+        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
     }
 
     public boolean getAccountByUsernameAndPassword(AccountLoginModel accountLoginModel) {
@@ -50,7 +76,7 @@ public class AccountServiceController {
     }
 
     public String getToken(String username) {
-        long accountId = this.accountService.getAccountByUsername(username);
+        long accountId = this.accountService.getAccountIdByUsername(username);
         if (accountId <= 0 ) {
             throw new ResourceNotFoundException("username");
         }

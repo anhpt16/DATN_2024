@@ -56,6 +56,17 @@ $(document).ready(function() {
     searchAccountButton.on('click', function() {
         getAccountByFilter();
     });
+    searchAccountType.on('change', function() {
+        const selectedType = $(this).val();
+        if (selectedType === '5') {
+            searchAccountContent.attr('type', 'number');
+            searchAccountContent.attr('min', '1');
+        }
+        else {
+            searchAccountContent.attr('type', 'text');
+            searchAccountContent.removeAttr('min');
+        }
+    });
 
     // Lấy danh sách tài khoản
     async function getAccountByFilter(page = 0, size = 10) {
@@ -70,10 +81,13 @@ $(document).ready(function() {
         let accountDateEnd = selectAccountTo.val();
         // Kiểm tra ngày tháng hợp lệ
         let dates = processDates(accountDateStart, accountDateEnd);
+        // Kiểm tra mã tài khoản hợp lệ
+        let checkAccountId = processAccountId(accountContent);
 
         if (searchAccountCheckbox.prop('checked')) {
-            console.log(searchAccountType.val())
-            console.log(accountContent)
+            console.log(searchAccountType.val());
+            console.log(accountContent);
+            console.log(checkAccountId);
             if (accountContent !== null && accountContent !== undefined && accountContent !== '' && searchAccountType.val() === '1') {
                 queryString += "&username=" + accountContent;
             }
@@ -85,6 +99,9 @@ $(document).ready(function() {
             }
             else if (accountContent !== null && accountContent !== undefined && accountContent !== '' && searchAccountType.val() === '4') {
                 queryString += "&phone=" + accountContent;
+            }
+            else if (accountContent !== null && accountContent !== undefined && accountContent !== '' && searchAccountType.val() === '5' && checkAccountId === true) {
+                queryString += "&id=" + accountContent;
             }
             else {
                 console.log("Account Type Invalid");
@@ -149,7 +166,9 @@ $(document).ready(function() {
         // Trả về kết quả sau khi đã xử lý
         return { startDate: validStartDate, endDate: validEndDate };
     }
-
+    function processAccountId(id) {
+        return !isNaN(id) && Number(id) > 0;
+    }
 
 
 

@@ -411,6 +411,26 @@ div.row.permission-table-container {
   cursor: not-allowed;
 }
 
+.menu-search-account select,
+.menu-search-account input[type=number],
+.menu-search-account input[type=text] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+.menu-search-account button {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: #fff;
+  width: 125px;
+}
+.menu-search-account button:hover {
+  background-color: #027ac5;
+}
+
 .table-account {
   flex: 1 0 auto;
 }
@@ -490,6 +510,7 @@ div.row.permission-table-container {
   margin-right: 5px;
 }
 .table-account .table-menu .table-search select,
+.table-account .table-menu .table-search input[type=number],
 .table-account .table-menu .table-search input[type=text] {
   padding: 5px;
   border: 1px solid #ccc;

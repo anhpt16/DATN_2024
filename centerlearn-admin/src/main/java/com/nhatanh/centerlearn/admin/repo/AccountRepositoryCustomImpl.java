@@ -69,6 +69,11 @@ public class AccountRepositoryCustomImpl extends EzyJpaRepository<Long, Account>
             parameters.put("roleId", criteria.getRoleId());
         }
 
+        if (criteria.getId() > 0) {
+            jpql.append("AND a.id = :id");
+            parameters.put("id", criteria.getId());
+        }
+
         Query query = entityManager.createQuery(jpql.toString());
         parameters.forEach(query::setParameter);
 
@@ -129,6 +134,11 @@ public class AccountRepositoryCustomImpl extends EzyJpaRepository<Long, Account>
         if (criteria.getRoleId() > 0) {
             jpql.append("AND r.roleId = :roleId ");
             parameters.put("roleId", criteria.getRoleId());
+        }
+
+        if (criteria.getId() > 0) {
+            jpql.append("AND a.id = :id");
+            parameters.put("id", criteria.getId());
         }
 
         TypedQuery<Long> query = entityManager.createQuery(jpql.toString(), Long.class);

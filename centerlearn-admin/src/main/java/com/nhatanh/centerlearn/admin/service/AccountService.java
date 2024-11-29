@@ -33,19 +33,38 @@ public class AccountService {
     private final AdminModelToEntityConverter modelToEntityConverter;
     private final AdminEntityToModelConverter entityToModelConverter;
 
-    public long getAccountByUsername(String username) {
-        IdResult result = this.accountRepository.findAccountByUsername(username);
+    public long getAccountIdByUsername(String username) {
+        IdResult result = this.accountRepository.findAccountIdByUsername(username);
         return result == null ? 0L : result.getId();
     }
 
-    public long getAccountByEmail(String email) {
-        IdResult result = this.accountRepository.findAccountByEmail(email);
+    public long getAccountIdByEmail(String email) {
+        IdResult result = this.accountRepository.findAccountIdByEmail(email);
         return result == null ? 0L : result.getId();
     }
 
-    public long getAccountByPhone(String phone) {
-        IdResult result = this.accountRepository.findAccountByPhone(phone);
+    public long getAccountIdByPhone(String phone) {
+        IdResult result = this.accountRepository.findAccountIdByPhone(phone);
         return result == null ? 0L : result.getId();
+    }
+
+    public AccountModel getAccountByEmail(String email) {
+        Account account = this.accountRepository.findByEmail(email);
+        return account == null ? null : this.entityToModelConverter.toModel(account);
+    }
+
+    public AccountModel getAccountById(long id) {
+        Account account = this.accountRepository.findById(id);
+        return account == null ? null : this.entityToModelConverter.toModel(account);
+    }
+
+    public String getAccountNameById(long id) {
+        return this.accountRepository.findDisplayNameById(id);
+    }
+
+    public AccountModel getAccountByPhone(String phone) {
+        Account account = this.accountRepository.findByPhone(phone);
+        return account == null ? null : this.entityToModelConverter.toModel(account);
     }
 
     public long addAccount(SaveAccountModel model) {
@@ -54,7 +73,7 @@ public class AccountService {
         return account.getId();
     }
 
-    public PaginationModel<AccountModel> getAccountByType(AccountFilterCriteria criteria, int page, int size) {
+    public PaginationModel<AccountModel> getAccountsByType(AccountFilterCriteria criteria, int page, int size) {
         long totalPage = (long) Math.ceil((double) this.accountRepositoryCustom.countAccountByCriteria(criteria) / size);
         if (page > totalPage) {
             throw new ResourceNotFoundException("page", "invalid");
