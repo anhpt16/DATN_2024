@@ -3,6 +3,7 @@ package com.nhatanh.centerlearn.admin.controller.decorator;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.model.RoleModel;
 import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
+import com.nhatanh.centerlearn.admin.service.RoleService;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 @EzySingleton
 @AllArgsConstructor
 public class AdminRoleModelDecorator {
+    private final RoleService roleService;
     private final AdminModelToResponseConverter modelToResponseConverter;
 
     public PaginationModel<AdminRoleResponse> decorateRoleModel(PaginationModel<RoleModel> roleModelPagination) {
@@ -22,5 +24,10 @@ public class AdminRoleModelDecorator {
             .totalPage(roleModelPagination.getTotalPage())
             .currentPage(roleModelPagination.getCurrentPage())
             .build();
+    }
+
+    public List<AdminRoleResponse> decorateRoleIds(List<Long> roleIds) {
+        List<RoleModel> roleModels = newArrayList(roleIds, this.roleService::getRoleById);
+        return newArrayList(roleModels, this.modelToResponseConverter::toRoleResponse);
     }
 }

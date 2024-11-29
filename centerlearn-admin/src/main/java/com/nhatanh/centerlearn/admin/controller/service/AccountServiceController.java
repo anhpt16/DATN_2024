@@ -1,6 +1,7 @@
 package com.nhatanh.centerlearn.admin.controller.service;
 
 import com.nhatanh.centerlearn.admin.controller.decorator.AdminAccountModelDecorator;
+import com.nhatanh.centerlearn.admin.controller.decorator.AdminRoleModelDecorator;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToEntityConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToModelConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
@@ -11,6 +12,7 @@ import com.nhatanh.centerlearn.admin.model.AccountRoleModel;
 import com.nhatanh.centerlearn.admin.model.SaveAccountModel;
 import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
+import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.common.exception.AccountCreationException;
@@ -20,6 +22,9 @@ import com.nhatanh.centerlearn.common.utils.JWTUtil;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AccountServiceController {
@@ -27,6 +32,7 @@ public class AccountServiceController {
     private final AccountRoleService accountRoleService;
     private final AdminModelToModelConverter modelToModelConverter;
     private final AdminAccountModelDecorator accountModelDecorator;
+    private final AdminRoleModelDecorator roleModelDecorator;
     private final AdminModelToResponseConverter modelToResponseConverter;
     private final JWTUtil jwtUtil;
 
@@ -45,6 +51,14 @@ public class AccountServiceController {
             return null;
         }
         return this.accountModelDecorator.decorateAccountDetailModel(accountModel);
+    }
+
+    public List<AdminRoleResponse> getAccountRolesById(long id) {
+        List<Long> roleIds = this.accountRoleService.getRoleIdsByAccountId(id);
+        if (roleIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return this.roleModelDecorator.decorateRoleIds(roleIds);
     }
 
     public PaginationModel<AdminAccountResponse> getAccountsByType(

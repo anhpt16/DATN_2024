@@ -9,6 +9,7 @@ import com.nhatanh.centerlearn.common.entity.AccountRole;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -26,6 +27,14 @@ public class AccountRoleService {
     public List<AccountRoleModel> getAccountRoleByAccountId(long id) {
         List<AccountRole> accountRoles = this.accountRoleRepository.findByAccountId(id);
         return newArrayList(accountRoles, this.entityToModelConverter::toModel);
+    }
+
+    public List<Long> getRoleIdsByAccountId(long id) {
+        List<IdResult> ids = this.accountRoleRepository.findRoleIdsByAccountId(id);
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(ids, IdResult::getId);
     }
 
     public long getRoleIdByAccountId(long id) {

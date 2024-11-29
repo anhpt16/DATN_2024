@@ -7,6 +7,7 @@ import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.SaveAccountResquest;
 import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
+import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.validator.AccountValidator;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.utils.DateFormatter;
@@ -15,6 +16,8 @@ import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Api
 @Controller("/api/v1/accounts")
@@ -100,6 +103,17 @@ public class AdminAccountApiController {
             return ResponseEntity.notFound("Account with id: " + id + " not found");
         }
         return ResponseEntity.ok(adminAccountResponse);
+    }
+
+    @DoGet("/roles/{id}")
+    public List<AdminRoleResponse> getAccountRolesById(
+        @PathVariable long id
+    ) {
+        List<AdminRoleResponse> roleResponses = this.accountServiceController.getAccountRolesById(id);
+        if (roleResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return roleResponses;
     }
 
     @DoGet("/phone/{phone}")
