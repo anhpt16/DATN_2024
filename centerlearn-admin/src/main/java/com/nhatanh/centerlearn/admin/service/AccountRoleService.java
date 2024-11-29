@@ -24,6 +24,10 @@ public class AccountRoleService {
         this.accountRoleRepository.save(this.modelToEntityConverter.toAccountRoleEntityConverter(model));
     }
 
+    public void deleteAccountRole(AccountRoleModel model) {
+        this.accountRoleRepository.delete(this.modelToEntityConverter.toAccountRoleId(model));
+    }
+
     public List<AccountRoleModel> getAccountRoleByAccountId(long id) {
         List<AccountRole> accountRoles = this.accountRoleRepository.findByAccountId(id);
         return newArrayList(accountRoles, this.entityToModelConverter::toModel);

@@ -49,6 +49,10 @@ public class AccountServiceController {
         this.accountRoleService.addAccountRole(accountRoleModel);
     }
 
+    public void deleteAccountRole(AccountRoleModel accountRoleModel) {
+        this.accountRoleService.deleteAccountRole(accountRoleModel);
+    }
+
     public AdminAccountDetailResponse getAccountDetailById(long id) {
         AccountModel accountModel = this.accountService.getAccountById(id);
         if (accountModel == null) {

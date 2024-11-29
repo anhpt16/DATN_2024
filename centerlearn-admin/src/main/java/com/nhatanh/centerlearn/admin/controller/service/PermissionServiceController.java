@@ -1,8 +1,10 @@
 package com.nhatanh.centerlearn.admin.controller.service;
 
 import com.nhatanh.centerlearn.admin.filter.PermissionFilterCriteria;
+import com.nhatanh.centerlearn.admin.model.SavePermissionModel;
 import com.nhatanh.centerlearn.admin.service.PermissionService;
 import com.nhatanh.centerlearn.admin.validator.PermissionValidator;
+import com.nhatanh.centerlearn.common.entity.PermissionId;
 import com.nhatanh.centerlearn.common.enums.MethodName;
 import com.nhatanh.centerlearn.common.enums.PermissionStatus;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
@@ -27,6 +29,18 @@ public class PermissionServiceController {
 
     public List<UriModel> getPermissionByFilter(PermissionFilterCriteria permissionFilterCriteria) {
         return this.permissionService.getAllPermission(permissionFilterCriteria);
+    }
+
+    public List<UriModel> getAllPermission(PermissionFilterCriteria permissionFilterCriteria) {
+        return this.permissionService.getAllPermission(permissionFilterCriteria);
+    }
+
+    public void addPermission(SavePermissionModel model) {
+        this.permissionService.addPermission(model);
+    }
+
+    public void deletePermission(PermissionId permissionId) {
+        this.permissionService.deletePermission(permissionId);
     }
 
 }

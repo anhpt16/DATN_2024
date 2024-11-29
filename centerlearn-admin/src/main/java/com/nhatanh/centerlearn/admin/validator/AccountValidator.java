@@ -111,4 +111,23 @@ public class AccountValidator {
             throw new HttpBadRequestException(errors);
         }
     }
+
+    public void validateDeleteAccountRole(long accountId, long roleId) {
+        Map<String, String> errors = new HashMap<>();
+        AccountModel accountModel = this.accountService.getAccountById(accountId);
+        if (accountModel == null) {
+            errors.put("Account with id: " + accountId, " invalid");
+        }
+        RoleModel roleModel = this.roleService.getRoleById(roleId);
+        if (roleModel == null) {
+            errors.put("Role with id: " + roleId, " invalid");
+        }
+        AccountRoleModel accountRoleModel = this.accountRoleService.getAccountRole(accountId, roleId);
+        if (accountRoleModel == null) {
+            errors.put("AccountId :" + accountId + " with RoleId: " + roleId, " not exist");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
 }

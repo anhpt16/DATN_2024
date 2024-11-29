@@ -17,7 +17,6 @@ import java.util.List;
 @Controller("/api/v1/permissions")
 @AllArgsConstructor
 public class AdminPermissionApiController {
-    private final PermissionService permissionService;
     private final PermissionServiceController permissionServiceController;
     private final PermissionValidator permissionValidator;
     private final AdminRequestToModelConverter requestToModelConverter;
@@ -44,7 +43,7 @@ public class AdminPermissionApiController {
         @RequestBody SavePermissionRequest request
     ) {
         this.permissionValidator.validateToSave(request);
-        this.permissionService.addPermission(this.requestToModelConverter.toSavePermissionModelConverter(request));
+        this.permissionServiceController.addPermission(this.requestToModelConverter.toSavePermissionModelConverter(request));
         return ResponseEntity.noContent();
     }
 
@@ -53,7 +52,7 @@ public class AdminPermissionApiController {
         @RequestBody SavePermissionRequest request
     ) {
         this.permissionValidator.validateToDelete(request);
-        this.permissionService.deletePermission(this.requestToModelConverter.toPermissionId(request));
+        this.permissionServiceController.deletePermission(this.requestToModelConverter.toPermissionId(request));
         return ResponseEntity.noContent();
     }
 
@@ -62,7 +61,7 @@ public class AdminPermissionApiController {
         @RequestBody List<SavePermissionRequest> requests
     ) {
         requests.forEach(this.permissionValidator::validateToSave);
-        requests.forEach(request -> this.permissionService.addPermission(this.requestToModelConverter.toSavePermissionModelConverter(request)));
+        requests.forEach(request -> this.permissionServiceController.addPermission(this.requestToModelConverter.toSavePermissionModelConverter(request)));
         return ResponseEntity.noContent(); 
     }
 
@@ -71,7 +70,7 @@ public class AdminPermissionApiController {
         @RequestBody List<SavePermissionRequest> requests
     ) {
         requests.forEach(this.permissionValidator::validateToDelete);
-        requests.forEach(request -> this.permissionService.deletePermission(this.requestToModelConverter.toPermissionId(request)));
+        requests.forEach(request -> this.permissionServiceController.deletePermission(this.requestToModelConverter.toPermissionId(request)));
         return ResponseEntity.noContent();
     }
 }

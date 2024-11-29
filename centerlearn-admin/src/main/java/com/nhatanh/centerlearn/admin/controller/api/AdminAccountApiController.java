@@ -117,12 +117,22 @@ public class AdminAccountApiController {
     }
 
     @DoPost("/{accountId}/roles/{roleId}")
-    public ResponseEntity addAccountRoleByAccountId(
+    public ResponseEntity addAccountRole(
         @PathVariable long accountId,
         @PathVariable long roleId
     ) {
         this.accountValidator.validateAddAccountRole(accountId, roleId);
         this.accountServiceController.addAccountRole(this.requestToModelConverter.toAccountRoleModel(accountId, roleId));
+        return ResponseEntity.noContent();
+    }
+
+    @DoDelete("/{accountId}/roles/{roleId}")
+    public ResponseEntity deleteAccountRole(
+        @PathVariable long accountId,
+        @PathVariable long roleId
+    ) {
+        this.accountValidator.validateDeleteAccountRole(accountId, roleId);
+        this.accountServiceController.deleteAccountRole(this.requestToModelConverter.toAccountRoleModel(accountId, roleId));
         return ResponseEntity.noContent();
     }
 

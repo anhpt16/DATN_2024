@@ -13,6 +13,12 @@ public class AdminModelToEntityConverter {
     protected final ClockProxy clock;
     private final Base64Util base64Util;
 
+    public AccountRoleId toAccountRoleId(AccountRoleModel model) {
+        AccountRoleId entityId = new AccountRoleId();
+        this.mergeToEntityId(model, entityId);
+        return entityId;
+    }
+
     public Term toTermEntityConverter(SaveTermModel model) {
         Term entity = new Term();
         this.mergeToEntity(model, entity);
@@ -55,6 +61,11 @@ public class AdminModelToEntityConverter {
     public void mergeToEntity(AccountRoleModel model, AccountRole entity) {
         entity.setRoleId(model.getRoleId());
         entity.setAccountId(model.getAccountId());
+    }
+
+    public void mergeToEntityId(AccountRoleModel model, AccountRoleId entityId) {
+        entityId.setAccountId(model.getAccountId());
+        entityId.setRoleId(model.getRoleId());
     }
 
     public void mergeToEntity(SaveAccountModel model, Account entity) {
