@@ -8,8 +8,18 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
         };
         if (body) options.body = JSON.stringify(body);
 
-        const response = await fetch(`${apiUrl}${endpoint}?lang=vi`, options);
+        // Kiểm tra nếu endpoint có query string sẵn
+        let url = `${apiUrl}${endpoint}`;
+        if (url.includes('?')) {
+            // Nếu đã có ?, nối thêm tham số lang=vi với &
+            url += `&lang=vi`;
+        } else {
+            // Nếu chưa có ?, bắt đầu với ?
+            url += `?lang=vi`;
+        }
 
+        const response = await fetch(url, options);
+        console.log(url)
         if (response.ok) {
             if (response.status === 204) {
                 return null;
@@ -20,12 +30,17 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
             throw new Error(await response.text());
         }
     } catch (error) {
-        throw new Error("Error: " + error);
+        console.error(`Error while calling ${endpoint}:`, error);
+        throw new Error(`Error while calling ${endpoint}: ${error.message}`);
     }
 };
 
 const accountService = {
     getAccountFilter: async (queryString) => {
+        // Đảm bảo đúng cách nối query string với ? và &.
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+        }
         return apiCall(`/accounts${queryString}`, "GET");
     },
 
