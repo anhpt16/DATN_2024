@@ -119,8 +119,11 @@ body main .content .content-detail {
   background-color: #218838;
 }
 
-.notification-container {
+#notification-container {
   max-width: 250px;
+  position: fixed;
+  top: 80px;
+  right: 50px;
 }
 
 .notification {
@@ -129,9 +132,6 @@ body main .content .content-detail {
   color: #464646;
   font-size: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 80px;
-  right: 50px;
 }
 .notification.success {
   background-color: #DCF3D6;
@@ -218,6 +218,10 @@ body main .content .content-detail {
 
 .invalid {
   border: 1px solid #e74c3c !important;
+}
+
+#notification-container {
+  z-index: 1050;
 }
 
 header .logo img {

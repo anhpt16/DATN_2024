@@ -126,8 +126,12 @@ body {
         background-color: #218838;
     }
 }
-.notification-container {
+
+#notification-container {
     max-width: 250px;
+    position: fixed;
+    top: 80px;
+    right: 50px;
 }
 .notification {
     padding: 15px 20px;
@@ -135,9 +139,9 @@ body {
     color: $primary-color-light-dark;
     font-size: 16px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 80px;
-    right: 50px;
+    // position: fixed;
+    // top: 80px;
+    // right: 50px;
     &.success {
         background-color: $success-background;
         border: .5px solid $success-border;
@@ -224,4 +228,10 @@ body {
 
 .invalid {
     border: 1px solid $delete-color !important;
+}
+// z-index modal default: 1050
+// z-index backdrop default: 1040
+
+#notification-container {
+    z-index: 1050;
 }

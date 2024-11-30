@@ -44,7 +44,7 @@ export function showNotification(type, title, message, duration = 3000) {
     }, duration);
 }
 
-export function showConfirmation(type, title, content) {
+export function showConfirmation(type, title, content = '') {
     return new Promise((resolve, reject) => {
         //Tìm hoặc tạo container
         let container = $('#confirmation-modal');
@@ -61,6 +61,28 @@ export function showConfirmation(type, title, content) {
                         <div class="modal-header">
                             <i class="fa-solid fa-ban text-danger"></i>
                             <h5 class="modal-title text-danger ms-3">${title}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>${content}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary confirm-action-btn">Xác nhận</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            `)
+        }
+        else if (type === 'add') {
+            confirmation = $(`
+                <div class="modal fade" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <i class="fa-solid fa-user-pen text-warning"></i>
+                            <h5 class="modal-title text-warning ms-3">${title}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

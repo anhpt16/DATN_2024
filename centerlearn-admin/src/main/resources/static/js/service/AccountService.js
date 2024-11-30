@@ -1,52 +1,44 @@
 const apiUrl = "/api/v1";
 
+const apiCall = async (endpoint, method = "GET", body = null) => {
+    try {
+        const options = {
+            method,
+            headers: { "Content-Type": "application/json" },
+        };
+        if (body) options.body = JSON.stringify(body);
+
+        const response = await fetch(`${apiUrl}${endpoint}?lang=vi`, options);
+
+        if (response.ok) {
+            if (response.status === 204) {
+                return null;
+            }
+            return await response.json();
+        }
+        else {
+            throw new Error(await response.text());
+        }
+    } catch (error) {
+        throw new Error("Error: " + error);
+    }
+};
+
 const accountService = {
     getAccountFilter: async (queryString) => {
-        try {
-            const response = await fetch(`${apiUrl}/accounts?lang=vi${queryString}`, {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            })
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            throw new Error("Error: " + error);
-        }
+        return apiCall(`/accounts${queryString}`, "GET");
     },
 
-    _fetchAccount: async (endpoint) => {
-        try {
-            const response = await fetch(`${apiUrl}/accounts${endpoint}?lang=vi`, {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            });
+    getAccountById: (id) => apiCall(`/accounts/id/${id}`),
+    getAccountByEmail: (email) => apiCall(`/accounts/email/${email}`),
+    getAccountByPhone: (phone) => apiCall(`/accounts/phone/${phone}`),
+    getAccountDetailById: (id) => apiCall(`/accounts/${id}`, "GET"),
 
-            if (response.ok) {
-                return await response.json();
-            } else if (response.status === 404) {
-                return null;
-            } else {
-                throw new Error(await response.text());
-            }
-        } catch (error) {
-            throw new Error("Error: " + error);
-        }
-    },
-    
-    getAccountById: async (id) => {
-        return accountService._fetchAccount(`/id/${id}`);
-    },
+    getAccountRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles`, "GET"),
+    getNotAssignedRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles/not-assigned`, "GET"),
 
-    getAccountByEmail: async (email) => {
-        return accountService._fetchAccount(`/email/${email}`);
-    },
-
-    getAccountByPhone: async (phone) => {
-        return accountService._fetchAccount(`/phone/${phone}`);
-    }
-}
+    addAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "POST"),
+    deleteAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "DELETE")
+};
 
 export default accountService;
