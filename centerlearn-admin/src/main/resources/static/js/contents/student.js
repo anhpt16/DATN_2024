@@ -41,7 +41,12 @@ $(document).ready(function() {
         };
         try {
             const response = await accountService.addAccount(formData);
-            showNotification('success', '', 'Thêm thành công');
+            showNotification('success', '', 'Thêm thành công');\
+            addAccountUsername.val("");
+            addAccountPassword.val("");
+            addAccountDisplayName.val("");
+            addAccountEmail.val("");
+            addAccountPhone.val("");
         } catch (error) {
             showNotification('error', '', 'Thất bại');
             message.text(error.message);

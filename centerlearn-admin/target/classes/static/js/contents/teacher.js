@@ -1,6 +1,6 @@
 
 import accountService from "../service/AccountService.js";
-import studentUI from "../ui/StudentUI.js";
+import teacherUI from "../ui/TeacherUI.js";
 import { showNotification } from "../ui/notification.js";
 
 $(document).ready(function() {
@@ -41,7 +41,7 @@ $(document).ready(function() {
         };
         try {
             const response = await accountService.addAccount(formData);
-            showNotification('success', '', 'Thêm thành công');\
+            showNotification('success', '', 'Thêm thành công');
             addAccountUsername.val("");
             addAccountPassword.val("");
             addAccountDisplayName.val("");
@@ -156,8 +156,8 @@ $(document).ready(function() {
         }
         console.log(queryString);
         try {
-            const response = await accountService.getStudentAccountFilter(queryString);
-            studentUI.renderTable(response.items);
+            const response = await accountService.getTeacherAccountFilter(queryString);
+            teacherUI.renderTable(response.items);
             currentPage = response.currentPage;
             totalPage = response.totalPage;
             validatePageNumber(currentPage, totalPage);

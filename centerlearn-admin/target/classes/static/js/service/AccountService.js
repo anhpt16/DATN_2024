@@ -46,6 +46,12 @@ const accountService = {
         }
         return apiCall(`/accounts/students${queryString}`, "GET");
     },
+    getTeacherAccountFilter: async (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+        }
+        return apiCall(`/accounts/teachers${queryString}`, "GET");
+    },
 
     getAccountById: (id) => apiCall(`/accounts/id/${id}`),
     getAccountByEmail: (email) => apiCall(`/accounts/email/${email}`),

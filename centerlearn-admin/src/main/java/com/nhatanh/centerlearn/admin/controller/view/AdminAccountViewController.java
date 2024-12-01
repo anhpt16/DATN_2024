@@ -11,6 +11,7 @@ import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.admin.service.PermissionService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
+import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.entity.AccountRole;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.MethodName;
@@ -108,7 +109,7 @@ public class AdminAccountViewController {
     ) {
         PaginationModel<AdminAccountResponse> accountPagination = this.accountServiceController.getAccountsByType(
             AccountFilterCriteria.builder()
-                .roleId(2)
+                .roleId(Constants.ROLE_ID_STUDENT)
                 .build(),
             page,
             size
@@ -118,6 +119,26 @@ public class AdminAccountViewController {
             .addVariable("accountPagination", accountPagination)
             .addVariable("statuses", statuses)
             .template("/contents/account/student")
+            .build();
+    }
+
+    @DoGet("/teacher")
+    public View initTeacher(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        PaginationModel<AdminAccountResponse> accountPagination = this.accountServiceController.getAccountsByType(
+            AccountFilterCriteria.builder()
+                .roleId(Constants.ROLE_ID_TEACHER)
+                .build(),
+            page,
+            size
+        );
+        List<AccountStatus> statuses = this.accountService.getAllAccountStatus();
+        return View.builder()
+            .addVariable("accountPagination", accountPagination)
+            .addVariable("statuses", statuses)
+            .template("/contents/account/teacher")
             .build();
     }
 }
