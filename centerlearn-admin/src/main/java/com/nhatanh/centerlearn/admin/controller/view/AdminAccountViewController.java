@@ -94,12 +94,30 @@ public class AdminAccountViewController {
     }
 
     @DoGet("/delegation")
-    public View initDelegation(
-
-    ) {
+    public View initDelegation() {
 
         return View.builder()
             .template("/contents/role/delegation")
+            .build();
+    }
+
+    @DoGet("/student")
+    public View initStudent(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        PaginationModel<AdminAccountResponse> accountPagination = this.accountServiceController.getAccountsByType(
+            AccountFilterCriteria.builder()
+                .roleId(2)
+                .build(),
+            page,
+            size
+        );
+        List<AccountStatus> statuses = this.accountService.getAllAccountStatus();
+        return View.builder()
+            .addVariable("accountPagination", accountPagination)
+            .addVariable("statuses", statuses)
+            .template("/contents/account/student")
             .build();
     }
 }

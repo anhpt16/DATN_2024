@@ -11,10 +11,8 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
         // Kiểm tra nếu endpoint có query string sẵn
         let url = `${apiUrl}${endpoint}`;
         if (url.includes('?')) {
-            // Nếu đã có ?, nối thêm tham số lang=vi với &
             url += `&lang=vi`;
         } else {
-            // Nếu chưa có ?, bắt đầu với ?
             url += `?lang=vi`;
         }
 
@@ -37,11 +35,16 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
 
 const accountService = {
     getAccountFilter: async (queryString) => {
-        // Đảm bảo đúng cách nối query string với ? và &.
         if (queryString && !queryString.includes('?')) {
             queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
         }
         return apiCall(`/accounts${queryString}`, "GET");
+    },
+    getStudentAccountFilter: async (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+        }
+        return apiCall(`/accounts/students${queryString}`, "GET");
     },
 
     getAccountById: (id) => apiCall(`/accounts/id/${id}`),
@@ -53,7 +56,10 @@ const accountService = {
     getNotAssignedRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles/not-assigned`, "GET"),
 
     addAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "POST"),
-    deleteAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "DELETE")
+    deleteAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "DELETE"),
+
+    addAccount: (formData) => apiCall(`/accounts/add`, "POST", formData),
+    
 };
 
 export default accountService;

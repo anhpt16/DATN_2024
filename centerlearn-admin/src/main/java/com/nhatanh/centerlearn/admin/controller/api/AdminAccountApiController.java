@@ -72,6 +72,40 @@ public class AdminAccountApiController {
         return accountResponsePagination;
     }
 
+    @DoGet("/students")
+    public PaginationModel<AdminAccountResponse> getStudentAccounts(
+        @RequestParam (value = "id") long id,
+        @RequestParam (value = "username") String username,
+        @RequestParam (value = "displayName") String displayName,
+        @RequestParam (value = "email") String email,
+        @RequestParam (value = "phone") String phone,
+        @RequestParam (value = "status") int status,
+        @RequestParam (value = "startDate") LocalDate startDate,
+        @RequestParam (value = "endDate") LocalDate endDate,
+        @RequestParam (value = "page", defaultValue = "0") int page,
+        @RequestParam (value = "size", defaultValue = "10") int size
+    ) {
+        AccountFilterCriteria criteria = AccountFilterCriteria.builder()
+            .id(id)
+            .username(username)
+            .displayName(displayName)
+            .email(email)
+            .phone(phone)
+            .status(status)
+            .roleId(2)
+            .startDate(startDate)
+            .endDate(endDate)
+            .build();
+        System.out.println(criteria.toString());
+        this.accountValidator.validateCriteriaFilter(criteria);
+        PaginationModel<AdminAccountResponse> accountResponsePagination = this.accountServiceController.getAccountsByType(
+            criteria,
+            page,
+            size
+        );
+        return accountResponsePagination;
+    }
+
     @DoGet("/{id}")
     public ResponseEntity getAccountDetailById(
         @PathVariable long id

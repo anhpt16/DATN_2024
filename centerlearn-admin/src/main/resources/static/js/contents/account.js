@@ -3,7 +3,6 @@ import accountService from "../service/AccountService.js";
 import accountUI from "../ui/AccountUI.js";
 
 
-
 $(document).ready(function() {
     
     const searchAccountCheckbox = $("#search-account-checkbox");
@@ -18,6 +17,7 @@ $(document).ready(function() {
     // Chuyển trang
     const prevPage = $("#prev-page");
     const nextPage = $("#next-page");
+    const refreshBtn = $('#refresh-btn');
 
 
     // Đóng, mở tìm kiếm
@@ -172,7 +172,10 @@ $(document).ready(function() {
 
 
 
-
+    // Reset
+    refreshBtn.on('click', function() {
+        getAccountByFilter();
+    })
 
 
 
