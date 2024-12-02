@@ -65,7 +65,8 @@ const accountService = {
     deleteAccountRole: (accountId, roleId) => apiCall(`/accounts/${accountId}/roles/${roleId}`, "DELETE"),
 
     addAccount: (formData) => apiCall(`/accounts/add`, "POST", formData),
-    
+    addStudentAccount: (formData) => apiCall(`/accounts/add-student`, "POST", formData),
+    addTeacherAccount: (formData) => apiCall(`/accounts/add-teacher`, "POST", formData)
 };
 
 export default accountService;

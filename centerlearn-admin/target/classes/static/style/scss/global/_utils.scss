@@ -128,7 +128,7 @@ body {
 }
 
 #notification-container {
-    max-width: 250px;
+    max-width: 280px;
     position: fixed;
     top: 80px;
     right: 50px;
@@ -144,26 +144,25 @@ body {
     // right: 50px;
     &.success {
         background-color: $success-background;
-        border: .5px solid $success-border;
         &>div {
             flex-flow: row;
             align-items: center;
             gap: 50px;
             i {
-                color: $success-color;
+                color: #fff;
                 font-size: $text-banner-title;
             }
             &>div {
                 flex-flow: column;
                 justify-content: space-between;
-                p#notification-title {
-                    color: $success-color;
+                p.notification-title {
+                    color: #fff;
                     font-size: $text-size-medium;
                     margin-bottom: 0 !important;
                     font-weight: 600;
                 }
-                p#notification-detail {
-                    color: $success-detail;
+                p.notification-detail {
+                    color: #fff;
                     font-size: $text-size-small;
                     margin-bottom: 0 !important;
                 }
@@ -173,26 +172,25 @@ body {
 
     &.error {
         background-color: $error-background;
-        border: .5px solid $error-border;
         &>div {
             flex-flow: row;
             align-items: center;
             gap: 50px;
             i {
-                color: $error-color;
+                color: #fff;
                 font-size: $text-banner-title;
             }
             &>div {
                 flex-flow: column;
                 justify-content: space-between;
-                p#notification-title {
-                    color: $error-color;
+                p.notification-title {
+                    color: #fff;
                     font-size: $text-size-medium;
                     margin-bottom: 0 !important;
                     font-weight: 600;
                 }
-                p#notification-detail {
-                    color: $error-detail;
+                p.notification-detail {
+                    color: #fff;
                     font-size: $text-size-small;
                     margin-bottom: 0 !important;
                 }
@@ -233,5 +231,5 @@ body {
 // z-index backdrop default: 1040
 
 #notification-container {
-    z-index: 1050;
+    z-index: 1056;
 }

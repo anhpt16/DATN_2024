@@ -38,6 +38,26 @@ public class AdminAccountApiController {
         return ResponseEntity.noContent();
     }
 
+    @DoPost("/add-student")
+    public ResponseEntity addStudentAccount(
+        @RequestBody SaveAccountResquest resquest
+    ) {
+        this.accountValidator.validate(resquest);
+        resquest.setRoleId(Constants.ROLE_ID_STUDENT);
+        this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));
+        return ResponseEntity.noContent();
+    }
+    
+    @DoPost("/add-teacher")
+    public ResponseEntity addTeacherAccount(
+        @RequestBody SaveAccountResquest resquest
+    ) {
+        this.accountValidator.validate(resquest);
+        resquest.setRoleId(Constants.ROLE_ID_TEACHER);
+        this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));
+        return ResponseEntity.noContent();
+    }
+
     @DoGet("/")
     public PaginationModel<AdminAccountResponse> getAccountsByType(
         @RequestParam (value = "id") long id,

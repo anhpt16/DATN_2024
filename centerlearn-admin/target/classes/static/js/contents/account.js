@@ -1,9 +1,19 @@
 
 import accountService from "../service/AccountService.js";
 import accountUI from "../ui/AccountUI.js";
+import { showNotification } from "../ui/notification.js";
+import { showConfirmation } from "../ui/notification.js";
 
 
 $(document).ready(function() {
+    // Add Account
+    const formAddAccount = $("#form-add-user");
+    const addAccountUsername = $("#add-account-username");
+    const addAccountPassword = $("#add-account-password");
+    const addAccountDisplayName = $("#add-account-display-name");
+    const addAccountEmail = $("#add-account-email");
+    const addAccountPhone = $("#add-account-phone");
+    const addAccountRole = $("#add-account-role");
     
     const searchAccountCheckbox = $("#search-account-checkbox");
     const searchAccountContent = $("#search-account-content");
@@ -18,7 +28,41 @@ $(document).ready(function() {
     const prevPage = $("#prev-page");
     const nextPage = $("#next-page");
     const refreshBtn = $('#refresh-btn');
+    // Thông báo lỗi
+    const errorMessage = $("#error-message");
+    const message = $("#error-message .error-content");
 
+
+    // Thêm tài khoản
+    formAddAccount.on('submit', async function(event) {
+        event.preventDefault();
+        let formData = {
+            username: addAccountUsername.val(),
+            password: addAccountPassword.val(),
+            displayName: addAccountDisplayName.val(),
+            email: addAccountEmail.val(),
+            phoneNumber: addAccountPhone.val(),
+            roleId: addAccountRole.val()
+        };
+        try {
+            const response = await accountService.addAccount(formData);
+            showNotification('success', '', 'Thêm thành công');
+            addAccountUsername.val("");
+            addAccountPassword.val("");
+            addAccountDisplayName.val("");
+            addAccountEmail.val("");
+            addAccountPhone.val("");
+        } catch (error) {
+            showNotification('error', '', 'Thất bại');
+            message.text(error.message);
+            errorMessage.removeClass('d-none');
+        }
+    });
+
+    errorMessage.on('click', '.close-icon i', function() {
+        message.empty();
+        errorMessage.addClass('d-none');
+    })
 
     // Đóng, mở tìm kiếm
     searchAccountCheckbox.change(function() {

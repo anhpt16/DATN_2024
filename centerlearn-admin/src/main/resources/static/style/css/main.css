@@ -120,7 +120,7 @@ body main .content .content-detail {
 }
 
 #notification-container {
-  max-width: 250px;
+  max-width: 280px;
   position: fixed;
   top: 80px;
   right: 50px;
@@ -134,8 +134,7 @@ body main .content .content-detail {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .notification.success {
-  background-color: #DCF3D6;
-  border: 0.5px solid #ABC89D;
+  background-color: #187600;
 }
 .notification.success > div {
   flex-flow: row;
@@ -143,27 +142,26 @@ body main .content .content-detail {
   gap: 50px;
 }
 .notification.success > div i {
-  color: #36831e;
+  color: #fff;
   font-size: 28px;
 }
 .notification.success > div > div {
   flex-flow: column;
   justify-content: space-between;
 }
-.notification.success > div > div p#notification-title {
-  color: #36831e;
+.notification.success > div > div p.notification-title {
+  color: #fff;
   font-size: 20px;
   margin-bottom: 0 !important;
   font-weight: 600;
 }
-.notification.success > div > div p#notification-detail {
-  color: #BDD6B6;
+.notification.success > div > div p.notification-detail {
+  color: #fff;
   font-size: 18px;
   margin-bottom: 0 !important;
 }
 .notification.error {
-  background-color: #EEC8C5;
-  border: 0.5px solid #C18489;
+  background-color: #a71d13;
 }
 .notification.error > div {
   flex-flow: row;
@@ -171,21 +169,21 @@ body main .content .content-detail {
   gap: 50px;
 }
 .notification.error > div i {
-  color: #BA3C3C;
+  color: #fff;
   font-size: 28px;
 }
 .notification.error > div > div {
   flex-flow: column;
   justify-content: space-between;
 }
-.notification.error > div > div p#notification-title {
-  color: #BA3C3C;
+.notification.error > div > div p.notification-title {
+  color: #fff;
   font-size: 20px;
   margin-bottom: 0 !important;
   font-weight: 600;
 }
-.notification.error > div > div p#notification-detail {
-  color: #BC4C45;
+.notification.error > div > div p.notification-detail {
+  color: #fff;
   font-size: 18px;
   margin-bottom: 0 !important;
 }
@@ -221,7 +219,7 @@ body main .content .content-detail {
 }
 
 #notification-container {
-  z-index: 1050;
+  z-index: 1056;
 }
 
 header .logo img {
@@ -603,6 +601,24 @@ div.row.permission-table-container {
   width: 150px;
 }
 
+.menu-account {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 0.5px solid rgba(63, 58, 100, 0.1058823529);
+}
+.menu-account .account-add-btn {
+  width: 180px;
+  height: 20px;
+  background-color: #f1c40f;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  border: none;
+}
+.menu-account .account-add-btn:hover {
+  background-color: #b9770e;
+}
+
 .add-account {
   flex: 0 0 auto;
   position: relative;
@@ -686,7 +702,8 @@ div.row.permission-table-container {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-.add-account .error-message {
+
+.error-message {
   margin-top: 20px;
   background-color: rgb(255, 88, 88);
   color: #fff;
@@ -695,10 +712,10 @@ div.row.permission-table-container {
   border: 0.5px solid rgb(215, 215, 215);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.add-account .error-message .close-icon {
+.error-message .close-icon {
   cursor: pointer;
 }
-.add-account .error-message .error-content {
+.error-message .error-content {
   width: 100%;
   word-wrap: break-word;
 }

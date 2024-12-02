@@ -144,3 +144,22 @@
     }
     }
 }
+
+.menu-account {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: .5px solid $line-color-light;
+    .account-add-btn {
+        width: 180px;
+        height: 20px;
+        background-color: $edit-color;
+        color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        border: none;
+        &:hover {
+            background-color: $edit-color-hover;
+        }
+    }
+    
+}

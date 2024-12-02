@@ -40,8 +40,8 @@ $(document).ready(function() {
             roleId: addAccountRole.val()
         };
         try {
-            const response = await accountService.addAccount(formData);
-            showNotification('success', '', 'Thêm thành công');\
+            const response = await accountService.addStudentAccount(formData);
+            showNotification('success', '', 'Thêm thành công');
             addAccountUsername.val("");
             addAccountPassword.val("");
             addAccountDisplayName.val("");
