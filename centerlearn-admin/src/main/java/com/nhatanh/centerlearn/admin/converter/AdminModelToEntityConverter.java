@@ -140,4 +140,8 @@ public class AdminModelToEntityConverter {
     public void mergeToSaveEntity(SaveRoleModel model, Role entity) {
         entity.setDisplayName(model.getDisplayName());
     }
+
+    public void mergeToSaveEntity(String statusName, Account account) {
+        account.setStatus(statusName.toUpperCase());
+    }
 }

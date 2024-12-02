@@ -8,11 +8,14 @@ import com.nhatanh.centerlearn.admin.request.SaveAccountResquest;
 import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
+import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
 import lombok.AllArgsConstructor;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -76,7 +79,6 @@ public class AccountValidator {
 
     public void validateCriteriaFilter(AccountFilterCriteria criteria) {
         Map<String, String> errors = new HashMap<>();
-
         if (criteria.getRoleId() > 0) {
             if(this.roleService.getRoleById(criteria.getRoleId()) == null) {
                 errors.put("RoleId", "is not exist");
@@ -136,6 +138,24 @@ public class AccountValidator {
         AccountModel accountModel = this.accountService.getAccountById(accountId);
         if (accountModel == null) {
             errors.put("Account with id: " + accountId, " invalid");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validateUpdateAccountStatus(long accountId, String statusName) {
+        Map<String, String> errors = new HashMap<>();
+        // Kiểm tra tài khoản hợp lệ
+        AccountModel accountModel = this.accountService.getAccountById(accountId);
+        if (accountModel == null) {
+            errors.put("Account with id: " + accountId, " invalid");
+        }
+        // Kiểm tra trạng thái hợp lệ
+        boolean exists = Arrays.asList(AccountStatus.values()).stream()
+            .anyMatch(status -> status.name().equalsIgnoreCase(statusName.trim()));
+        if (!exists) {
+            errors.put("Status with name: " + statusName, " invalid");
         }
         if (errors.size() > 0) {
             throw new HttpBadRequestException(errors);

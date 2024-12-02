@@ -66,7 +66,10 @@ const accountService = {
 
     addAccount: (formData) => apiCall(`/accounts/add`, "POST", formData),
     addStudentAccount: (formData) => apiCall(`/accounts/add-student`, "POST", formData),
-    addTeacherAccount: (formData) => apiCall(`/accounts/add-teacher`, "POST", formData)
+    addTeacherAccount: (formData) => apiCall(`/accounts/add-teacher`, "POST", formData),
+
+    getAccountStatuses: () => apiCall(`/accounts/statuses`, "GET"),
+    updatedAccountStatus: (accountId, statusName) => apiCall(`/accounts/${accountId}/status/${statusName}`, "PUT"),
 };
 
 export default accountService;

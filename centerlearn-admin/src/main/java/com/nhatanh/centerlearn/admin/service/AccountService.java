@@ -95,4 +95,14 @@ public class AccountService {
         Account account = this.accountRepository.findByUsernameAndPassword(model.getUsername(), model.getPassword());
         return account != null;
     }
+
+    public void updateAccountStatus(long accountId, String statusName) {
+        Account account = this.accountRepository.findById(accountId);
+        if (account == null) {
+            throw new ResourceNotFoundException("account");
+        } else {
+            this.modelToEntityConverter.mergeToSaveEntity(statusName, account);
+            this.accountRepository.save(account);
+        }
+    }
 }

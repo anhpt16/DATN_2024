@@ -222,6 +222,10 @@ body main .content .content-detail {
   z-index: 1056;
 }
 
+#confirmation-modal {
+  z-index: 1056;
+}
+
 header .logo img {
   width: 40px;
   height: 40px;
@@ -617,6 +621,13 @@ div.row.permission-table-container {
 }
 .menu-account .account-add-btn:hover {
   background-color: #b9770e;
+}
+
+#account-status {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
 }
 
 .add-account {

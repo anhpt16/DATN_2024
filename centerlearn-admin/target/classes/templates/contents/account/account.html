@@ -70,7 +70,7 @@
                   </tr>
               </thead>
               <tbody id="table-account">
-                  <tr th:each="account : ${accountPagination.items}" data-id="${account.id}">
+                  <tr th:each="account : ${accountPagination.items}" th:data-id="${account.id}">
                       <td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>
                       <td class="item-account-username" th:text="${account.username}"></td>
                       <td class="item-account-display-name" th:text="${account.displayName}"></td>
@@ -110,6 +110,7 @@
   <div id="notification-container"></div>
   <div id="confirmation-modal"></div>
   <div id="edit-modal"></div>
+  <div id="info-modal"></div>
   <div class="modal modal-lg fade" id="add-modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

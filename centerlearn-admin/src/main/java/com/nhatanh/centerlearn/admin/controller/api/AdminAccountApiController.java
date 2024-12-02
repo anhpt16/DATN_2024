@@ -10,6 +10,7 @@ import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.validator.AccountValidator;
 import com.nhatanh.centerlearn.common.constant.Constants;
+import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.utils.DateFormatter;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
@@ -17,8 +18,11 @@ import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Api
 @Controller("/api/v1/accounts")
@@ -47,7 +51,7 @@ public class AdminAccountApiController {
         this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));
         return ResponseEntity.noContent();
     }
-    
+
     @DoPost("/add-teacher")
     public ResponseEntity addTeacherAccount(
         @RequestBody SaveAccountResquest resquest
@@ -243,5 +247,22 @@ public class AdminAccountApiController {
             return ResponseEntity.notFound("Account with phone: " + phone + " not found");
         }
         return ResponseEntity.ok(adminAccountResponse);
+    }
+
+    @DoGet("/statuses")
+    public List<Map<String, Object>> getAccountStatuses() {
+        return Arrays.stream(AccountStatus.values())
+            .map(AccountStatus::toJson)
+            .collect(Collectors.toList());
+    }
+
+    @DoPut("/{id}/status/{name}")
+    public ResponseEntity updateAccountStatus(
+        @PathVariable long id,
+        @PathVariable String name
+    ) {
+        this.accountValidator.validateUpdateAccountStatus(id, name);
+        this.accountServiceController.updateAccountStatus(id, name);
+        return ResponseEntity.noContent();
     }
 }

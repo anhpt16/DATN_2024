@@ -116,4 +116,8 @@ public class AccountServiceController {
         }
         return this.jwtUtil.generateToken(accountId, accountRole);
     }
+
+    public void updateAccountStatus(long accountId, String statusName) {
+        this.accountService.updateAccountStatus(accountId, statusName);
+    }
 }
