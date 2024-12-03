@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @EzySingleton
 public class UriMatcher {
-    public boolean isUriMatch(String requestUri, List<String> uriPatterns) {
+    public boolean isUrisMatch(String requestUri, List<String> uriPatterns) {
         // Sử dụng Stream API để kiểm tra từng URI pattern trong danh sách
         return uriPatterns.stream().anyMatch(pattern -> {
             // Chuyển đổi pattern {id} thành regex cho phép bất kỳ giá trị nào
@@ -15,6 +15,11 @@ public class UriMatcher {
             // So sánh requestUri với regexPattern
             return Pattern.matches(regexPattern, requestUri);
         });
+    }
+
+    public boolean isUriMatch(String requestUri, String uriPattern) {
+        String regexPattern = convertUriPatternToRegex(uriPattern);
+        return Pattern.matches(regexPattern, requestUri);
     }
 
     // Chuyển đổi URI pattern chứa {id} thành regex

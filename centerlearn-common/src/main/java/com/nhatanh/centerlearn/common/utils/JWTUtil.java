@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @EzySingleton
@@ -25,10 +26,10 @@ public class JWTUtil {
 
 
     // Tạo JWT token
-    public String generateToken(long userId, long roleId) {
+    public String generateToken(long userId, List<Long> roleIds) {
         return Jwts.builder()
             .setSubject(String.valueOf(userId))
-            .claim("role", roleId)
+            .claim("role", roleIds)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Token có hiệu lực trong 1 ngày
             .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -47,18 +48,19 @@ public class JWTUtil {
     }
 
     // Lấy role từ token
-    public String extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", String.class));
+    public List<Long> extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", List.class));
     }
 
     // Xác thực token hợp lệ
     public boolean validateToken(String token) {
         String tokenUserId = extractUserId(token);
-        String tokenUserRole = extractRole(token);
+        List<Long> tokenUserRoles = extractRole(token);
         long userId = Long.parseLong(tokenUserId);
-        long userRole = Long.parseLong(tokenUserRole);
+
         boolean isExist = this.accountRoleService.getAccountByAccountId(userId).stream()
-            .anyMatch(model -> model.getRoleId() == userRole);
+            .anyMatch(model -> tokenUserRoles.contains(model.getRoleId()));
+
         if (!isExist) {
             return false;
         }

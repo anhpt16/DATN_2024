@@ -1,49 +1,38 @@
-const apiUrl = "/api/v1";
+const apiCall = async (endpoint, method, body = null) => {
+    try {
+        let url = `${endpoint}`;
+        const config = {
+            method,
+            url,
+            data: body,
+        }
+
+        if (body) {
+            config.data = body;
+        }
+
+        const response = await axiosConfig(config);
+        console.log(url)
+        if (response.status === 204) {
+            return null;
+        }
+        return response.data;
+    } catch (error) {
+        console.error(`Error while calling ${endpoint}:`, error);
+        throw new Error(`Error while calling ${endpoint}: ${error.message}`);
+    }
+};
+
 
 const permissionService = {
-    addPermission: async (formData) => {
-        try {
-            const response = await fetch(`${apiUrl}/permissions/add?lang=vi`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(formData),
-            });
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-        } catch (error) {
-            console.log("Error: " + error);
+    filterPermissionByType: (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString;
         }
+        return apiCall(`/permissions/by-type${queryString}`, "GET");
     },
-    deletePermission: async (formData) => {
-        try {
-            const response = await fetch(`${apiUrl}/permissions/delete?lang=vi`, {
-                method: "DELETE",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(formData),
-            })
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-        } catch (error) {
-            throw new Error("Error: " + error);
-        }
-    },
-    filterPermissionByType: async (queryString) => {
-        try {
-            const response = await fetch(`${apiUrl}/permissions/by-type?lang=vi${queryString}`, {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            })
-            if (!response.ok) {
-                throw new Error(`HTTP error: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.log("Error: " + error);
-        }
-    }
+    addPermission: (formData) => apiCall(`/permissions/add`, "POST", formData),
+    deletePermission: (formData) => apiCall(`/permissions/delete`, "DELETE", formData),
 }
 
 export default permissionService;

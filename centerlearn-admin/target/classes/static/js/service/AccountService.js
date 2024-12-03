@@ -1,32 +1,22 @@
-const apiUrl = "/api/v1";
-
 const apiCall = async (endpoint, method = "GET", body = null) => {
     try {
-        const options = {
+        let url = `${endpoint}`;
+        const config = {
             method,
-            headers: { "Content-Type": "application/json" },
-        };
-        if (body) options.body = JSON.stringify(body);
-
-        // Kiểm tra nếu endpoint có query string sẵn
-        let url = `${apiUrl}${endpoint}`;
-        if (url.includes('?')) {
-            url += `&lang=vi`;
-        } else {
-            url += `?lang=vi`;
+            url,
+            data: body,
         }
 
-        const response = await fetch(url, options);
+        if (body) {
+            config.data = body;
+        }
+
+        const response = await axiosConfig(config);
         console.log(url)
-        if (response.ok) {
-            if (response.status === 204) {
-                return null;
-            }
-            return await response.json();
+        if (response.status === 204) {
+            return null;
         }
-        else {
-            throw new Error(await response.text());
-        }
+        return response.data;
     } catch (error) {
         console.error(`Error while calling ${endpoint}:`, error);
         throw new Error(`Error while calling ${endpoint}: ${error.message}`);
@@ -36,19 +26,19 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
 const accountService = {
     getAccountFilter: async (queryString) => {
         if (queryString && !queryString.includes('?')) {
-            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+            queryString = '?' + queryString; 
         }
         return apiCall(`/accounts${queryString}`, "GET");
     },
     getStudentAccountFilter: async (queryString) => {
         if (queryString && !queryString.includes('?')) {
-            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+            queryString = '?' + queryString;
         }
         return apiCall(`/accounts/students${queryString}`, "GET");
     },
     getTeacherAccountFilter: async (queryString) => {
         if (queryString && !queryString.includes('?')) {
-            queryString = '?' + queryString; // Thêm dấu ? nếu queryString không có
+            queryString = '?' + queryString;
         }
         return apiCall(`/accounts/teachers${queryString}`, "GET");
     },

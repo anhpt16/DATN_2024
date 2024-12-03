@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.admin.model.AccountLoginModel;
 import com.nhatanh.centerlearn.admin.request.AuthAccountRequest;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.tvd12.ezyhttp.client.HttpClient;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.Api;
 import com.tvd12.ezyhttp.server.core.annotation.Controller;
@@ -29,14 +30,14 @@ public class AdminLoginApiController {
     ) {
         AccountLoginModel accountLoginModel = this.requestToModelConverter.toAccountLoginModel(accountRequest);
         if (!this.accountServiceController.getAccountByUsernameAndPassword(accountLoginModel)) {
-            throw new ResourceNotFoundException("Wrong username or password");
+            throw new HttpUnauthorizedException("Tài khoản hoặc mật khẩu không đúng");
         }
         String token = this.accountServiceController.getToken(accountLoginModel.getUsername());
         String location = "/account/user?lang=vi";
         return ResponseEntity.builder()
-//            .header("Location", location)
+            .header("location", location)
             .header("token", token)
-            .status(HttpStatus.FOUND_302)
+            .status(HttpStatus.OK_200)
             .build();
     }
 }

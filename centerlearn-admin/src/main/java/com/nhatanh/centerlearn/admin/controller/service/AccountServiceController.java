@@ -22,6 +22,8 @@ import lombok.AllArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @Service
@@ -110,8 +112,8 @@ public class AccountServiceController {
         if (accountId <= 0 ) {
             throw new ResourceNotFoundException("username");
         }
-        long accountRole = this.accountRoleService.getRoleIdByAccountId(accountId);
-        if (accountRole <= 0) {
+        List<Long> accountRole = this.accountRoleService.getRoleIdsByAccountId(accountId);
+        if (accountRole.isEmpty()) {
             throw new ResourceNotFoundException("role");
         }
         return this.jwtUtil.generateToken(accountId, accountRole);

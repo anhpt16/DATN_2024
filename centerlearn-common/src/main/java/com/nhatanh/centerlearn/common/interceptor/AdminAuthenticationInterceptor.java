@@ -40,6 +40,7 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
                 throw new IllegalArgumentException("JWT String argument cannot be null or empty");
             }
         }
+
         String uriTemplate = arguments.getUriTemplate();
         HttpMethod method = arguments.getMethod();
         if (!this.requestURIManager.isManagementURI(method, uriTemplate)) {
@@ -57,14 +58,10 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
             this.logger.info("Token Invalid");
         }
         // Kiểm tra người dùng có quyền truy cập vào URI - Method
-        long roleId = this.tokenService.getTokenRoleId(token);
-        UriRequestModel uriRequestModel = UriRequestModel.builder()
-            .roleId(roleId)
-            .path(uriTemplate)
-            .method(method.name())
-            .build();
-        List<PermissionModel> permissionModelList = this.permissionService.getPermissionByRoleId(roleId);
-        boolean isAuthorization = this.permissionChecker.isPermissionGranted(permissionModelList, uriRequestModel);
+            // Lấy ra các vai trò của người dùng
+        List<Long> roleIds = this.tokenService.getTokenRoleId(token);
+            // Kiểm tra quyền hạn của người dùng
+        boolean isAuthorization = this.tokenValidator.validatePermissionAccess(roleIds, uriTemplate, method.name());
         if(!isAuthorization) {
             throw new AccessDeniedException("is Denied");
         }

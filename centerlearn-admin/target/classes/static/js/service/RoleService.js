@@ -1,76 +1,35 @@
-const apiUrl = '/api/v1';
+
+const apiCall = async (endpoint, method = "GET", body = null) => {
+    try {
+        let url = `${endpoint}`;
+        const config = {
+            method,
+            url,
+            data: body,
+        }
+
+        if (body) {
+            config.data = body;
+        }
+
+        const response = await axiosConfig(config);
+        console.log(url)
+        if (response.status === 204) {
+            return null;
+        }
+        return response.data;
+    } catch (error) {
+        console.error(`Error while calling ${endpoint}:`, error);
+        throw new Error(`Error while calling ${endpoint}: ${error.message}`);
+    }
+};
 
 const roleService = {
-    getRole: async (page = 0, size = 10) => {
-        try {
-            const response = await fetch(`${apiUrl}/roles?lang=vi&page=${page}&size=${size}`, {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            });
-            if(!response.ok) {
-                throw new Error(`HTTP error: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
-        } catch(error) {
-            console.log("Error: " + error);
-        }
-    },
-    getRoleById: async (roleId) => {
-        try {
-            const response = await fetch(`${apiUrl}/roles/${roleId}?lang=vi`, {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error: ${response.status}`);
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.log("Error: " + error); 
-        }
-    },
-    addRole: async (formData) => {
-        try {
-            const response = await fetch(`${apiUrl}/roles?lang=vi`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(formData),
-            });
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-        } catch(error) {
-            console.log("Error: " + error);
-        }
-    },
-    deleteRole: async (roleId) => {
-        try {
-            const response = await fetch(`${apiUrl}/roles/${roleId}?lang=vi`, {
-                method: 'DELETE'
-            });
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-        } catch(error) {
-            throw new Error("Error: " + error);
-        }
-    },
-    updateRole: async (roleId, formData) => {
-        try {
-            const response = await fetch(`${apiUrl}/roles/${roleId}?lang=vi`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(formData),
-            })
-            if(!response.ok) {
-                throw new Error(await response.text());
-            }
-        } catch(error) {
-            throw new Error("Error: " + error);
-        }
-    },
+    getRole: (page = 0, size = 10) => apiCall(`/roles?page=${page}&size=${size}`, "GET"),
+    getRoleById: (roleId) => apiCall(`/roles/${roleId}`, "GET"),
+    addRole: (formData) => apiCall(`/roles`, "POST", formData),
+    deleteRole: (roleId) => apiCall(`/roles/${roleId}`, "DELETE"),
+    updateRole: (roleId, formData) => apiCall(`/roles/${roleId}`, "PUT", formData),
 }
 
 export default roleService;

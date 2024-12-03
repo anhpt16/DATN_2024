@@ -4,14 +4,16 @@ import com.nhatanh.centerlearn.common.utils.JWTUtil;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TokenService {
     private final JWTUtil jwtUtil;
 
-    public long getTokenRoleId(String token) {
-        String idString = this.jwtUtil.extractRole(token);
-        return Long.parseLong(idString);
+    public List<Long> getTokenRoleId(String token) {
+        List<Long> roleIds = this.jwtUtil.extractRole(token);
+        return roleIds;
     }
 
     public long getTokenAccountId(String token) {

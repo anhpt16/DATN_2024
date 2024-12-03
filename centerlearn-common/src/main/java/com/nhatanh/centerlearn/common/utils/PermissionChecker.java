@@ -16,7 +16,7 @@ public class PermissionChecker {
         return permissions.stream().anyMatch(permission ->
             permission.getRoleId() == uriRequest.getRoleId() &&
                 permission.getFeatureMethod().equalsIgnoreCase(uriRequest.getMethod()) &&
-                matcher.isUriMatch(uriRequest.getPath(), Collections.singletonList(permission.getFeatureUri()))
+                matcher.isUrisMatch(uriRequest.getPath(), Collections.singletonList(permission.getFeatureUri()))
         );
     }
 }

@@ -19,7 +19,7 @@
                     <input type="password" id="password" required>
                 </div>
                 <div class="actions">
-                    <button type="submit" class="login-btn">[[#{login}]]</button>
+                    <button id="login-btn" type="submit" class="login-btn">[[#{login}]]</button>
                 </div>
                 <div class="forgot-password">
                     <a href="#">[[#{login_forgot_password}]]?</a>
@@ -27,9 +27,10 @@
             </form>
         </div>
     </div>
+    <div id="notification-container"></div>
 </div>
 <th:block layout:fragment="post-scripts">
-
+  <script type="module" src="/js/contents/login.js"></script>
 </th:block>
 </body>
 </html>

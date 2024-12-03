@@ -71,8 +71,8 @@
                     <td class="permission-uri" 
                         th:text="${uriModel.uriPath}"></td>
                     <td class="permission-method" 
-                        
-                        th:text="${uriModel.uriMethod}"></td>
+                        th:text="${uriModel.uriMethod}"
+                        th:style="'color: ' + ${uriModel.uriMethod != null && uriModel.uriMethod.colorCode != null ? uriModel.uriMethod.colorCode : ''}"></td>
                     <td>
                         <i class="fa-regular fa-square-plus add-btn" 
                             th:classappend="${uriModel.status == null} ? 'disabled-action' : ''"></i>
