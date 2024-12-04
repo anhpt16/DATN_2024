@@ -321,6 +321,14 @@ body {
   border-top: 1px solid #e3e3e3;
 }
 
+.sidebar-submenu.show {
+  display: block !important;
+}
+
+.nav-link.active {
+  color: #352bff !important;
+}
+
 .login-container {
   display: flex;
   justify-content: center;

@@ -84,3 +84,10 @@ body {
     background-color: $submenu-bg-color;
     border-top: 1px solid $sidebar-border-color;
 }
+.sidebar-submenu.show {
+    display: block !important;
+}
+.nav-link.active {
+    color: $menu-choosen !important;
+}
+
