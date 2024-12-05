@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.common.exception;
 
 import com.tvd12.ezyfox.exception.NotFoundException;
 import com.tvd12.ezyfox.util.EzyLoggable;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.ExceptionHandler;
 import com.tvd12.ezyhttp.server.core.annotation.TryCatch;
@@ -36,6 +37,20 @@ public class GlobalExceptionHandler extends EzyLoggable {
         AccessDeniedException e
     ) {
         logger.info("denied: " + e.getMessage());
-        return ResponseEntity.badRequest(e.getMessage());
+        return ResponseEntity.builder()
+            .status(403)
+            .body(e.getMessage())
+            .build();
+    }
+
+    @TryCatch(HttpUnauthorizedException.class)
+    public ResponseEntity handleException(
+        HttpUnauthorizedException e
+    ) {
+        logger.info(e.getMessage());
+        return ResponseEntity.builder()
+            .status(401)
+            .body(e.getMessage())
+            .build();
     }
 }

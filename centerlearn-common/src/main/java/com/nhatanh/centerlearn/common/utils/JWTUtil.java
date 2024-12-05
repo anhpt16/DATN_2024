@@ -1,5 +1,6 @@
 package com.nhatanh.centerlearn.common.utils;
 
+import com.nhatanh.centerlearn.common.model.AccountRoleModel;
 import com.nhatanh.centerlearn.common.service.AccountRoleService;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import io.jsonwebtoken.Claims;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @EzySingleton
 @AllArgsConstructor
@@ -49,7 +51,13 @@ public class JWTUtil {
 
     // Lấy role từ token
     public List<Long> extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", List.class));
+        return extractClaim(token, claims -> {
+            // Lấy danh sách "role" và ép kiểu mỗi phần tử thành Long
+            List<Integer> roleList = claims.get("role", List.class);
+            return roleList.stream()
+                .map(Integer::longValue)  // Ép kiểu Integer thành Long
+                .collect(Collectors.toList());
+        });
     }
 
     // Xác thực token hợp lệ
@@ -57,14 +65,16 @@ public class JWTUtil {
         String tokenUserId = extractUserId(token);
         List<Long> tokenUserRoles = extractRole(token);
         long userId = Long.parseLong(tokenUserId);
-
-        boolean isExist = this.accountRoleService.getAccountByAccountId(userId).stream()
-            .anyMatch(model -> tokenUserRoles.contains(model.getRoleId()));
+        List<Long> roleIdsByAccountId = this.accountRoleService.getRoleIdsByAccountId(userId);
+        if (roleIdsByAccountId.isEmpty()) {
+            return false;
+        }
+        boolean isExist = roleIdsByAccountId.containsAll(tokenUserRoles);
 
         if (!isExist) {
             return false;
         }
-        if (!isTokenExpired(token)) {
+        if (isTokenExpired(token)) {
             return false;
         }
         return true;

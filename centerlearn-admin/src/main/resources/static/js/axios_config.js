@@ -3,17 +3,17 @@ const axiosConfig = axios.create({
     baseURL: "http:/api/v1",
     headers: {
         'Content-Type': 'application/json',
-    }
+    },
+    withCredentials: true,
 });
+const axiosControllerConfig = axios.create({
+    withCredentials: true,
+})
+
 
 axiosConfig.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
         const baseURL = config.baseURL || window.location.origin;
-        console.log(baseURL)
         const url = new URL(config.url, baseURL);
         url.searchParams.set('lang', 'vi');
         config.url = url.pathname + url.search;
@@ -32,3 +32,31 @@ axiosConfig.interceptors.response.use(
         return Promise.reject(error);
     }
 )
+
+axiosControllerConfig.interceptors.request.use(
+    (config) => {
+        // Kiểm tra nếu URL chưa có tham số 'lang'
+        const url = new URL(config.url, window.location.origin);
+        if (!url.searchParams.has('lang')) {
+            url.searchParams.append('lang', 'vi');
+        }
+        // Cập nhật lại URL trong config
+        config.url = url.toString();
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+)
+
+axiosControllerConfig.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+)
+
+

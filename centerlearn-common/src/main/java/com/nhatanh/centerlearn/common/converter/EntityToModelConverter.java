@@ -8,6 +8,7 @@ import com.nhatanh.centerlearn.common.model.AccountModel;
 import com.nhatanh.centerlearn.common.model.AccountRoleModel;
 import com.nhatanh.centerlearn.common.model.PermissionModel;
 import com.nhatanh.centerlearn.common.model.RoleModel;
+import com.nhatanh.centerlearn.common.result.IdResult;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
 
@@ -70,4 +71,5 @@ public class EntityToModelConverter {
                 .build();
         }
     }
+
 }

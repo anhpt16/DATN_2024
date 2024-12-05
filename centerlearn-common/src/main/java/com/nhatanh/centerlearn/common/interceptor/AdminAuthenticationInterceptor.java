@@ -10,6 +10,7 @@ import com.nhatanh.centerlearn.common.validator.TokenValidator;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyhttp.core.annotation.Interceptor;
 import com.tvd12.ezyhttp.core.constant.HttpMethod;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.server.core.interceptor.RequestInterceptor;
 import com.tvd12.ezyhttp.server.core.manager.RequestURIManager;
 import com.tvd12.ezyhttp.server.core.request.RequestArguments;
@@ -28,43 +29,39 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
     private final PermissionChecker permissionChecker;
 
     public boolean preHandle(RequestArguments arguments, Method handler) {
-        // 1. Lấy được method và uri (URIManager)
-        // 2. Lấy được token (Header)
-        // 3. Kiểm tra token
-        // 4. Lấy roleId trong token và method - uri sau đó kiểm tra: roleId-Method-Uri có tồn tại không
-
-        String token = arguments.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7); // Xóa "Bearer " khỏi token
-            if (token.isEmpty()) {
-                throw new IllegalArgumentException("JWT String argument cannot be null or empty");
-            }
-        }
+        // 1. Kiểm tra xem đây có phải là api cần xác thực hay không, nếu không thì trả về true
+        // 2. Nếu là api cần xác thực, lấy token trong cookie để kiểm tra.
+        // 3. Kiểm tra token có hợp lệ hay không (hiệu lực, xác thực).
+        // 4. Kiểm tra người dùng có quyền truy cập api này không (userId, roleIds).
 
         String uriTemplate = arguments.getUriTemplate();
         HttpMethod method = arguments.getMethod();
         if (!this.requestURIManager.isManagementURI(method, uriTemplate)) {
             this.logger.info("pre handle request uri: {}, method: {}", arguments.getRequest().getRequestURI(), arguments.getMethod());
         }
-        // Kiểm tra URI có cần xác thực hay không
         if (this.requestURIManager.isAuthenticatedURI(method, uriTemplate)) {
+            // Nếu api cần xác thực
             this.logger.info("Cai nay can xac thuc");
-        } else {
-            this.logger.info("Khong can xac thuc");
+            String token = arguments.getCookieValue("authToken");
+            System.out.println(token);
+            if (token == null || token.isEmpty()) {
+                throw new HttpUnauthorizedException("JWT String argument cannot be null or empty");
+            }
+            if (!this.tokenValidator.validate(token)) {
+                this.logger.info("Token Invalid");
+                throw new HttpUnauthorizedException("Token Invalid");
+            }
+            // Lấy ra các vai trò của người dùng
+            List<Long> roleIds = this.tokenService.getTokenRoleId(token);
+            // Kiểm tra quyền hạn của người dùng
+            boolean isAuthorization = this.tokenValidator.validatePermissionAccess(roleIds, uriTemplate, method.name());
+            if(!isAuthorization) {
+                throw new AccessDeniedException("is Denied");
+            }
             return true;
         }
-        // Kiểm tra token
-        if (!this.tokenValidator.validate(token)) {
-            this.logger.info("Token Invalid");
-        }
-        // Kiểm tra người dùng có quyền truy cập vào URI - Method
-            // Lấy ra các vai trò của người dùng
-        List<Long> roleIds = this.tokenService.getTokenRoleId(token);
-            // Kiểm tra quyền hạn của người dùng
-        boolean isAuthorization = this.tokenValidator.validatePermissionAccess(roleIds, uriTemplate, method.name());
-        if(!isAuthorization) {
-            throw new AccessDeniedException("is Denied");
-        }
+        // Trả true nếu không cần xác thực
+        this.logger.info("Khong can xac thuc");
         return true;
     }
 

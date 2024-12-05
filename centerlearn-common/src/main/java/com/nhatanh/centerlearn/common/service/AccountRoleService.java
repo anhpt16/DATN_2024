@@ -5,9 +5,11 @@ import com.nhatanh.centerlearn.common.entity.AccountRole;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.AccountRoleModel;
 import com.nhatanh.centerlearn.common.repository.AccountRoleRepository;
+import com.nhatanh.centerlearn.common.result.IdResult;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -28,5 +30,13 @@ public class AccountRoleService {
             throw new ResourceNotFoundException("AccountRole");
         }
         return entityToModelConverter.toModel(accountRole);
+    }
+
+    public List<Long> getRoleIdsByAccountId(long accountId) {
+        List<IdResult> ids = this.accountRoleRepository.findRoleIdsByAccountId(accountId);
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(ids, IdResult::getId);
     }
 }

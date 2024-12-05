@@ -1,0 +1,42 @@
+.forbiden-container {
+    background-color: #fff;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    h1 {
+        font-size: 80px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #721c24;
+    }
+    .message {
+        font-size: 20px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        color: #721c24;
+    }
+    .btn-back {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    
+        &:hover {
+            background-color: #0056b3;
+            transition: background-color 0.3s;
+        }
+    
+        &:active {
+            background-color: #004085;
+        }
+    }
+}

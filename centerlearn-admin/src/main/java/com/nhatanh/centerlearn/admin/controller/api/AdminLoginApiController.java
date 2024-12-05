@@ -17,6 +17,9 @@ import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpHeaderValue;
 import org.eclipse.jetty.http.HttpStatus;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Api
 @Controller("/api/v1/admin/login")
 @AllArgsConstructor
@@ -26,17 +29,23 @@ public class AdminLoginApiController {
 
     @DoPost
     public ResponseEntity authLogin(
-        @RequestBody AuthAccountRequest accountRequest
+        @RequestBody AuthAccountRequest accountRequest,
+        HttpServletResponse response
     ) {
         AccountLoginModel accountLoginModel = this.requestToModelConverter.toAccountLoginModel(accountRequest);
         if (!this.accountServiceController.getAccountByUsernameAndPassword(accountLoginModel)) {
             throw new HttpUnauthorizedException("Tài khoản hoặc mật khẩu không đúng");
         }
         String token = this.accountServiceController.getToken(accountLoginModel.getUsername());
+        Cookie cookie = new Cookie("authToken", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(86403600);
+        response.addCookie(cookie);
+
         String location = "/account/user?lang=vi";
         return ResponseEntity.builder()
             .header("location", location)
-            .header("token", token)
             .status(HttpStatus.OK_200)
             .build();
     }

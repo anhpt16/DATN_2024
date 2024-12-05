@@ -17,12 +17,8 @@ $(document).ready(function() {
         try {
             const response = await loginService.login(formData);
             console.log(response);
-            if (response && response.headers.get('token')) {
-                localStorage.setItem("token", response.headers.get('token'));
-                window.location.href = response.headers.get('location');
-            } else {
-                console.log("No Token From Server !")
-                showNotification("error", "Đăng nhập thất bại", "No Token");
+            if (response.status === 200) {
+                window.location.href = "/account/user?lang=vi";
             }
         } catch (error) {
             showNotification("error", "Đăng nhập thất bại", error.message);

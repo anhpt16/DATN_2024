@@ -37,6 +37,8 @@ public class AdminAccountViewController {
     private final RoleService roleService;
     private final AccountService accountService;
 
+
+    @Authenticated
     @DoGet("/role")
     public View initRole(
         @RequestParam (value = "page", defaultValue = "0") int page,
@@ -49,6 +51,7 @@ public class AdminAccountViewController {
             .build();
     }
 
+    @Authenticated
     @DoGet("/permission")
     public View initPermission(
 
