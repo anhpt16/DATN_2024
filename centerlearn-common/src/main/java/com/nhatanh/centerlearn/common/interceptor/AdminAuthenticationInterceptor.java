@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.common.model.UriRequestModel;
 import com.nhatanh.centerlearn.common.service.PermissionService;
 import com.nhatanh.centerlearn.common.service.TokenService;
 import com.nhatanh.centerlearn.common.utils.PermissionChecker;
+import com.nhatanh.centerlearn.common.utils.RequestContext;
 import com.nhatanh.centerlearn.common.validator.TokenValidator;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyhttp.core.annotation.Interceptor;
@@ -52,12 +53,16 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
                 throw new HttpUnauthorizedException("Token Invalid");
             }
             // Lấy ra các vai trò của người dùng
+            long userId = this.tokenService.getTokenAccountId(token);
             List<Long> roleIds = this.tokenService.getTokenRoleId(token);
             // Kiểm tra quyền hạn của người dùng
             boolean isAuthorization = this.tokenValidator.validatePermissionAccess(roleIds, uriTemplate, method.name());
             if(!isAuthorization) {
                 throw new AccessDeniedException("is Denied");
             }
+
+            RequestContext.set("accountId", userId);
+            RequestContext.set("roleIds", roleIds);
             return true;
         }
         // Trả true nếu không cần xác thực
@@ -71,5 +76,6 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
         if (!this.requestURIManager.isManagementURI(method, uriTemplate)) {
             this.logger.info("post handle request uri: {}, method: {}, code: {}", new Object[]{arguments.getRequest().getRequestURI(), arguments.getMethod(), arguments.getResponse().getStatus()});
         }
+        RequestContext.clear();
     }
 }

@@ -13,15 +13,15 @@ import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.utils.DateFormatter;
+import com.nhatanh.centerlearn.common.utils.RequestContext;
+import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Api
@@ -32,11 +32,16 @@ public class AdminAccountApiController {
     private final AccountServiceController accountServiceController;
     private final AdminRequestToModelConverter requestToModelConverter;
 
+    @Authenticated
     @DoPost("/add")
     public ResponseEntity addAccount(
         @RequestBody SaveAccountResquest resquest
         ) {
         System.out.println(resquest.toString());
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        resquest.setCreatorId(accountId);
         this.accountValidator.validate(resquest);
         this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));
         return ResponseEntity.noContent();
@@ -46,16 +51,26 @@ public class AdminAccountApiController {
     public ResponseEntity addStudentAccount(
         @RequestBody SaveAccountResquest resquest
     ) {
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElse(0L);
+        resquest.setCreatorId(accountId);
         this.accountValidator.validate(resquest);
         resquest.setRoleId(Constants.ROLE_ID_STUDENT);
         this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));
         return ResponseEntity.noContent();
     }
 
+    @Authenticated
     @DoPost("/add-teacher")
     public ResponseEntity addTeacherAccount(
         @RequestBody SaveAccountResquest resquest
     ) {
+        System.out.println(RequestContext.get("accountId"));
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        resquest.setCreatorId(accountId);
         this.accountValidator.validate(resquest);
         resquest.setRoleId(Constants.ROLE_ID_TEACHER);
         this.accountServiceController.addAccount(this.requestToModelConverter.toSaveAccountModelConverter(resquest));

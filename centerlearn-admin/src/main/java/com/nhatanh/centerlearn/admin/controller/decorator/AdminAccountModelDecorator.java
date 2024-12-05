@@ -30,7 +30,7 @@ public class AdminAccountModelDecorator {
     public AdminAccountDetailResponse decorateAccountDetailModel(AccountModel model) {
         String creatorName = "";
         if (model.getCreatorId() > 0) {
-            creatorName = this.accountService.getAccountNameById(model.getId());
+            creatorName = this.accountService.getAccountNameById(model.getCreatorId());
         }
         return this.modelToResponseConverter.toAccountDetailResponse(model, creatorName);
     }

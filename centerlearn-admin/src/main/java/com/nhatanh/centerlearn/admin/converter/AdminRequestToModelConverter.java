@@ -117,6 +117,7 @@ public class AdminRequestToModelConverter {
             .phone(resquest.getPhoneNumber())
             .status(AccountStatus.ACTIVE.name())
             .roleId(resquest.getRoleId())
+            .creatorId(resquest.getCreatorId())
             .build();
     }
 

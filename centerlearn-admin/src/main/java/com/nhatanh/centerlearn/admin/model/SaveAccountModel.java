@@ -13,4 +13,5 @@ public class SaveAccountModel {
     private final String phone;
     private final String status;
     private final long roleId;
+    private final long creatorId;
 }

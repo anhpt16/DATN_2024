@@ -77,6 +77,7 @@ public class AdminModelToEntityConverter {
         entity.setStatus(model.getStatus());
         entity.setCreatedAt(this.clock.nowDateTime());
         entity.setUpdatedAt(this.clock.nowDateTime());
+        entity.setCreatorId(model.getCreatorId());
     }
 
     public void mergeToEntity(SavePermissionModel model, Permission entity) {
