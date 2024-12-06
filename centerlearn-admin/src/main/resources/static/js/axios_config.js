@@ -55,6 +55,9 @@ axiosControllerConfig.interceptors.response.use(
         return response;
     },
     (error) => {
+        if (error.response && error.response.status === 401) {
+            window.location.href = "/admin/login?lang=vi";
+        }
         return Promise.reject(error);
     }
 )

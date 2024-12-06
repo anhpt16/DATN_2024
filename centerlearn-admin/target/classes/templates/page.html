@@ -30,6 +30,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
 <script src="/js/axios_config.js"></script>
+<script type="module" src="/js/contents/header.js"></script>
+
 <!-- OPTIONAL SCRIPTS -->
 <script layout:fragment="import-scripts" th:remove="tag"></script>
 <script layout:fragment="pre-main-scripts" type="text/javascript"></script>
@@ -37,7 +39,6 @@
 <script layout:fragment="post-scripts" type="text/javascript"></script>
 <script>
 </script>
-<script th:replace="~{fragments/header :: scripts}" type="text/javascript"></script>
-
+<!-- <script th:replace="~{fragments/header :: scripts}" type="text/javascript"></script> -->
 </body>
 </html>

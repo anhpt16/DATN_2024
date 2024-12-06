@@ -23,6 +23,16 @@ $(document).ready(function () {
         }
     })
 
+    sidebarMenu.each(function() {
+        const menuLinkHref = $(this).attr('href');
+        console.log(menuLinkHref)
+        if (currentPath.startsWith(menuLinkHref) || menuLinkHref.startsWith(currentPath)) {
+            if (menuLinkHref && menuLinkHref.trim() !== '#') {
+                $(this).addClass('active');
+            }
+        }
+    })
+
     requestUri.on('click', async function(event) {
         event.preventDefault();
         const requestController = $(this).attr('href');

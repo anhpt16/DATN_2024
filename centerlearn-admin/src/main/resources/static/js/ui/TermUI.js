@@ -1,4 +1,3 @@
-import util from "../utils.js";
 
 const termUI = {
     el: {

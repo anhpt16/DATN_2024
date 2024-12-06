@@ -7,6 +7,7 @@ import com.nhatanh.centerlearn.admin.converter.AdminModelToModelConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.filter.AccountFilterCriteria;
 import com.nhatanh.centerlearn.admin.model.*;
+import com.nhatanh.centerlearn.admin.response.AccountAvatarResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
@@ -37,6 +38,14 @@ public class AccountServiceController {
     private final AdminRoleModelDecorator roleModelDecorator;
     private final AdminModelToResponseConverter modelToResponseConverter;
     private final JWTUtil jwtUtil;
+
+    public AccountAvatarResponse getAccountAvatarById(long id) {
+        AccountModel accountModel = this.accountService.getAccountById(id);
+        if (accountModel == null) {
+            return null;
+        }
+        return this.accountModelDecorator.decorateAccountAvatar(accountModel);
+    }
 
     public void addAccount(SaveAccountModel accountModel) {
         long accountId = this.accountService.addAccount(accountModel);

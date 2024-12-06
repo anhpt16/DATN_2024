@@ -19,8 +19,25 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
         return response.data;
     } catch (error) {
         console.error(`Error while calling ${endpoint}:`, error);
-        
-        throw new Error(`Error while calling ${endpoint}: ${error.message}`);
+
+        // Kiểm tra nếu có lỗi từ server
+        if (error.response) {
+            if (error.response.status === 400) {
+                // Nếu lỗi là HttpBadRequestException
+                const errorData = error.response.data; // Lấy lỗi từ body response
+                const errorMessage = Object.entries(errorData)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join(' | ');
+                throw new Error(`${errorMessage}`);
+            }
+            // Bạn có thể xử lý thêm các mã lỗi khác ở đây (500, 401...)
+            else {
+                throw new Error(`Unexpected error: ${error.message}`);
+            }
+        } else {
+            // Trường hợp không có response (network error, timeout...)
+            throw new Error(`Network error: ${error.message}`);
+        }
     }
 };
 
@@ -61,6 +78,7 @@ const accountService = {
 
     getAccountStatuses: () => apiCall(`/accounts/statuses`, "GET"),
     updatedAccountStatus: (accountId, statusName) => apiCall(`/accounts/${accountId}/status/${statusName}`, "PUT"),
+    getUserByToken: () => apiCall(`/admin/login/user`, "GET"),
 };
 
 export default accountService;

@@ -3,18 +3,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <th:block th:fragment="header" class="content">
-  <header class="d-flex justify-content-between align-items-center p-3 bg-primary text-white">
-    <div class="logo d-flex align-items-center">
-      <img src="https://via.placeholder.com/50" alt="Logo" class="me-2">
-      <h4>Website Logo</h4>
+  <header class="header-container d-flex justify-content-between align-items-center p-3 bg-primary text-white">
+    <div class="logo">
+      <a href="#" class=" d-flex align-items-center">
+        <img src="https://via.placeholder.com/50" alt="Logo" class="me-2">
+        <h4>Website Logo</h4>
+      </a>
     </div>
-    <div class="user-info d-flex align-items-center">
-      <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-2">
-      <span class="user-name">John Doe</span>
+    <div class="d-flex align-items-center" id="user-info">
+      <a href="/admin/login?lang=vi" id="login-btn" class="login-btn text-decoration-none">Đăng nhập</a>
     </div>
   </header>
 </th:block>
-<script th:fragment="scripts" type="text/javascript">
-</script>
+<th:block layout:fragment="post-scripts">
+</th:block>
 </body>
 </html>

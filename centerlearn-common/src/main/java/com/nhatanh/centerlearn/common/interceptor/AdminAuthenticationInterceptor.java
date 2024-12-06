@@ -1,6 +1,7 @@
 package com.nhatanh.centerlearn.common.interceptor;
 
 import com.nhatanh.centerlearn.common.exception.AccessDeniedException;
+import com.nhatanh.centerlearn.common.exception.HttpTokenExpiration;
 import com.nhatanh.centerlearn.common.model.PermissionModel;
 import com.nhatanh.centerlearn.common.model.UriRequestModel;
 import com.nhatanh.centerlearn.common.service.PermissionService;
@@ -35,6 +36,16 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
         // 3. Kiểm tra token có hợp lệ hay không (hiệu lực, xác thực).
         // 4. Kiểm tra người dùng có quyền truy cập api này không (userId, roleIds).
 
+        String token = arguments.getCookieValue("authToken");
+        long userId = 0;
+        List<Long> roleIds = null;
+        System.out.println(token);
+        if (token != null && !token.isEmpty()) {
+            // Lấy ra các vai trò của người dùng
+            userId = this.tokenService.getTokenAccountId(token);
+            roleIds = this.tokenService.getTokenRoleId(token);
+        }
+
         String uriTemplate = arguments.getUriTemplate();
         HttpMethod method = arguments.getMethod();
         if (!this.requestURIManager.isManagementURI(method, uriTemplate)) {
@@ -43,18 +54,17 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
         if (this.requestURIManager.isAuthenticatedURI(method, uriTemplate)) {
             // Nếu api cần xác thực
             this.logger.info("Cai nay can xac thuc");
-            String token = arguments.getCookieValue("authToken");
-            System.out.println(token);
+
             if (token == null || token.isEmpty()) {
-                throw new HttpUnauthorizedException("JWT String argument cannot be null or empty");
+                throw new HttpTokenExpiration("JWT String argument cannot be null or empty");
             }
             if (!this.tokenValidator.validate(token)) {
                 this.logger.info("Token Invalid");
                 throw new HttpUnauthorizedException("Token Invalid");
             }
-            // Lấy ra các vai trò của người dùng
-            long userId = this.tokenService.getTokenAccountId(token);
-            List<Long> roleIds = this.tokenService.getTokenRoleId(token);
+            // Kiểm tra trạng thái của người dùng
+
+
             // Kiểm tra quyền hạn của người dùng
             boolean isAuthorization = this.tokenValidator.validatePermissionAccess(roleIds, uriTemplate, method.name());
             if(!isAuthorization) {
@@ -65,6 +75,8 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
             RequestContext.set("roleIds", roleIds);
             return true;
         }
+        RequestContext.set("accountId", userId);
+        RequestContext.set("roleIds", roleIds);
         // Trả true nếu không cần xác thực
         this.logger.info("Khong can xac thuc");
         return true;

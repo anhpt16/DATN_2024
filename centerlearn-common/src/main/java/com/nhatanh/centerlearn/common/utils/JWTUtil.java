@@ -1,9 +1,13 @@
 package com.nhatanh.centerlearn.common.utils;
 
+import com.nhatanh.centerlearn.common.exception.HttpTokenExpiration;
+import com.nhatanh.centerlearn.common.exception.TokenAuthException;
 import com.nhatanh.centerlearn.common.model.AccountRoleModel;
 import com.nhatanh.centerlearn.common.service.AccountRoleService;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -62,6 +66,9 @@ public class JWTUtil {
 
     // Xác thực token hợp lệ
     public boolean validateToken(String token) {
+        if (isTokenExpired(token)) {
+            return false;
+        }
         String tokenUserId = extractUserId(token);
         List<Long> tokenUserRoles = extractRole(token);
         long userId = Long.parseLong(tokenUserId);
@@ -74,9 +81,6 @@ public class JWTUtil {
         if (!isExist) {
             return false;
         }
-        if (isTokenExpired(token)) {
-            return false;
-        }
         return true;
     }
 
@@ -87,7 +91,11 @@ public class JWTUtil {
 
     // Lấy thời gian hết hạn từ token
     private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        try {
+            return extractClaim(token, Claims::getExpiration);
+        } catch (ExpiredJwtException e) {
+            throw new HttpTokenExpiration("Token Expiration");
+        }
     }
 
     // Lấy tất cả claims từ token với parserBuilder

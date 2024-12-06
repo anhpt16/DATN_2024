@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.admin.controller.decorator;
 
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.model.AccountModel;
+import com.nhatanh.centerlearn.admin.response.AccountAvatarResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminAccountResponse;
 import com.nhatanh.centerlearn.admin.service.AccountService;
@@ -33,5 +34,13 @@ public class AdminAccountModelDecorator {
             creatorName = this.accountService.getAccountNameById(model.getCreatorId());
         }
         return this.modelToResponseConverter.toAccountDetailResponse(model, creatorName);
+    }
+    public AccountAvatarResponse decorateAccountAvatar(AccountModel model) {
+        String displayName = model.getDisplayName();
+        long userImageId = model.getAvatarId();
+        if (userImageId <= 0) {
+            return this.modelToResponseConverter.toAccountAvatarResponse(displayName, "");
+        }
+        return this.modelToResponseConverter.toAccountAvatarResponse(displayName, "");
     }
 }

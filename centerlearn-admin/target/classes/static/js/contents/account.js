@@ -58,6 +58,7 @@ $(document).ready(function() {
         } catch (error) {
             showNotification('error', '', 'Thất bại');
             message.text(error.message);
+            console.log(error)
             errorMessage.removeClass('d-none');
         }
     });

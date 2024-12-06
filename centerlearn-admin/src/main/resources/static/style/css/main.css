@@ -227,13 +227,18 @@ body main .content .content-detail {
   z-index: 1056;
 }
 
-header .logo img {
+.header-container {
+  height: 70px;
+}
+.header-container .logo img {
   width: 40px;
   height: 40px;
 }
-header .user-info img {
-  width: 40px;
-  height: 40px;
+.header-container #user-info .login-btn {
+  color: #fff;
+}
+.header-container #user-info .login-btn:hover {
+  color: #dddddd;
 }
 
 body {

@@ -114,4 +114,11 @@ public class AdminModelToResponseConverter {
             .updatedAt(model.getUpdatedAt())
             .build();
     }
+
+    public AccountAvatarResponse toAccountAvatarResponse(String displayName, String userImageUrl) {
+        return AccountAvatarResponse.builder()
+            .displayName(displayName)
+            .userImageUrl(userImageUrl)
+            .build();
+    }
 }

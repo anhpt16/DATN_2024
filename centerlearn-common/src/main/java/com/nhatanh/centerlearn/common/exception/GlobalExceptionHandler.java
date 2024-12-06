@@ -47,10 +47,22 @@ public class GlobalExceptionHandler extends EzyLoggable {
     public ResponseEntity handleException(
         HttpUnauthorizedException e
     ) {
-        logger.info(e.getMessage());
+        logger.info("Global Exception: " + e.getMessage());
         return ResponseEntity.builder()
             .status(401)
-            .body(e.getMessage())
+            .body("Global Exception: " + e.getMessage())
+            .build();
+    }
+
+    @TryCatch(HttpTokenExpiration.class)
+    public ResponseEntity handleExeption(
+        HttpTokenExpiration e
+    ) {
+        logger.info("Global Exception: " + e.getMessage());
+        return ResponseEntity.builder()
+            .header("Location", "/admin/login?lang=vi")
+            .status(302)
+            .body("Global Exception: " + e.getMessage())
             .build();
     }
 }
