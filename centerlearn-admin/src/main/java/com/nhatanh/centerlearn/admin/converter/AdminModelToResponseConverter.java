@@ -24,6 +24,18 @@ public class AdminModelToResponseConverter {
             .build();
     }
 
+    public AdminTermDetailResponse toTermDetailResponse(TermModel termModel, String name, String parentType) {
+        return AdminTermDetailResponse.builder()
+            .id(termModel.getId())
+            .name(termModel.getName())
+            .slug(termModel.getSlug())
+            .termType(termModel.getTermType())
+            .parentName(name)
+            .parentType(parentType)
+            .description(termModel.getDescription())
+            .build();
+    }
+
     public AdminRoomResponse toRoomItemResponse(RoomModel roomModel, String name) {
         return AdminRoomResponse.builder()
             .id(roomModel.getId())

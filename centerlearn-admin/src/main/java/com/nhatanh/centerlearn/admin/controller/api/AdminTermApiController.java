@@ -3,15 +3,20 @@ package com.nhatanh.centerlearn.admin.controller.api;
 import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.converter.AdminRequestToModelConverter;
 import com.nhatanh.centerlearn.admin.request.SaveTermRequest;
+import com.nhatanh.centerlearn.admin.response.AdminTermDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermSuggestionResponse;
 import com.nhatanh.centerlearn.admin.service.TermService;
 import com.nhatanh.centerlearn.admin.validator.FormValidator;
 import com.nhatanh.centerlearn.admin.validator.TermValidator;
+import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
 
 @Api
 @Controller("/api/v1/terms")
@@ -53,6 +58,17 @@ public class AdminTermApiController {
         return ResponseEntity.noContent();
     }
 
+    @DoGet("/{id}")
+    public AdminTermDetailResponse getTermById(
+        @PathVariable long id
+    ) {
+        AdminTermDetailResponse adminTermResponse = this.termServiceController.getTermById(id);
+        if (adminTermResponse == null) {
+            throw new ResourceNotFoundException("Term with id: " + id + " invalid");
+        }
+        return adminTermResponse;
+    }
+
     @DoPut("/{id}")
     public ResponseEntity updateTerm(
         @PathVariable long id,
@@ -73,4 +89,14 @@ public class AdminTermApiController {
         return ResponseEntity.noContent();
     }
 
+    @DoGet("/{name}/types")
+    public List<String> getTypesByName(
+        @PathVariable String name
+    ) {
+        List<String> types = this.termServiceController.getTypesByName(name);
+        if (types.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return types;
+    }
 }

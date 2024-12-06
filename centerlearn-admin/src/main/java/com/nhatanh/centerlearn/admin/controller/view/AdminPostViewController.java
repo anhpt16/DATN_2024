@@ -26,7 +26,7 @@ public class AdminPostViewController {
         return View.builder()
             .addVariable("terms", adminTermResponses)
             .addVariable("termTypes", termTypes)
-            .template("/contents/post/post-term")
+            .template("/contents/post/term")
             .build();
     }
     @DoGet("/writing")

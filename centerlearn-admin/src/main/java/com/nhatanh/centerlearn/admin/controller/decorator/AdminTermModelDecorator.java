@@ -4,6 +4,7 @@ import com.nhatanh.centerlearn.admin.converter.AdminItemsToResponseConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToModelConverter;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.model.TermModel;
+import com.nhatanh.centerlearn.admin.response.AdminTermDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermSuggestionResponse;
 import com.nhatanh.centerlearn.admin.service.TermService;
@@ -52,4 +53,16 @@ public class AdminTermModelDecorator {
             .currentPage(termModelPagination.getCurrentPage())
             .build();
     }
+
+    public AdminTermDetailResponse decorateTermModel(TermModel model) {
+        long parentId = model.getParentId();
+        TermModel termModel = this.termService.getTermById(parentId);
+        if (termModel == null) {
+            return this.modelToResponseConverter.toTermDetailResponse(model, "invalid", "invalid");
+        }
+        String parentName = termModel.getName();
+        String parentType = termModel.getTermType();
+        return this.modelToResponseConverter.toTermDetailResponse(model, parentName, parentType);
+    }
+
 }

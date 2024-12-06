@@ -36,6 +36,11 @@ public class TermService {
         this.termRepository.save(this.modelToEntityConverter.toTermEntityConverter(model));
     }
 
+    public TermModel getTermById(long id) {
+        Term term = this.termRepository.findById(id);
+        return term == null ? null : this.entityToModelConverter.toModel(term);
+    }
+
     public void updateTermById(long id, SaveTermModel model) {
         Term entity = this.termRepository.findById(id);
         if (entity == null) {

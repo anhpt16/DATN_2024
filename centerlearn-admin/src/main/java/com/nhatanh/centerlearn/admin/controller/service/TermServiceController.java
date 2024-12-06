@@ -1,7 +1,9 @@
 package com.nhatanh.centerlearn.admin.controller.service;
 
 import com.nhatanh.centerlearn.admin.controller.decorator.AdminTermModelDecorator;
+import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.model.TermModel;
+import com.nhatanh.centerlearn.admin.response.AdminTermDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermSuggestionResponse;
 import com.nhatanh.centerlearn.admin.service.TermService;
@@ -17,6 +19,19 @@ import java.util.List;
 public class TermServiceController {
     private final TermService termService;
     private final AdminTermModelDecorator termModelDecorator;
+    private final AdminModelToResponseConverter modelToResponseConverter;
+
+    public AdminTermDetailResponse getTermById(long id) {
+        TermModel termModel = this.termService.getTermById(id);
+        if (termModel == null) {
+            return null;
+        }
+        long parentId = termModel.getParentId();
+        if (parentId <= 0) {
+            return this.modelToResponseConverter.toTermDetailResponse(termModel, "", "");
+        }
+        return this.termModelDecorator.decorateTermModel(termModel);
+    }
 
     public List<String> getTypesByTermTypes() {
         return termService.getTypesByTermTypes();
@@ -25,12 +40,15 @@ public class TermServiceController {
     public List<String> getNamesByTermTypes(String keyword) {
         return termService.getNamesByTermTypes(keyword);
     }
+
     public long getIdByTermNameAndType(String name, String type) {
         return this.termService.getIdByTermNameAndType(name, type);
     }
+
     public List<String> getTypesByName(String keyword) {
         return termService.getTypesByName(keyword);
     }
+
     public AdminTermSuggestionResponse getSuggestions(String keyword) {
         List<String> termSuggestions = getNamesByTermTypes(keyword.trim().toUpperCase());
         List<String> typeSuggestions = getTypesByName(keyword);
