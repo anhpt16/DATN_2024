@@ -16,6 +16,7 @@ import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.server.core.interceptor.RequestInterceptor;
 import com.tvd12.ezyhttp.server.core.manager.RequestURIManager;
 import com.tvd12.ezyhttp.server.core.request.RequestArguments;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 
 import java.lang.reflect.Method;
@@ -40,10 +41,14 @@ public class AdminAuthenticationInterceptor extends EzyLoggable implements Reque
         long userId = 0;
         List<Long> roleIds = null;
         System.out.println(token);
-        if (token != null && !token.isEmpty()) {
-            // Lấy ra các vai trò của người dùng
-            userId = this.tokenService.getTokenAccountId(token);
-            roleIds = this.tokenService.getTokenRoleId(token);
+        try {
+            if (token != null && !token.isEmpty()) {
+                // Lấy ra các vai trò của người dùng
+                userId = this.tokenService.getTokenAccountId(token);
+                roleIds = this.tokenService.getTokenRoleId(token);
+            }
+        } catch (ExpiredJwtException e) {
+            logger.error("Token Expired");
         }
 
         String uriTemplate = arguments.getUriTemplate();

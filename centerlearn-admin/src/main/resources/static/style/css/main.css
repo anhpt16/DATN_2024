@@ -1057,4 +1057,12 @@ div.row.permission-table-container {
   background-color: #f0f0f0; /* Đổi màu nền khi hover để gợi ý rõ ràng hơn */
 }
 
+.menu-gallery {
+  padding-bottom: 15px;
+  border-bottom: 0.5px solid rgba(63, 58, 100, 0.1058823529);
+}
+.menu-gallery .search-gallery-container .form-control {
+  width: auto;
+}
+
 /*# sourceMappingURL=main.css.map */
