@@ -16,5 +16,5 @@ public class GalleryResponse {
     private final String description;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final double fileSize;
+    private final long fileSize;
 }

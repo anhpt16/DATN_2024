@@ -11,6 +11,8 @@ import java.util.List;
 public interface MediaRepository extends EzyDatabaseRepository<Long, Media> {
 
     @EzyQuery("SELECT m FROM Media m WHERE m.ownerAccountId = ?0")
-    List<Media> getGalleryByAccountId(long id);
+    List<Media> findGalleryByAccountId(long id);
 
+    @EzyQuery("SELECT m FROM Media m WHERE m.ownerAccountId = ?0 AND m.id = ?1")
+    Media findGallaryByAccountIdAndId(long accountId, long imageId);
 }

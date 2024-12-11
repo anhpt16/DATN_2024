@@ -1,16 +1,14 @@
 package com.nhatanh.centerlearn.common.converter;
 
-import com.nhatanh.centerlearn.common.entity.Account;
-import com.nhatanh.centerlearn.common.entity.AccountRole;
-import com.nhatanh.centerlearn.common.entity.Permission;
-import com.nhatanh.centerlearn.common.entity.Role;
-import com.nhatanh.centerlearn.common.model.AccountModel;
-import com.nhatanh.centerlearn.common.model.AccountRoleModel;
-import com.nhatanh.centerlearn.common.model.PermissionModel;
-import com.nhatanh.centerlearn.common.model.RoleModel;
+import com.nhatanh.centerlearn.common.entity.*;
+import com.nhatanh.centerlearn.common.model.*;
 import com.nhatanh.centerlearn.common.result.IdResult;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @EzySingleton
 @AllArgsConstructor
@@ -70,6 +68,28 @@ public class EntityToModelConverter {
                 .createdAt(permission.getCreatedAt())
                 .build();
         }
+    }
+
+    public GalleryModel toGalleryModel(Media media) {
+        if (media == null) {
+            return null;
+        }
+        return GalleryModel.builder()
+            .id(media.getId())
+            .name(media.getName())
+            .url(media.getUrl())
+            .description(media.getDescription())
+            .createdAt(media.getCreatedAt())
+            .updatedAt(media.getUpdatedAt())
+            .fileSize(media.getFileSize())
+            .build();
+    }
+
+    public List<GalleryModel> toGalleryListModel(List<Media> medias) {
+        if (medias.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(medias, this::toGalleryModel);
     }
 
 }

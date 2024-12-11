@@ -7,3 +7,88 @@
         }
     }
 }
+
+.list-media-container {
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    position: relative; // Để nút delete có thể căn chỉnh tuyệt đối
+
+    .media-item {
+        transition: all 0.3s ease; 
+        padding: 10px;
+        overflow: hidden; // Ẩn các phần tử con khi chưa hover
+
+        .image {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .content {
+            padding: 8px;
+            text-align: center;
+            border-radius: 10px;
+            color: $color-disabled;
+            width: 100%; // Đảm bảo content chiếm toàn bộ chiều rộng
+
+            span {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                display: block;
+                text-align: center;
+                /* Căn giữa tên media */
+            }
+
+            
+        }
+
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(201, 201, 201, 0.3);
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);
+            .content {
+                color: #000000;
+            }
+            .delete-btn {
+                opacity: 1; // Hiển thị nút delete khi hover vào phần content
+                right: 3px; // Nút sẽ từ từ xuất hiện ở cuối (di chuyển về bên phải)
+            }
+        }
+    }
+    .delete-btn {
+        position: absolute; // Đặt nút delete ở vị trí tuyệt đối
+        right: 0px; // Đặt nút ở ngoài bên phải content (ẩn đi lúc đầu)
+        top: 10px; // Đặt nút ở gần đáy của content
+        font-size: 24px;
+        color: rgb(255, 0, 0); // Màu chữ nút delete
+        border: none;
+        cursor: pointer;
+        opacity: 0; // Mặc định ẩn nút bằng opacity 0
+        transition: opacity 0.3s ease, right 0.3s ease; // Hiệu ứng chuyển động khi xuất hiện
+        &:hover {
+            color: rgb(154, 0, 0)
+        }
+    }
+}
+
+#image-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}

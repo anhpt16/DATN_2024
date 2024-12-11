@@ -7,4 +7,5 @@ public class Constants {
     public static final long ROLE_ID_TEACHER = 3;
     public static final long ROLE_ID_MANAGER = 4;
     public static final String uploadDir = "G:\\media\\";
+    public static final String apiImage = "/api/v1/media/";
 }

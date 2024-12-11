@@ -27,4 +27,9 @@ public class ModelToEntityConverter {
         entity.setUpdatedAt(this.clock.nowDateTime());
         entity.setFileSize(model.getFileSize());
     }
+
+    public void mergeToSaveEntity(Media entity, String name) {
+        entity.setName(name);
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
 }
