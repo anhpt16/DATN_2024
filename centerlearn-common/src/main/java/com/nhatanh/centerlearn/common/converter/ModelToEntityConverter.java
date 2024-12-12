@@ -1,5 +1,6 @@
 package com.nhatanh.centerlearn.common.converter;
 
+import com.nhatanh.centerlearn.common.entity.Account;
 import com.nhatanh.centerlearn.common.entity.Media;
 import com.nhatanh.centerlearn.common.model.ImageUploadModel;
 import com.nhatanh.centerlearn.common.utils.ClockProxy;
@@ -30,6 +31,26 @@ public class ModelToEntityConverter {
 
     public void mergeToSaveEntity(Media entity, String name) {
         entity.setName(name);
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveEntity(Account entity, long avatarId) {
+        entity.setAvatarImageId(avatarId);
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveAccountWithDisplayName(Account entity, String displayName) {
+        entity.setDisplayName(displayName);
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveAccountWithPhone(Account entity, String phone) {
+        entity.setPhone(phone);
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveAccountWithEmail(Account entity, String email) {
+        entity.setEmail(email);
         entity.setUpdatedAt(this.clock.nowDateTime());
     }
 }

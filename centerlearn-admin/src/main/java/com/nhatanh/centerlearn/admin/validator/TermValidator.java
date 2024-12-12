@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.admin.validator;
 
 import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.request.SaveTermRequest;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
 import lombok.AllArgsConstructor;

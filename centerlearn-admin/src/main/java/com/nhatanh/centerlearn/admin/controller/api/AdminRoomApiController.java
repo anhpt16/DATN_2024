@@ -7,7 +7,7 @@ import com.nhatanh.centerlearn.admin.request.UpdateRoomResquest;
 import com.nhatanh.centerlearn.admin.response.AdminRoomBaseResponse;
 import com.nhatanh.centerlearn.admin.response.AdminRoomResponse;
 import com.nhatanh.centerlearn.admin.service.RoomService;
-import com.nhatanh.centerlearn.admin.validator.FormValidator;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.admin.validator.RoomValidator;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;

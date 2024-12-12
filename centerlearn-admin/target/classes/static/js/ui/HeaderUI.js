@@ -7,8 +7,8 @@ const headerUI = {
         const userInfoContainer = $("#user-info");
         userInfoContainer.empty();
         //Ảnh
-        const avatarUrl = user.userImageUrl || "https://via.placeholder.com/40";
-        userInfoContainer.append(`<img src="${avatarUrl}" alt="avatar" class="rounded-circle me-2">`);
+        const avatarUrl = user.userImageUrl || "/images/user_image_default.jpg";
+        userInfoContainer.append(`<img id="header-avatar" src="${avatarUrl}" alt="avatar" class="rounded-circle me-2">`);
         //Tên
         if (user.displayName) {
             userInfoContainer.append(`<span class="user-name">${user.displayName}</span>`);

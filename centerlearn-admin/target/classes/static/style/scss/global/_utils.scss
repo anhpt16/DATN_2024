@@ -197,6 +197,33 @@ body {
             }
         }
     }
+    &.warning {
+        background-color: $warning-background;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: #fff;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p.notification-title {
+                    color: #fff;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p.notification-detail {
+                    color: #fff;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
 }
 
 .fade-in {
@@ -237,3 +264,52 @@ body {
     z-index: 1056;
 }
 
+
+// Modal kho ảnh
+.upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px; /* Khoảng cách từ trên */
+    
+    .upload-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px; /* Chiều rộng của khu vực upload */
+      height: 90px; /* Chiều cao của khu vực upload */
+      border: 2px dashed #727272; /* Viền nét đứt */
+      border-radius: 10px; /* Làm bo góc */
+      background-color: #f8f9fa; /* Màu nền nhẹ */
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+  
+      &:hover {
+        border-color: #0056b3; /* Viền đổi màu khi hover */
+        .upload-icon {
+            color: #0056b3;
+        };
+        .upload-text {
+            color: #0056b3;
+        }
+      }
+  
+      .upload-icon {
+        font-size: 36px;
+        color: #5d5c5c; /* Màu của icon */
+        margin-right: 10px; /* Khoảng cách giữa icon và text */
+      }
+  
+      .upload-text {
+        font-size: 16px;
+        color: #5d5c5c;
+        font-weight: 600;
+      }
+  
+      /* Ẩn input file */
+      .file-upload-input {
+        display: none;
+      }
+    }
+  }

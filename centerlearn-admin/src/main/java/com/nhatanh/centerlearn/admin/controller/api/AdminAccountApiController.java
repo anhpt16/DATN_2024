@@ -278,4 +278,5 @@ public class AdminAccountApiController {
         this.accountServiceController.updateAccountStatus(id, name);
         return ResponseEntity.noContent();
     }
+
 }

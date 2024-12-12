@@ -16,7 +16,9 @@ import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
 import com.nhatanh.centerlearn.common.exception.AccountCreationException;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
+import com.nhatanh.centerlearn.common.model.GalleryModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
+import com.nhatanh.centerlearn.common.service.MediaService;
 import com.nhatanh.centerlearn.common.utils.JWTUtil;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
@@ -32,6 +34,7 @@ public class AccountServiceController {
     private final AccountService accountService;
     private final RoleService roleService;
     private final AccountRoleService accountRoleService;
+    private final MediaService mediaService;
     private final AdminModelToModelConverter modelToModelConverter;
     private final AdminAccountModelDecorator accountModelDecorator;
     private final AdminRoleModelDecorator roleModelDecorator;
@@ -98,17 +101,26 @@ public class AccountServiceController {
 
     public AdminAccountResponse getAccountByEmail(String email) {
         AccountModel model = this.accountService.getAccountByEmail(email);
-        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
+        if (model == null) {
+            return null;
+        }
+        return this.accountModelDecorator.decorateAccountModel(model);
     }
 
     public AdminAccountResponse getAccountById(long id) {
         AccountModel model = this.accountService.getAccountById(id);
-        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
+        if (model == null) {
+            return null;
+        }
+        return this.accountModelDecorator.decorateAccountModel(model);
     }
 
     public AdminAccountResponse getAccountByPhone(String phone) {
         AccountModel model = this.accountService.getAccountByPhone(phone);
-        return model == null ? null : this.modelToResponseConverter.toAccountResponse(model);
+        if (model == null) {
+            return null;
+        }
+        return this.accountModelDecorator.decorateAccountModel(model);
     }
 
     public boolean getAccountByUsernameAndPassword(AccountLoginModel accountLoginModel) {

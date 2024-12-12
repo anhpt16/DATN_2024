@@ -1,6 +1,5 @@
 package com.nhatanh.centerlearn.admin.validator;
 
-import com.nhatanh.centerlearn.admin.repo.PermissionRepository;
 import com.nhatanh.centerlearn.admin.request.SavePermissionRequest;
 import com.nhatanh.centerlearn.admin.service.PermissionService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
@@ -9,8 +8,8 @@ import com.nhatanh.centerlearn.common.enums.MethodName;
 import com.nhatanh.centerlearn.common.enums.PermissionStatus;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.UriModel;
-import com.nhatanh.centerlearn.common.service.UriService;
 import com.nhatanh.centerlearn.common.utils.UriScanner;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
 import lombok.AllArgsConstructor;

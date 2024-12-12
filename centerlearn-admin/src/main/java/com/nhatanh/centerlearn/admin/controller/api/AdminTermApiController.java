@@ -7,7 +7,7 @@ import com.nhatanh.centerlearn.admin.response.AdminTermDetailResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTermSuggestionResponse;
 import com.nhatanh.centerlearn.admin.service.TermService;
-import com.nhatanh.centerlearn.admin.validator.FormValidator;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.admin.validator.TermValidator;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;

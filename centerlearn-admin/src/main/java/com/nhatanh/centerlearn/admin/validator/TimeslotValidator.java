@@ -1,9 +1,9 @@
 package com.nhatanh.centerlearn.admin.validator;
 
-import com.nhatanh.centerlearn.admin.model.SaveTimeslotModel;
 import com.nhatanh.centerlearn.admin.request.SaveTimeslotRequest;
 import com.nhatanh.centerlearn.admin.request.UpdateTimeslotRequest;
 import com.nhatanh.centerlearn.admin.service.TimeslotService;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
 import lombok.AllArgsConstructor;

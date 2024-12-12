@@ -19,6 +19,7 @@ const apiCall = async (endpoint, method = "GET", body = null) => {
         return response.data;
     } catch (error) {
         console.error(`Error while calling ${endpoint}:`, error);
+        throw new Error(error);
     }
 };
 

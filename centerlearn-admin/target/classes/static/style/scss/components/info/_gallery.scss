@@ -11,12 +11,11 @@
 .list-media-container {
     margin-top: 20px;
     transition: all 0.3s ease;
-    position: relative; // Để nút delete có thể căn chỉnh tuyệt đối
-
     .media-item {
         transition: all 0.3s ease; 
         padding: 10px;
         overflow: hidden; // Ẩn các phần tử con khi chưa hover
+        position: relative; // Để nút delete có thể căn chỉnh tuyệt đối
 
         .image {
             width: 100%;
@@ -30,6 +29,9 @@
                 height: 100%;
                 object-fit: contain;
             }
+        }
+        .modal-image {
+            height: 200px;
         }
 
         .content {
@@ -63,22 +65,42 @@
                 opacity: 1; // Hiển thị nút delete khi hover vào phần content
                 right: 3px; // Nút sẽ từ từ xuất hiện ở cuối (di chuyển về bên phải)
             }
+            .image-select {
+                opacity: 1;
+            }
+        }
+
+        .image-select {
+            position: absolute;
+            top: 10px; // Khoảng cách từ trên
+            right: 10px; // Khoảng cách từ phải
+            cursor: pointer;
+            opacity: 0;
+            
+        }
+    
+        .delete-btn {
+            position: absolute; // Đặt nút delete ở vị trí tuyệt đối
+            right: 0px; // Đặt nút ở ngoài bên phải content (ẩn đi lúc đầu)
+            top: 10px; // Đặt nút ở gần đáy của content
+            font-size: 24px;
+            color: rgb(255, 0, 0); // Màu chữ nút delete
+            border: none;
+            cursor: pointer;
+            opacity: 0; // Mặc định ẩn nút bằng opacity 0
+            transition: opacity 0.3s ease, right 0.3s ease; // Hiệu ứng chuyển động khi xuất hiện
+            &:hover {
+                color: rgb(154, 0, 0)
+            }
         }
     }
-    .delete-btn {
-        position: absolute; // Đặt nút delete ở vị trí tuyệt đối
-        right: 0px; // Đặt nút ở ngoài bên phải content (ẩn đi lúc đầu)
-        top: 10px; // Đặt nút ở gần đáy của content
-        font-size: 24px;
-        color: rgb(255, 0, 0); // Màu chữ nút delete
-        border: none;
-        cursor: pointer;
-        opacity: 0; // Mặc định ẩn nút bằng opacity 0
-        transition: opacity 0.3s ease, right 0.3s ease; // Hiệu ứng chuyển động khi xuất hiện
-        &:hover {
-            color: rgb(154, 0, 0)
-        }
-    }
+
+    
+    
+}
+
+.active-select {
+    opacity: 1 !important;
 }
 
 #image-detail {

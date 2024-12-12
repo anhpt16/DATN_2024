@@ -1,8 +1,10 @@
 package com.nhatanh.centerlearn.common.converter;
 
 import com.nhatanh.centerlearn.common.constant.Constants;
+import com.nhatanh.centerlearn.common.model.AccountModel;
 import com.nhatanh.centerlearn.common.model.GalleryModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
+import com.nhatanh.centerlearn.common.response.AccountResponse;
 import com.nhatanh.centerlearn.common.response.GalleryResponse;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
@@ -36,5 +38,19 @@ public class ModelToResponseConverter {
             return Collections.emptyList();
         }
         return newArrayList(models, this::toGalleryResponse);
+    }
+
+    public AccountResponse toAccountResponse(AccountModel accountModel, String avatarUrl) {
+        String apiUrl = "";
+        if (!avatarUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + avatarUrl;
+        }
+        return AccountResponse.builder()
+            .username(accountModel.getUsername())
+            .displayName(accountModel.getDisplayName())
+            .email(accountModel.getEmail())
+            .phone(accountModel.getPhone())
+            .avatarUrl(apiUrl)
+            .build();
     }
 }

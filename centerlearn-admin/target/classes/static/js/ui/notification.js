@@ -30,7 +30,21 @@ export function showNotification(type, title, message, duration = 3000) {
                 </div>
             </div>
         `);
-    } else {
+    } 
+    else if (type === 'warning') {
+        notification = $(`
+            <div class="notification warning">
+                <div class="d-flex">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <div class="d-flex">
+                        <p class="notification-title">${title}</p>
+                        <p class="notification-detail">${message}</p>
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+    else {
         console.error('Invalid notification type');
         return;
     }

@@ -3,20 +3,27 @@ package com.nhatanh.centerlearn.common.service;
 import com.nhatanh.centerlearn.common.converter.EntityToModelConverter;
 import com.nhatanh.centerlearn.common.converter.ModelToEntityConverter;
 import com.nhatanh.centerlearn.common.entity.Media;
+import com.nhatanh.centerlearn.common.entity.Term;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.filter.MediaFilterCriteria;
+import com.nhatanh.centerlearn.common.model.AccountModel;
 import com.nhatanh.centerlearn.common.model.GalleryModel;
 import com.nhatanh.centerlearn.common.model.ImageUploadModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.repository.MediaRepository;
 import com.nhatanh.centerlearn.common.repository.MediaRepositoryCustom;
+import com.tvd12.ezyfox.io.EzyMaps;
 import com.tvd12.ezyfox.util.Next;
 import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @Service
@@ -86,5 +93,14 @@ public class MediaService {
             .totalPage(totalPage)
             .currentPage(page)
             .build();
+    }
+
+    public Map<Long, String> getAvatarUrlMapByIds(Collection<Long> ids) {
+        return EzyMaps.newHashMapNewValues(this.getGalleriesMapByIds(ids), GalleryModel::getUrl);
+    }
+
+    public Map<Long, GalleryModel> getGalleriesMapByIds(Collection<Long> ids) {
+        return ids.isEmpty() ? Collections.emptyMap() : this.mediaRepository.findListByIds(ids).stream()
+            .collect(Collectors.toMap(Media::getId, this.entityToModelConverter::toGalleryModel, (o, n) -> n));
     }
 }

@@ -65,6 +65,7 @@ const accountService = {
     getAccountByEmail: (email) => apiCall(`/accounts/email/${email}`),
     getAccountByPhone: (phone) => apiCall(`/accounts/phone/${phone}`),
     getAccountDetailById: (id) => apiCall(`/accounts/${id}`, "GET"),
+    getAccountInfo: () => apiCall(`/account/personal`, "GET"),
 
     getAccountRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles`, "GET"),
     getNotAssignedRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles/not-assigned`, "GET"),
@@ -79,6 +80,29 @@ const accountService = {
     getAccountStatuses: () => apiCall(`/accounts/statuses`, "GET"),
     updatedAccountStatus: (accountId, statusName) => apiCall(`/accounts/${accountId}/status/${statusName}`, "PUT"),
     getUserByToken: () => apiCall(`/admin/login/user`, "GET"),
+
+    updateAccountAvatar: (imageId) => apiCall(`/account/avatar/${imageId}`, "PUT"),
+
+    updateAccountDisplayName: async (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString;
+        }
+        return apiCall(`/account/displayname${queryString}`, "PUT");
+    },
+
+    updateAccountEmail: async (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString;
+        }
+        return apiCall(`/account/email${queryString}`, "PUT");
+    },
+
+    updateAccountPhone: async (queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString;
+        }
+        return apiCall(`/account/phone${queryString}`, "PUT");
+    }
 };
 
 export default accountService;

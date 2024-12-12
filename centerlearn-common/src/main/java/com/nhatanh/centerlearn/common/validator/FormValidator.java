@@ -1,4 +1,4 @@
-package com.nhatanh.centerlearn.admin.validator;
+package com.nhatanh.centerlearn.common.validator;
 
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.NoArgsConstructor;

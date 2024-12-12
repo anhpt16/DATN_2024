@@ -4,7 +4,7 @@ package com.nhatanh.centerlearn.admin.converter;
 import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.request.*;
-import com.nhatanh.centerlearn.admin.validator.FormValidator;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.common.entity.PermissionId;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.RoomStatus;

@@ -17,7 +17,7 @@ public class AdminAccountDetailResponse {
     private final String email;
     private final String phone;
     private final AccountStatus status;
-    private final long avatarId;
+    private final String avatarUrl;
     private final String creatorName;
     private final long creatorId;
     private final LocalDateTime createdAt;

@@ -4,6 +4,7 @@ import com.nhatanh.centerlearn.admin.controller.service.RoomServiceController;
 import com.nhatanh.centerlearn.admin.request.SaveRoomRequest;
 import com.nhatanh.centerlearn.admin.request.UpdateRoomResquest;
 import com.nhatanh.centerlearn.admin.service.RoomService;
+import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyhttp.core.exception.HttpBadRequestException;
 import lombok.AllArgsConstructor;

@@ -3,6 +3,7 @@ package com.nhatanh.centerlearn.admin.converter;
 
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.*;
+import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.RoomStatus;
 import com.nhatanh.centerlearn.common.enums.TimeslotStatus;
@@ -85,7 +86,7 @@ public class AdminModelToResponseConverter {
             .build();
     }
 
-    public AdminAccountResponse toAccountResponse(AccountModel model) {
+    public AdminAccountResponse toAccountResponse(AccountModel model, String avatarUrl) {
         return AdminAccountResponse.builder()
             .id(model.getId())
             .username(model.getUsername())
@@ -93,13 +94,13 @@ public class AdminModelToResponseConverter {
             .email(model.getEmail())
             .phone(model.getPhone())
             .status(AccountStatus.fromString(model.getStatus()))
-            .avatarId(model.getAvatarId())
+            .avatarUrl(avatarUrl)
             .createdAt(model.getCreatedAt())
             .updatedAt(model.getUpdatedAt())
             .build();
     }
 
-    public AdminAccountDetailResponse toAccountDetailResponse(AccountModel model, String creatorName) {
+    public AdminAccountDetailResponse toAccountDetailResponse(AccountModel model, String creatorName, String avatarUrl) {
         return AdminAccountDetailResponse.builder()
             .id(model.getId())
             .username(model.getUsername())
@@ -107,7 +108,7 @@ public class AdminModelToResponseConverter {
             .email(model.getEmail())
             .phone(model.getPhone())
             .status(AccountStatus.fromString(model.getStatus()))
-            .avatarId(model.getAvatarId())
+            .avatarUrl(avatarUrl)
             .creatorId(model.getCreatorId())
             .creatorName(creatorName)
             .createdAt(model.getCreatedAt())
@@ -115,10 +116,14 @@ public class AdminModelToResponseConverter {
             .build();
     }
 
-    public AccountAvatarResponse toAccountAvatarResponse(String displayName, String userImageUrl) {
+    public AccountAvatarResponse toAccountAvatarResponse(String displayName, String avatarUrl) {
+        String apiUrl = "";
+        if (!avatarUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + avatarUrl;
+        }
         return AccountAvatarResponse.builder()
             .displayName(displayName)
-            .userImageUrl(userImageUrl)
+            .userImageUrl(apiUrl)
             .build();
     }
 }
