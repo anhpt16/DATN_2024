@@ -6,7 +6,8 @@ import { showConfirmation } from "../ui/notification.js";
 
 
 $(document).ready(function() {
-    const tbodyEl = $("#table-account");
+    // Modal
+    const editModal = $("#edit-modal");
     // Add Account
     const formAddAccount = $("#form-add-user");
     const addAccountUsername = $("#add-account-username");
@@ -137,7 +138,7 @@ $(document).ready(function() {
             }
             await resetAccountDetail(accountId);
             await resetAccountStatuses();
-            getAccountByFilter();
+            getAccountByFilter(currentPage);
         }
     })
 
@@ -295,7 +296,7 @@ $(document).ready(function() {
 
     // Reset
     refreshBtn.on('click', function() {
-        getAccountByFilter();
+        getAccountByFilter(currentPage);
     })
 
 

@@ -126,5 +126,21 @@ public class AdminEntityToModelConverter {
         }
     }
 
-
+    public SubjectModel toModel(Subject subject) {
+        if (subject == null) {
+            return null;
+        } else {
+            return SubjectModel.builder()
+                .id(subject.getId())
+                .name(subject.getName())
+                .displayName(subject.getDisplayName())
+                .description(subject.getDisplayName())
+                .status(subject.getStatus())
+                .createdAt(subject.getCreatedAt())
+                .updatedAt(subject.getUpdatedAt())
+                .imageId(subject.getImageId())
+                .slug(subject.getSlug())
+                .build();
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.admin.converter;
 
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.common.entity.*;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.utils.Base64Util;
 import com.nhatanh.centerlearn.common.utils.ClockProxy;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
@@ -55,6 +56,12 @@ public class AdminModelToEntityConverter {
     public AccountRole toAccountRoleEntityConverter(AccountRoleModel model) {
         AccountRole entity = new AccountRole();
         this.mergeToEntity(model, entity);
+        return entity;
+    }
+
+    public Subject toSubjectEntityConverter(AddSubjectModel model) {
+        Subject entity = new Subject();
+        this.mergeToEntity(entity, model);
         return entity;
     }
 
@@ -144,5 +151,34 @@ public class AdminModelToEntityConverter {
 
     public void mergeToSaveEntity(String statusName, Account account) {
         account.setStatus(statusName.toUpperCase());
+    }
+
+    public void mergeToEntity(Subject entity, AddSubjectModel model) {
+        entity.setName(model.getName());
+        entity.setDisplayName(model.getDisplayName());
+        entity.setDescription(model.getDescription());
+        entity.setStatus(model.getStatus());
+        entity.setCreatedAt(this.clock.nowDateTime());
+        entity.setUpdatedAt(this.clock.nowDateTime());
+        entity.setImageId(model.getImageId());
+        entity.setSlug(model.getSlug());
+    }
+
+    public void mergeToSaveEntity(Subject entity, SaveSubjectModel model) {
+        if (model.getName() != null) {
+            entity.setName(model.getName());
+        }
+        if (model.getDisplayName() != null) {
+            entity.setDisplayName(model.getDisplayName());
+        }
+        if (model.getDescription() != null) {
+            entity.setDescription(model.getDescription());
+        }
+        if (model.getImageId() > 0) {
+            entity.setImageId(model.getImageId());
+        }
+        if (model.getStatus() != null) {
+            entity.setStatus(model.getStatus().toUpperCase());
+        }
     }
 }

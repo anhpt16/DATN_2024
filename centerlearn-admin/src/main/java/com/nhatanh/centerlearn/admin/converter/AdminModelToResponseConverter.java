@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.admin.response.*;
 import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.RoomStatus;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.enums.TimeslotStatus;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
@@ -87,6 +88,10 @@ public class AdminModelToResponseConverter {
     }
 
     public AdminAccountResponse toAccountResponse(AccountModel model, String avatarUrl) {
+        String apiUrl = "";
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + avatarUrl;
+        }
         return AdminAccountResponse.builder()
             .id(model.getId())
             .username(model.getUsername())
@@ -94,13 +99,17 @@ public class AdminModelToResponseConverter {
             .email(model.getEmail())
             .phone(model.getPhone())
             .status(AccountStatus.fromString(model.getStatus()))
-            .avatarUrl(avatarUrl)
+            .avatarUrl(apiUrl)
             .createdAt(model.getCreatedAt())
             .updatedAt(model.getUpdatedAt())
             .build();
     }
 
     public AdminAccountDetailResponse toAccountDetailResponse(AccountModel model, String creatorName, String avatarUrl) {
+        String apiUrl = "";
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + avatarUrl;
+        }
         return AdminAccountDetailResponse.builder()
             .id(model.getId())
             .username(model.getUsername())
@@ -108,7 +117,7 @@ public class AdminModelToResponseConverter {
             .email(model.getEmail())
             .phone(model.getPhone())
             .status(AccountStatus.fromString(model.getStatus()))
-            .avatarUrl(avatarUrl)
+            .avatarUrl(apiUrl)
             .creatorId(model.getCreatorId())
             .creatorName(creatorName)
             .createdAt(model.getCreatedAt())
@@ -118,12 +127,30 @@ public class AdminModelToResponseConverter {
 
     public AccountAvatarResponse toAccountAvatarResponse(String displayName, String avatarUrl) {
         String apiUrl = "";
-        if (!avatarUrl.isEmpty()) {
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
             apiUrl = Constants.apiImage + avatarUrl;
         }
         return AccountAvatarResponse.builder()
             .displayName(displayName)
             .userImageUrl(apiUrl)
+            .build();
+    }
+
+    public AdminSubjectResponse toSubjectResponse(SubjectModel model, String imageUrl) {
+        String apiUrl = "";
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + imageUrl;
+        }
+        return AdminSubjectResponse.builder()
+            .id(model.getId())
+            .name(model.getName())
+            .displayName(model.getDisplayName())
+            .description(model.getDescription())
+            .status(SubjectStatus.fromString(model.getStatus()))
+            .createdAt(model.getCreatedAt())
+            .updatedAt(model.getUpdatedAt())
+            .slug(model.getSlug())
+            .imageUrl(apiUrl)
             .build();
     }
 }

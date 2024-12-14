@@ -34,7 +34,7 @@ public class AdminAccountModelDecorator {
             .map(AccountModel::getAvatarId)
             .filter(id -> id > 0)
             .collect(Collectors.toSet());
-        Map<Long, String> avatarIdsWithNames = this.mediaService.getAvatarUrlMapByIds(avatarIds);
+        Map<Long, String> avatarIdsWithNames = this.mediaService.getImageUrlMapByIds(avatarIds);
         List<AdminAccountResponse> accountResponses = newArrayList(accountModels, accountModel -> modelToResponseConverter.toAccountResponse(
             accountModel, avatarIdsWithNames.get(accountModel.getAvatarId())
         ));

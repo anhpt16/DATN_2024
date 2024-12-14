@@ -71,7 +71,7 @@
               </thead>
               <tbody id="table-account">
                   <tr th:each="account : ${accountPagination.items}" th:data-id="${account.id}">
-                      <td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>
+                      <td class="item-account-image"><img th:src="${account.avatarUrl != null && account.avatarUrl != '' ? account.avatarUrl : '/images/user_image_default.jpg'}" alt="Avatar"></td>
                       <td class="item-account-username" th:text="${account.username}"></td>
                       <td class="item-account-display-name" th:text="${account.displayName}"></td>
                       <td class="item-account-email" th:text="${account.email}"></td>

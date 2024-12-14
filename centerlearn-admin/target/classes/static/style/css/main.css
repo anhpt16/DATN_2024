@@ -780,7 +780,7 @@ div.row.permission-table-container {
   border-radius: 4px;
   background-color: #3498db;
   color: #fff;
-  width: 125px;
+  width: 100px;
 }
 .table-account .table-menu .table-search button:hover {
   background-color: #027ac5;
@@ -829,6 +829,13 @@ div.row.permission-table-container {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 200px;
+}
+
+#account-info .avatar-info {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .add-account {

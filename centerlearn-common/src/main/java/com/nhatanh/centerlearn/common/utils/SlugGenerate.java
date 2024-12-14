@@ -4,6 +4,7 @@ import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 
 import java.text.Normalizer;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @EzySingleton
@@ -17,6 +18,12 @@ public class SlugGenerate {
             .replaceAll("\\s+", "-");
         slug = slug.replaceAll("^-+|-+$", "");
         return slug;
+    }
+
+    public static String createSlugWithId(String str) {
+        String slug = createSlug(str);
+        String uuid = UUID.randomUUID().toString().substring(0,8);
+        return slug + "-" + uuid;
     }
 
     public static void main(String[] args) {

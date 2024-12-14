@@ -107,8 +107,8 @@
                   </tr>
               </thead>
               <tbody id="table-account">
-                  <tr th:each="account : ${accountPagination.items}" data-id="${account.id}">
-                      <td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>
+                  <tr th:each="account : ${accountPagination.items}" th:attr="data-id=${account.id}">
+                      <td class="item-account-image"><img th:src="${account.avatarUrl != null && account.avatarUrl != '' ? account.avatarUrl : '/images/user_image_default.jpg'}" alt="Avatar"></td>
                       <td class="item-account-username" th:text="${account.username}"></td>
                       <td class="item-account-display-name" th:text="${account.displayName}"></td>
                       <td class="item-account-email" th:text="${account.email}"></td>
@@ -145,6 +145,7 @@
   <div id="notification-container"></div>
   <div id="confirmation-modal"></div>
   <div id="edit-modal"></div>
+  <div id="info-modal"></div>
 </div>
 <th:block layout:fragment="post-scripts">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

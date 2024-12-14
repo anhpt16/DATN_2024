@@ -95,7 +95,7 @@ public class MediaService {
             .build();
     }
 
-    public Map<Long, String> getAvatarUrlMapByIds(Collection<Long> ids) {
+    public Map<Long, String> getImageUrlMapByIds(Collection<Long> ids) {
         return EzyMaps.newHashMapNewValues(this.getGalleriesMapByIds(ids), GalleryModel::getUrl);
     }
 

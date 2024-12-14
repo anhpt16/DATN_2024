@@ -2,8 +2,10 @@
 import accountService from "../service/AccountService.js";
 import studentUI from "../ui/StudentUI.js";
 import { showNotification } from "../ui/notification.js";
+import { showConfirmation } from "../ui/notification.js";
 
 $(document).ready(function() {
+    const tbodyEl = $("#table-account");
     // Add Account
     const formAddAccount = $("#form-add-user");
     const addAccountUsername = $("#add-account-username");
@@ -27,6 +29,8 @@ $(document).ready(function() {
     // Thông báo lỗi
     const errorMessage = $("#error-message");
     const message = $("#error-message .error-content");
+    // Modal
+    const editModal = $("#edit-modal");
 
     // Thêm tài khoản
     formAddAccount.on('submit', async function(event) {
@@ -54,12 +58,82 @@ $(document).ready(function() {
         }
     });
 
+    // Xem chi tiết tài khoản
+    tbodyEl.on('click', '.view-btn', async function() {
+        // Lấy dòng được chọn
+        const getDelegationRow = $(this).closest('tr');
+        // Lấy id
+        const accountId = getDelegationRow.attr('data-id');
+        console.log(accountId);
+        studentUI.renderInfoModal();
+        const results = await Promise.allSettled([
+            accountService.getAccountDetailById(accountId),
+        ])
+        const accountResponse = results[0];
+        if (accountResponse.status === 'fulfilled') {
+            studentUI.renderInfoDetail(accountResponse.value);
+        } else {
+            console.log('Error getting account details:', accountResponse.reason);
+        }
+    })
+
     errorMessage.on('click', '.close-icon i', function() {
         message.empty();
         errorMessage.addClass('d-none');
     })
 
-    
+    // Cập nhật tài khoản
+    tbodyEl.on('click', '.edit-btn', async function() {
+        // Lấy dòng được chọn
+        const getDelegationRow = $(this).closest('tr');
+        // Lấy id
+        const accountId = getDelegationRow.attr('data-id');
+        console.log(accountId);
+        studentUI.renderEditModal();
+
+        // Chi tiết tài khoản
+        const results = await Promise.allSettled([
+            accountService.getAccountDetailById(accountId),
+        ])
+        const accountResponse = results[0];
+        if (accountResponse.status === 'fulfilled') {
+            studentUI.renderInfoDetail(accountResponse.value);
+        } else {
+            console.log('Error getting account details:', accountResponse.reason);
+        }
+        // Trạng thái tài khoản
+        try {
+            const statusResponse = await accountService.getAccountStatuses();
+            studentUI.renderStatuses(statusResponse);
+        } catch (error) {
+            console.log("Error " + error);
+        }
+    })
+
+    // Thay đổi trạng thái
+    editModal.on('change', '#account-status', async function() {
+        const accountId = $("#id-info").attr('data-id');
+        const currentStatus = $("#status-name").attr('data-name');
+        const statusChange = $("#account-status").val();
+        console.log(currentStatus);
+        console.log(statusChange);
+        if (currentStatus === statusChange) {
+            return;
+        }
+        const result = await showConfirmation('update', 'Thay đổi trạng thái', statusChange);
+        if (result) {
+            try {
+                const response = await accountService.updatedAccountStatus(accountId, statusChange);
+                showNotification("success", '', 'Cập nhật thành công');
+            } catch (error) {
+                showNotification("error", '', 'Cập nhật thất bại');
+                console.log("Error: " + error);
+            }
+            await resetAccountDetail(accountId);
+            await resetAccountStatuses();
+            getAccountByFilter(currentPage);
+        }
+    })
 
 
     // Đóng, mở tìm kiếm
@@ -203,6 +277,25 @@ $(document).ready(function() {
     }
     function processAccountId(id) {
         return !isNaN(id) && Number(id) > 0;
+    }
+
+    // Reset Account Detail
+    async function resetAccountDetail(accountId) {
+        try {
+            const accountResponse = await accountService.getAccountDetailById(accountId);
+            studentUI.renderInfoDetail(accountResponse);
+        } catch (error) {
+            console.log("Error: " + error);
+        }   
+    }
+    // Reset Account Statuses
+    async function resetAccountStatuses() {
+        try {
+            const statuses = await accountService.getAccountStatuses();
+            studentUI.renderStatuses(statuses);
+        } catch (error) {
+            console.log("Error: " + error);
+        }
     }
 
     // Chuyển trang

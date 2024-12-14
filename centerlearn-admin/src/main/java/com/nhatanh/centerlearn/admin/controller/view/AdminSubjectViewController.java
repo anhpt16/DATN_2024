@@ -9,13 +9,13 @@ import lombok.AllArgsConstructor;
 @Controller("/admin/subject")
 public class AdminSubjectViewController {
 
-    @DoGet("/add")
+    @DoGet("/manage")
     public View initAddSubject(
 
     ) {
 
         return View.builder()
-            .template("/contents/subject/subject-add")
+            .template("/contents/subject/manage_subject")
             .build();
     }
 
@@ -25,17 +25,8 @@ public class AdminSubjectViewController {
     ) {
 
         return View.builder()
-            .template("/contents/subject/subject-list")
+            .template("/contents/subject/list_subject")
             .build();
     }
 
-    @DoGet("/textbook")
-    public View initTextbookSubject(
-
-    ) {
-
-        return View.builder()
-            .template("/contents/subject/subject-textbook")
-            .build();
-    }
 }

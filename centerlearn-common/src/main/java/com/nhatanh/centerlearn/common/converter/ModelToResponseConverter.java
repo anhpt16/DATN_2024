@@ -42,7 +42,7 @@ public class ModelToResponseConverter {
 
     public AccountResponse toAccountResponse(AccountModel accountModel, String avatarUrl) {
         String apiUrl = "";
-        if (!avatarUrl.isEmpty()) {
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
             apiUrl = Constants.apiImage + avatarUrl;
         }
         return AccountResponse.builder()

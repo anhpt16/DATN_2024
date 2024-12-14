@@ -13,7 +13,7 @@ const accountUI = {
         }
         accounts.forEach(function(account) {
             let row = '<tr class="fade-in" data-id="' + account.id + '">' +
-                '<td class="item-account-image"><img src="https://via.placeholder.com/50" alt="Avatar"></td>' +
+                '<td class="item-account-image"><img src="'+ (account.avatarUrl && account.avatarUrl != '' ? account.avatarUrl : '/images/user_image_default.jpg') +'" alt="Avatar"></td>' +
                 '<td class="item-account-username">' + account.username + '</td>' +
                 '<td class="item-account-display-name">' + account.displayName + '</td>' +
                 '<td class="item-account-email">' + account.email + '</td>' +
@@ -129,7 +129,7 @@ const accountUI = {
                     <strong id="id-info" data-id="${accountResponse.id || ''}">#${accountResponse.id}</strong>
                 </div>
                 <div class="row p-2">
-                    <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle img-fluid">
+                    <img class="avatar-info" src="${accountResponse.avatarUrl != null && accountResponse.avatarUrl != '' ? accountResponse.avatarUrl : '/images/user_image_default.jpg'}">
                 </div>
                 <div id="status-name" data-name="${accountResponse.status.name || ''}" class="row p-2" style="color: ${accountResponse.status.colorCode ? accountResponse.status.colorCode : ''}">
                     ${accountResponse.status.displayName}

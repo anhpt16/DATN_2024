@@ -25,7 +25,7 @@ public class Subject {
         name = "display_name"
     )
     private String displayName;
-    private String discription;
+    private String description;
     private String status;
     @Column(
         name = "image_id"
@@ -39,4 +39,5 @@ public class Subject {
         name = "updated_at"
     )
     private LocalDateTime updatedAt;
+    private String slug;
 }

@@ -4,6 +4,7 @@ package com.nhatanh.centerlearn.admin.converter;
 import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.request.*;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.common.entity.PermissionId;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
@@ -132,6 +133,28 @@ public class AdminRequestToModelConverter {
         return AccountRoleModel.builder()
             .accountId(accountId)
             .roleId(roleId)
+            .build();
+    }
+
+    public AddSubjectModel toAddSubjectModel(AddSubjectRequest request) {
+        return AddSubjectModel.builder()
+            .name(request.getName())
+            .displayName(request.getDisplayName())
+            .description(request.getDescription())
+            .status(SubjectStatus.ACTIVE.name())
+            .slug(SlugGenerate.createSlugWithId(request.getDisplayName()))
+            .imageId(request.getImageId())
+            .build();
+    }
+
+    public SaveSubjectModel toSaveSubjectModel(SaveSubjectRequest request, long subjectId) {
+        return SaveSubjectModel.builder()
+            .id(subjectId)
+            .name(request.getName())
+            .displayName(request.getDisplayName())
+            .description(request.getDescription())
+            .status(request.getStatus())
+            .imageId(request.getImageId())
             .build();
     }
 }

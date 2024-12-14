@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{page}">
+<body>
+<div layout:fragment="content" class="row content">
+  <th:block th:replace="~{sidebar/admin-sidebar :: admin-sidebar}"></th:block>
+  <div class="col-lg-10 content-detail">
+    <div class="location-detail">
+      Môn học > Danh sách môn học
+    </div>
+    <div class="row content-detail-container">
+    </div>
+  </div>
+  <div id="notification-container"></div>
+  <div id="confirmation-modal"></div>
+  <div id="edit-modal"></div>
+  <div id="info-modal"></div>
+  <div class="modal modal-lg fade" id="add-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong>Thêm tài khoản</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="add-account">
+                    <div id="add-account-container" class="add-account-container">
+                      <div class="add-account-content-container">
+                        <form id="form-add-user">
+                          <div>
+                            <label for="">[[#{account_username}]]</label>
+                            <input type="text" autocomplete="off" id="add-account-username">
+                          </div>
+                          <div>
+                            <label for="">[[#{account_password}]]</label>
+                            <input type="text" autocomplete="off" id="add-account-password">
+                          </div>
+                          <div>
+                            <label for="">[[#{account_display_name}]]</label>
+                            <input type="text" autocomplete="off" id="add-account-display-name">
+                          </div>
+                          <div>
+                            <label for="">[[#{account_email}]]</label>
+                            <input type="text" autocomplete="off" id="add-account-email">
+                          </div>
+                          <div>
+                            <label for="">[[#{account_phone}]]</label>
+                            <input type="text" autocomplete="off" id="add-account-phone">
+                          </div>
+                          <div>
+                            <label for="">[[#{account_role}]]</label>
+                            <select name="" id="add-account-role" autocomplete="off">
+                              <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}"></option>
+                            </select>
+                          </div>
+                          <div class="add-account-action-container">
+                            <button type="submit">[[#{create}]]</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                </div>
+                <div id="error-message" class="error-message d-none">
+                    <div class="d-flex justify-content-end close-icon">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="error-content mt-2">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<th:block layout:fragment="post-scripts">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  <script type="module" src="/js/sidebar/admin-sidebar.js"></script>
+  <script type="module" src="/js/contents/account.js"></script>
+</th:block>
+</body>
+</html>
