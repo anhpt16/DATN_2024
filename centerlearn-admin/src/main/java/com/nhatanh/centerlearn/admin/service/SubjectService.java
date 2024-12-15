@@ -10,12 +10,15 @@ import com.nhatanh.centerlearn.admin.repo.SubjectRepository;
 import com.nhatanh.centerlearn.admin.repo.SubjectRepositoryCustom;
 import com.nhatanh.centerlearn.admin.result.IdResult;
 import com.nhatanh.centerlearn.common.entity.Subject;
+import com.nhatanh.centerlearn.common.enums.AccountStatus;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyfox.util.Next;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 

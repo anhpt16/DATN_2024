@@ -134,7 +134,7 @@ public class AdminEntityToModelConverter {
                 .id(subject.getId())
                 .name(subject.getName())
                 .displayName(subject.getDisplayName())
-                .description(subject.getDisplayName())
+                .description(subject.getDescription())
                 .status(subject.getStatus())
                 .createdAt(subject.getCreatedAt())
                 .updatedAt(subject.getUpdatedAt())

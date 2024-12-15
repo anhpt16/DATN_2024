@@ -34,7 +34,6 @@ $(document).ready(function() {
     const errorMessage = $("#error-message");
     const message = $("#error-message .error-content");
     // Modal
-    const editModal = $("#edit-modal");
 
 
     // Thêm tài khoản

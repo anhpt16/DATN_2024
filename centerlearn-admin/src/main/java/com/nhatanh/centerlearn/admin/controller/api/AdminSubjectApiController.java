@@ -7,6 +7,7 @@ import com.nhatanh.centerlearn.admin.request.AddSubjectRequest;
 import com.nhatanh.centerlearn.admin.request.SaveSubjectRequest;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
 import com.nhatanh.centerlearn.admin.validator.SubjectValidator;
+import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.utils.RequestContext;
@@ -15,7 +16,11 @@ import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Api
 @Controller("/api/v1/subject")
@@ -55,7 +60,7 @@ public class AdminSubjectApiController {
     @DoGet
     public PaginationModel<AdminSubjectResponse> getSubjectPaginationByFilter(
         @RequestParam (value = "page", defaultValue = "0") int page,
-        @RequestParam (value = "size", defaultValue = "12") int size,
+        @RequestParam (value = "size", defaultValue = "10") int size,
         @RequestParam (value = "name") String name,
         @RequestParam (value = "displayName") String displayName,
         @RequestParam (value = "status") String status,
@@ -81,5 +86,12 @@ public class AdminSubjectApiController {
             return ResponseEntity.notFound("Subject with id: " + id + " not found");
         }
         return ResponseEntity.ok(adminSubjectResponse);
+    }
+
+    @DoGet("/statuses")
+    public List<Map<String, String>> getSubjectStatues() {
+        return Arrays.stream(SubjectStatus.values())
+            .map(SubjectStatus::toJson)
+            .collect(Collectors.toList());
     }
 }

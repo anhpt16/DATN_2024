@@ -5,6 +5,7 @@ import com.nhatanh.centerlearn.common.entity.*;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.utils.Base64Util;
 import com.nhatanh.centerlearn.common.utils.ClockProxy;
+import com.nhatanh.centerlearn.common.utils.SlugGenerate;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
 
@@ -154,7 +155,7 @@ public class AdminModelToEntityConverter {
     }
 
     public void mergeToEntity(Subject entity, AddSubjectModel model) {
-        entity.setName(model.getName());
+        entity.setName(model.getName().toUpperCase());
         entity.setDisplayName(model.getDisplayName());
         entity.setDescription(model.getDescription());
         entity.setStatus(model.getStatus());
@@ -170,6 +171,7 @@ public class AdminModelToEntityConverter {
         }
         if (model.getDisplayName() != null) {
             entity.setDisplayName(model.getDisplayName());
+            entity.setSlug(SlugGenerate.createSlugWithId(model.getDisplayName()));
         }
         if (model.getDescription() != null) {
             entity.setDescription(model.getDescription());

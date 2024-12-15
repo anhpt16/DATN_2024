@@ -1,0 +1,64 @@
+.list-subject {
+    .card-container {
+        padding: 10px;
+        a {
+            position: relative;
+            .card-subject {
+                transition: all 0.3s ease;
+                background-color: #fff;
+
+                .card-image {
+                    width: 100%;
+                    img {
+                        width: inherit;
+                        height: 250px;
+                        object-fit: cover;
+                    }
+                }
+
+                .card-content {
+                    padding: 20px;
+                    span {
+                        transition: height 0.3s ease-in-out;
+                        color: #000;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            &:hover .card-subject {
+                transform: scale(1.03);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+            }
+
+            .content-detail {
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                max-height: 200px;
+                opacity: 0;
+                background-color: #fff;
+                width: 100%;
+                // transform: translateY(-100%);
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                transition: transform 0.4s ease, opacity 0.2s ease;
+            }
+            &:hover .content-detail {
+                // transform: translateY(0);
+                opacity: 1;
+                transform: scale(1.03);
+            }
+        }
+    }
+}
+.hideCard {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.showCard {
+    opacity: 1;
+}

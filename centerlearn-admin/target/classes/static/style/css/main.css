@@ -5,6 +5,18 @@ body main .content .content-detail {
   overflow-x: hidden;
 }
 
+.height-200 {
+  height: 200px;
+}
+
+.width-100 {
+  width: 100px;
+}
+
+.width-500 {
+  width: 500px;
+}
+
 .row {
   --bs-gutter-x: 0 !important;
   --bs-gutter-y: 0 !important;
@@ -838,11 +850,13 @@ div.row.permission-table-container {
   border-radius: 50%;
 }
 
+.add-subject,
 .add-account {
   flex: 0 0 auto;
   position: relative;
   padding-right: 20px;
 }
+.add-subject .button-toggle,
 .add-account .button-toggle {
   position: absolute;
   top: 15px;
@@ -854,9 +868,11 @@ div.row.permission-table-container {
   border-radius: 50%;
   transition: background-color 0.3s ease;
 }
+.add-subject .button-toggle i,
 .add-account .button-toggle i {
   color: #fff;
 }
+.add-subject .add-account-container,
 .add-account .add-account-container {
   height: auto;
   background-color: #fff;
@@ -867,20 +883,25 @@ div.row.permission-table-container {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: width 0.5s ease, height 0.5s ease, opacity 0.2s ease, padding 0.5s ease;
 }
+.add-subject .add-account-container .add-account-title-container .add-account-title,
 .add-account .add-account-container .add-account-title-container .add-account-title {
   margin-bottom: 0;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
 }
+.add-subject .add-account-container .add-account-content-container form div,
 .add-account .add-account-container .add-account-content-container form div {
   margin-top: 20px;
 }
+.add-subject .add-account-container .add-account-content-container form div label,
 .add-account .add-account-container .add-account-content-container form div label {
   display: block;
   font-weight: bold;
   margin-bottom: 10px;
 }
+.add-subject .add-account-container .add-account-content-container form div input[type=text],
+.add-subject .add-account-container .add-account-content-container form div select,
 .add-account .add-account-container .add-account-content-container form div input[type=text],
 .add-account .add-account-container .add-account-content-container form div select {
   width: 100%;
@@ -890,16 +911,20 @@ div.row.permission-table-container {
   font-size: 16px;
   transition: border-color 0.3s ease;
 }
+.add-subject .add-account-container .add-account-content-container form div input[type=text]:focus,
+.add-subject .add-account-container .add-account-content-container form div select:focus,
 .add-account .add-account-container .add-account-content-container form div input[type=text]:focus,
 .add-account .add-account-container .add-account-content-container form div select:focus {
   border-color: #007bff;
   outline: none;
 }
+.add-subject .add-account-container .add-account-action-container,
 .add-account .add-account-container .add-account-action-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
+.add-subject .add-account-container .add-account-action-container button,
 .add-account .add-account-container .add-account-action-container button {
   padding: 10px 20px;
   font-size: 16px;
@@ -911,12 +936,15 @@ div.row.permission-table-container {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+.add-subject .add-account-container .add-account-action-container button:hover,
 .add-account .add-account-container .add-account-action-container button:hover {
   background-color: #0056b3;
 }
+.add-subject .add-account-container .add-account-action-container button:active,
 .add-account .add-account-container .add-account-action-container button:active {
   transform: scale(0.95);
 }
+.add-subject .add-account-container .add-account-action-container button:focus,
 .add-account .add-account-container .add-account-action-container button:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -1271,6 +1299,97 @@ div.row.permission-table-container {
 
 .modal-image-menu-container {
   margin-top: 20px;
+}
+
+.add-subject {
+  padding-right: 20px;
+}
+
+#add-subject-description {
+  width: 100%;
+  min-height: 200px;
+}
+
+#form-add-subject .image-subject-container {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border: 0.5px solid #ececec;
+  border-radius: 8px;
+}
+#form-add-subject .image-subject-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+#subjectEditImage,
+#subjectInfoImage {
+  width: 100%;
+}
+#subjectEditImage img,
+#subjectInfoImage img {
+  width: 500px;
+  height: auto;
+  object-fit: cover;
+}
+
+.list-subject .card-container {
+  padding: 10px;
+}
+.list-subject .card-container a {
+  position: relative;
+}
+.list-subject .card-container a .card-subject {
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+.list-subject .card-container a .card-subject .card-image {
+  width: 100%;
+}
+.list-subject .card-container a .card-subject .card-image img {
+  width: inherit;
+  height: 250px;
+  object-fit: cover;
+}
+.list-subject .card-container a .card-subject .card-content {
+  padding: 20px;
+}
+.list-subject .card-container a .card-subject .card-content span {
+  transition: height 0.3s ease-in-out;
+  color: #000;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.list-subject .card-container a:hover .card-subject {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+.list-subject .card-container a .content-detail {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  max-height: 200px;
+  opacity: 0;
+  background-color: #fff;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: transform 0.4s ease, opacity 0.2s ease;
+}
+.list-subject .card-container a:hover .content-detail {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.hideCard {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.showCard {
+  opacity: 1;
 }
 
 /*# sourceMappingURL=main.css.map */

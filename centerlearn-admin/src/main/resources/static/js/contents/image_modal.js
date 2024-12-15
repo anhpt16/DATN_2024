@@ -178,6 +178,7 @@ export class ImageModal {
         // Gắn sự kiện click cho các item trong gallery
         this.galleryContainer.on('click', '.media-item a', (event) => {
             event.preventDefault();
+            const allRadioBtn = $('.media-item input').removeClass('active-select')
             const radioBtn = $(event.target).closest('.media-item').find('input');
             console.log(radioBtn);
 

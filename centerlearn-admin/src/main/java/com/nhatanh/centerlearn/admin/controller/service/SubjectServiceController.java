@@ -7,11 +7,15 @@ import com.nhatanh.centerlearn.admin.model.SaveSubjectModel;
 import com.nhatanh.centerlearn.admin.model.SubjectModel;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
 import com.nhatanh.centerlearn.admin.service.SubjectService;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.exception.FailedCreationException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,11 @@ public class SubjectServiceController {
         if (subjectId == 0) {
             throw new FailedCreationException("Failed to create subject");
         }
+    }
+
+    public List<SubjectStatus> getAllSubjectStatus() {
+        List<SubjectStatus> subjectStatuses = Arrays.asList(SubjectStatus.values());
+        return subjectStatuses;
     }
 
     public AdminSubjectResponse getSubjectById(long id) {

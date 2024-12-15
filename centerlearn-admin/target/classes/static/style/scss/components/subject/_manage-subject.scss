@@ -1,0 +1,36 @@
+
+.add-subject {
+    padding-right: 20px;
+
+}
+
+#add-subject-description {
+    width: 100%;
+    min-height: 200px;
+}
+#form-add-subject {
+    .image-subject-container {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        border: .5px solid #ececec;
+        border-radius: 8px;
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+}
+
+#subjectEditImage,
+#subjectInfoImage {
+    width: 100%;
+    img {
+        width: 500px;
+        height: auto;
+        object-fit: cover;
+    }
+}
+
+
