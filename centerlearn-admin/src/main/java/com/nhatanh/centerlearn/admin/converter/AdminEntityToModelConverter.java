@@ -143,4 +143,22 @@ public class AdminEntityToModelConverter {
                 .build();
         }
     }
+
+    public TextbookModel toModel(Textbook textbook) {
+        if (textbook == null) {
+            return null;
+        } else {
+            return TextbookModel.builder()
+                .id(textbook.getId())
+                .name(textbook.getName())
+                .description(textbook.getDescription())
+                .author(textbook.getAuthor())
+                .status(textbook.getStatus())
+                .slug(textbook.getSlug())
+                .createdAt(textbook.getCreatedAt())
+                .updatedAt(textbook.getUpdatedAt())
+                .url(textbook.getUrl())
+                .build();
+        }
+    }
 }

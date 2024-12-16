@@ -54,7 +54,7 @@ $(document).ready(function() {
     })
 
     // Lấy danh sách môn học
-    async function getSubjectByFilter(page = 0, size = 10) {
+    async function getSubjectByFilter(page = 0, size = 12) {
         let queryString = '';
         queryString += "&page=" + page;
         queryString += "&size=" + size;

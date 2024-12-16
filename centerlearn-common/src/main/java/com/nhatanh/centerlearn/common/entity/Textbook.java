@@ -33,4 +33,5 @@ public class Textbook {
         name = "updated_at"
     )
     private LocalDateTime updatedAt;
+    private String slug;
 }

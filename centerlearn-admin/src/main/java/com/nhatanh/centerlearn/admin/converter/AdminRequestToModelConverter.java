@@ -4,12 +4,9 @@ package com.nhatanh.centerlearn.admin.converter;
 import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.request.*;
-import com.nhatanh.centerlearn.common.enums.SubjectStatus;
+import com.nhatanh.centerlearn.common.enums.*;
 import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.common.entity.PermissionId;
-import com.nhatanh.centerlearn.common.enums.AccountStatus;
-import com.nhatanh.centerlearn.common.enums.RoomStatus;
-import com.nhatanh.centerlearn.common.enums.TimeslotStatus;
 import com.nhatanh.centerlearn.common.utils.Base64Util;
 import com.nhatanh.centerlearn.common.utils.SlugGenerate;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
@@ -147,6 +144,18 @@ public class AdminRequestToModelConverter {
             .build();
     }
 
+    public AddTextbookModel toAddTextbookModel(AddTextbookRequest request) {
+        return AddTextbookModel.builder()
+            .name(request.getName())
+            .description(request.getDescription())
+            .author(request.getAuthor())
+            .url(request.getUrl())
+            .status(TextbookStatus.ACTIVE.name())
+            .slug(SlugGenerate.createSlugWithId(request.getName()))
+            .subjectId(request.getSubjectId())
+            .build();
+    }
+
     public SaveSubjectModel toSaveSubjectModel(SaveSubjectRequest request, long subjectId) {
         return SaveSubjectModel.builder()
             .id(subjectId)
@@ -155,6 +164,17 @@ public class AdminRequestToModelConverter {
             .description(request.getDescription())
             .status(request.getStatus())
             .imageId(request.getImageId())
+            .build();
+    }
+
+    public SaveTextbookModel toSaveTextbookModel(SaveTextbookRequest request, long textbookId) {
+        return SaveTextbookModel.builder()
+            .id(textbookId)
+            .name(request.getName())
+            .description(request.getDescription())
+            .author(request.getAuthor())
+            .url(request.getUrl())
+            .status(request.getStatus())
             .build();
     }
 }

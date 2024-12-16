@@ -4,10 +4,7 @@ package com.nhatanh.centerlearn.admin.converter;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.*;
 import com.nhatanh.centerlearn.common.constant.Constants;
-import com.nhatanh.centerlearn.common.enums.AccountStatus;
-import com.nhatanh.centerlearn.common.enums.RoomStatus;
-import com.nhatanh.centerlearn.common.enums.SubjectStatus;
-import com.nhatanh.centerlearn.common.enums.TimeslotStatus;
+import com.nhatanh.centerlearn.common.enums.*;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
 
@@ -151,6 +148,20 @@ public class AdminModelToResponseConverter {
             .updatedAt(model.getUpdatedAt())
             .slug(model.getSlug())
             .imageUrl(apiUrl)
+            .build();
+    }
+
+    public AdminTextbookResponse toTextbookResponse(TextbookModel model) {
+        return AdminTextbookResponse.builder()
+            .id(model.getId())
+            .name(model.getName())
+            .description(model.getDescription())
+            .author(model.getAuthor())
+            .status(TextbookStatus.fromString(model.getStatus()))
+            .url(model.getUrl())
+            .createdAt(model.getCreatedAt())
+            .updatedAt(model.getUpdatedAt())
+            .slug(model.getSlug())
             .build();
     }
 }

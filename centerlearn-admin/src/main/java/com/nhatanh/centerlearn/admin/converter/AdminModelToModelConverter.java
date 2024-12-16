@@ -1,9 +1,6 @@
 package com.nhatanh.centerlearn.admin.converter;
 
-import com.nhatanh.centerlearn.admin.model.AccountRoleModel;
-import com.nhatanh.centerlearn.admin.model.RoomModel;
-import com.nhatanh.centerlearn.admin.model.TermModel;
-import com.nhatanh.centerlearn.admin.model.TimeslotModel;
+import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
@@ -52,6 +49,13 @@ public class AdminModelToModelConverter {
         return AccountRoleModel.builder()
             .accountId(accountId)
             .roleId(roleId)
+            .build();
+    }
+
+    public SubjectTextbookModel toSubjectTextbookModelConverter(long subjectId, long textbookId) {
+        return SubjectTextbookModel.builder()
+            .subjectId(subjectId)
+            .textbookId(textbookId)
             .build();
     }
 }

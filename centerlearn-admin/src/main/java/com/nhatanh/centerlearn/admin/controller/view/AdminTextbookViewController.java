@@ -10,32 +10,32 @@ import lombok.AllArgsConstructor;
 public class AdminTextbookViewController {
 
     @DoGet("/list")
-    public View initListTextbook(
+    public View initTextBook(
 
     ) {
 
         return View.builder()
-            .template("/contents/textbook/textbook-list")
+            .template("/contents/textbook/list-textbook")
             .build();
     }
 
-    @DoGet("/list-lesson")
-    public View initListLesson(
+    @DoGet("/manage")
+    public View initManageTextbook(
 
     ) {
 
         return View.builder()
-            .template("/contents/textbook/textbook-list-lesson")
+            .template("/contents/textbook/manage_textbook")
             .build();
     }
 
-    @DoGet("/list-detail-lesson")
-    public View initListDetailLesson(
+    @DoGet("/detail")
+    public View initDetailTextbook(
 
     ) {
 
         return View.builder()
-            .template("/contents/textbook/textbook-list-detail-lesson")
+            .template("/contents/textbook/detail_textbook")
             .build();
     }
 }

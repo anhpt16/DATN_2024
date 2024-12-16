@@ -66,6 +66,34 @@ public class AdminModelToEntityConverter {
         return entity;
     }
 
+    public Textbook toTextbookEntityConverter(AddTextbookModel model) {
+        Textbook entity = new Textbook();
+        this.mergeToEntity(entity, model);
+        return entity;
+    }
+
+    public SubjectTextbook toSubjectTextbookEntityConverter(SubjectTextbookModel model) {
+        SubjectTextbook entity = new SubjectTextbook();
+        this.mergeToEntity(entity, model);
+        return entity;
+    }
+
+    public void mergeToEntity(SubjectTextbook entity, SubjectTextbookModel model) {
+        entity.setSubjectId(model.getSubjectId());
+        entity.setTextbookId(model.getTextbookId());
+    }
+
+    public void mergeToEntity(Textbook entity, AddTextbookModel model) {
+        entity.setName(model.getName());
+        entity.setDescription(model.getDescription());
+        entity.setAuthor(model.getAuthor());
+        entity.setUrl(model.getUrl());
+        entity.setStatus(model.getStatus());
+        entity.setCreatedAt(this.clock.nowDateTime());
+        entity.setUpdatedAt(this.clock.nowDateTime());
+        entity.setSlug(model.getSlug());
+    }
+
     public void mergeToEntity(AccountRoleModel model, AccountRole entity) {
         entity.setRoleId(model.getRoleId());
         entity.setAccountId(model.getAccountId());
@@ -182,5 +210,26 @@ public class AdminModelToEntityConverter {
         if (model.getStatus() != null) {
             entity.setStatus(model.getStatus().toUpperCase());
         }
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveEntity(Textbook entity, SaveTextbookModel model) {
+        if (model.getName() != null) {
+            entity.setName(model.getName());
+            entity.setSlug(SlugGenerate.createSlugWithId(model.getName()));
+        }
+        if (model.getDescription() != null) {
+            entity.setDescription(model.getDescription());
+        }
+        if (model.getAuthor() != null) {
+            entity.setAuthor(model.getAuthor());
+        }
+        if (model.getUrl() != null) {
+            entity.setUrl(model.getUrl());
+        }
+        if (model.getStatus() != null) {
+            entity.setStatus(model.getStatus().toUpperCase());
+        }
+        entity.setUpdatedAt(this.clock.nowDateTime());
     }
 }

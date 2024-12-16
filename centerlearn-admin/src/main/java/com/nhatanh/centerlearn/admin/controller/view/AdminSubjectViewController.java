@@ -35,7 +35,7 @@ public class AdminSubjectViewController {
     @DoGet("/list")
     public View initListSubject(
         @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size
+        @RequestParam(value = "size", defaultValue = "12") int size
     ) {
         PaginationModel<AdminSubjectResponse> subjectPaginationResponse = this.subjectServiceController.getSubjectPaginationByFilter(SubjectFilterCriteria.builder().build(), page, size);
         List<SubjectStatus> subjectStatusList = this.subjectServiceController.getAllSubjectStatus();
