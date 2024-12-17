@@ -7,10 +7,17 @@ import com.nhatanh.centerlearn.admin.request.AddTextbookRequest;
 import com.nhatanh.centerlearn.admin.request.SaveTextbookRequest;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookResponse;
 import com.nhatanh.centerlearn.admin.validator.TextbookValidator;
+import com.nhatanh.centerlearn.common.enums.SubjectStatus;
+import com.nhatanh.centerlearn.common.enums.TextbookStatus;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Api
 @Controller("/api/v1/textbook")
@@ -90,6 +97,13 @@ public class AdminTextbookApiController {
     ) {
 
         return ResponseEntity.noContent();
+    }
+
+    @DoGet("/statuses")
+    public List<Map<String, String>> getTextbookStatuses() {
+        return Arrays.stream(TextbookStatus.values())
+            .map(TextbookStatus::toJson)
+            .collect(Collectors.toList());
     }
 
     /* Common (Quản trị + Quản lý + Giảng viên)

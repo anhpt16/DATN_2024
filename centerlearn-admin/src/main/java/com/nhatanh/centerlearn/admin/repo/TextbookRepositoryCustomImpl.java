@@ -48,15 +48,15 @@ public class TextbookRepositoryCustomImpl extends EzyJpaRepository<Long, Textboo
         }
 
         if (criteria.getStatus() != null) {
-            jpql.append("AND t.status = :status");
+            jpql.append("AND t.status = :status ");
             parameters.put("status", criteria.getStatus());
         }
 
         if (criteria.getSortOrder() == 1) {
-            jpql.append("ORDER BY createdAt DESC ");
+            jpql.append("ORDER BY t.createdAt DESC ");
         }
         if (criteria.getSortOrder() == 2) {
-            jpql.append("ORDER BY createdAt ASC ");
+            jpql.append("ORDER BY t.createdAt ASC ");
         }
 
         Query query = entityManager.createQuery(jpql.toString());
@@ -100,15 +100,15 @@ public class TextbookRepositoryCustomImpl extends EzyJpaRepository<Long, Textboo
         }
 
         if (criteria.getStatus() != null) {
-            jpql.append("AND t.status = :status");
+            jpql.append("AND t.status = :status ");
             parameters.put("status", criteria.getStatus());
         }
 
         if (criteria.getSortOrder() == 1) {
-            jpql.append("ORDER BY createdAt DESC ");
+            jpql.append("ORDER BY t.createdAt DESC ");
         }
         if (criteria.getSortOrder() == 2) {
-            jpql.append("ORDER BY createdAt ASC ");
+            jpql.append("ORDER BY t.createdAt ASC ");
         }
 
         TypedQuery<Long> query = entityManager.createQuery(jpql.toString(), Long.class);

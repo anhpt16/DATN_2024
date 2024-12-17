@@ -3,6 +3,7 @@ package com.nhatanh.centerlearn.admin.controller.decorator;
 import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.model.SubjectModel;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
+import com.nhatanh.centerlearn.admin.response.AdminSubjectShortResponse;
 import com.nhatanh.centerlearn.common.model.GalleryModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.nhatanh.centerlearn.common.request.ImageNameRequest;
@@ -47,4 +48,8 @@ public class AdminSubjectModelDecorator {
         }
         return this.adminModelToResponseConverter.toSubjectResponse(model, imageUrl);
     }
+
+//    public List<AdminSubjectShortResponse> decorateSubjectModelShort(List<SubjectModel> subjectModels) {
+//        return newArrayList(subjectModels, )
+//    }
 }

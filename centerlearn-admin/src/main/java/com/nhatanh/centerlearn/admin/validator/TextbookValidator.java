@@ -30,7 +30,6 @@ public class TextbookValidator {
         // validate name
         if (request.getName() == null) {
             errors.add("Name Invalid");
-        } else {
             if (formValidator.validateBlank(request.getName())) {
                 errors.add("Name is blank");
             }

@@ -164,4 +164,12 @@ public class AdminModelToResponseConverter {
             .slug(model.getSlug())
             .build();
     }
+
+    public AdminSubjectShortResponse toSubjectShortResponse(SubjectModel model) {
+        return AdminSubjectShortResponse.builder()
+            .id(model.getId())
+            .name(model.getName())
+            .displayName(model.getDisplayName())
+            .build();
+    }
 }

@@ -8,6 +8,7 @@ import { showConfirmation } from "../ui/notification.js";
 $(document).ready(function() {
     // Modal
     const editModal = $("#edit-modal");
+    const tbodyEl = $("#table-account");
     // Add Account
     const formAddAccount = $("#form-add-user");
     const addAccountUsername = $("#add-account-username");

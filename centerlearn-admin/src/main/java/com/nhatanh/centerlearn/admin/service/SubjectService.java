@@ -8,6 +8,7 @@ import com.nhatanh.centerlearn.admin.model.SaveSubjectModel;
 import com.nhatanh.centerlearn.admin.model.SubjectModel;
 import com.nhatanh.centerlearn.admin.repo.SubjectRepository;
 import com.nhatanh.centerlearn.admin.repo.SubjectRepositoryCustom;
+import com.nhatanh.centerlearn.admin.response.AdminSubjectShortResponse;
 import com.nhatanh.centerlearn.admin.result.IdResult;
 import com.nhatanh.centerlearn.common.entity.Subject;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
@@ -19,6 +20,7 @@ import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -44,6 +46,11 @@ public class SubjectService {
         Subject subject = this.adminModelToEntityConverter.toSubjectEntityConverter(model);
         this.subjectRepository.save(subject);
         return subject.getId();
+    }
+
+    public List<SubjectModel> getAllSubject() {
+        List<Subject> subjectModels = this.subjectRepository.findAll();
+        return newArrayList(subjectModels, this.adminEntityToModelConverter::toModel);
     }
 
     public void updateSubject(SaveSubjectModel model) {

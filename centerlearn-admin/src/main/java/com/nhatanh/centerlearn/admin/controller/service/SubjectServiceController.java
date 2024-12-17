@@ -1,11 +1,13 @@
 package com.nhatanh.centerlearn.admin.controller.service;
 
 import com.nhatanh.centerlearn.admin.controller.decorator.AdminSubjectModelDecorator;
+import com.nhatanh.centerlearn.admin.converter.AdminModelToResponseConverter;
 import com.nhatanh.centerlearn.admin.filter.SubjectFilterCriteria;
 import com.nhatanh.centerlearn.admin.model.AddSubjectModel;
 import com.nhatanh.centerlearn.admin.model.SaveSubjectModel;
 import com.nhatanh.centerlearn.admin.model.SubjectModel;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
+import com.nhatanh.centerlearn.admin.response.AdminSubjectShortResponse;
 import com.nhatanh.centerlearn.admin.service.SubjectService;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.exception.FailedCreationException;
@@ -15,19 +17,31 @@ import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
+
 
 @Service
 @AllArgsConstructor
 public class SubjectServiceController {
     private final SubjectService subjectService;
     private final AdminSubjectModelDecorator adminSubjectModelDecorator;
+    private final AdminModelToResponseConverter adminModelToResponseConverter;
 
     public void addSubject(AddSubjectModel addSubjectModel) {
         long subjectId = this.subjectService.addSubject(addSubjectModel);
         if (subjectId == 0) {
             throw new FailedCreationException("Failed to create subject");
         }
+    }
+
+    public List<AdminSubjectShortResponse> getAllSubjectShort() {
+        List<SubjectModel> subjectModels = this.subjectService.getAllSubject();
+        if (subjectModels.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(subjectModels, this.adminModelToResponseConverter::toSubjectShortResponse);
     }
 
     public List<SubjectStatus> getAllSubjectStatus() {

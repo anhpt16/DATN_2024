@@ -273,6 +273,7 @@ $(document).ready(function() {
         console.log(subjectId);
         try {
             const response = await subjectService.updateSubject(subjectId, formData);
+            
             showNotification('success', '', 'Cập nhật thành công');
             subjectUI.closeEditModal();
             editModal.find('.modal').modal('hide');
@@ -281,6 +282,7 @@ $(document).ready(function() {
             showNotification('error', '', 'Cập nhật thất bại');
         } finally {
             getSubjectByFilter(currentPage);
+            setNull();
         }
         
     })
@@ -347,6 +349,7 @@ $(document).ready(function() {
         console.log(queryString);
         try {
             const response = await subjectService.getSubjectFilter(queryString);
+            console.log(response.items)
             subjectUI.renderTable(response.items);
             currentPage = response.currentPage;
             totalPage = response.totalPage;
@@ -380,6 +383,13 @@ $(document).ready(function() {
                 originSubjectDescription = subject.description;
             }
         }
+    }
+    function setNull() {
+        originSubjectImageUrl = null;
+        originSubjectStatus = null;
+        originSubjectName = null;
+        originSubjectDisplayName = null;
+        originSubjectDescription = null;
     }
 
 
