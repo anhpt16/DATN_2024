@@ -4,6 +4,9 @@ import com.nhatanh.centerlearn.admin.filter.SubjectFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.AddSubjectRequest;
 import com.nhatanh.centerlearn.admin.request.SaveSubjectRequest;
 import com.nhatanh.centerlearn.admin.service.SubjectService;
+import com.nhatanh.centerlearn.admin.service.SubjectTextbookService;
+import com.nhatanh.centerlearn.admin.service.TextbookService;
+import com.nhatanh.centerlearn.common.entity.SubjectTextbookId;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.service.MediaService;
 import com.nhatanh.centerlearn.common.validator.FormValidator;
@@ -20,6 +23,8 @@ public class SubjectValidator {
     private final FormValidator formValidator;
     private final SubjectService subjectService;
     private final MediaService mediaService;
+    private final TextbookService textbookService;
+    private final SubjectTextbookService subjectTextbookService;
 
     public void validate(AddSubjectRequest request, long accountId) {
         List<String> errors = new ArrayList<>();
@@ -126,6 +131,77 @@ public class SubjectValidator {
                 errors.add("Status does not exist");
             } else {
                 criteria.setStatus(criteria.getStatus().toUpperCase());
+            }
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validateAdd(long subjectId, long textbookId) {
+        List<String> errors = new ArrayList<>();
+        // Kiểm tra id môn học
+        if (subjectId < 0) {
+            errors.add("Subject Id Invalid");
+        } else {
+            if (this.subjectService.getSubjectById(subjectId) == null) {
+                errors.add("Subject Not Found");
+            }
+        }
+        // Kiểm tra id giáo trình
+        if (textbookId < 0) {
+            errors.add("Textbook Id Invalid");
+        } else {
+            if (this.textbookService.getTextBookById(textbookId) == null) {
+                errors.add("Textbook Not Found");
+            }
+        }
+        // Kiểm tra cặp giá trị tồn tại
+        SubjectTextbookId subjectTextbookId = new SubjectTextbookId(subjectId, textbookId);
+        if (this.subjectTextbookService.getSubjectTextbookById(subjectTextbookId) != null) {
+            errors.add("Subject Has This Textbook");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validateDelete(long subjectId, long textbookId) {
+        List<String> errors = new ArrayList<>();
+        // Kiểm tra mã môn học
+        if (subjectId < 0) {
+            errors.add("Subject Id Invalid");
+        } else {
+            if (this.subjectService.getSubjectById(subjectId) == null) {
+                errors.add("Subject Not Found");
+            }
+        }
+        // Kiểm tra mã giáo trình
+        if (textbookId < 0) {
+            errors.add("Textbook Id Invalid");
+        } else {
+            if (this.textbookService.getTextBookById(textbookId) == null) {
+                errors.add("Textbook Not Found");
+            }
+        }
+        // Kiểm tra cặp giá trị không tồn tại
+        SubjectTextbookId subjectTextbookId = new SubjectTextbookId(subjectId, textbookId);
+        if (this.subjectTextbookService.getSubjectTextbookById(subjectTextbookId) == null) {
+            errors.add("Subject - Textbook Not Found");
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validateGet(long subjectId) {
+        List<String> errors = new ArrayList<>();
+        // Kiểm tra mã môn học
+        if (subjectId < 0) {
+            errors.add("Subject Id Invalid");
+        } else {
+            if (this.subjectService.getSubjectById(subjectId) == null) {
+                errors.add("Subject Not Found");
             }
         }
         if (errors.size() > 0) {

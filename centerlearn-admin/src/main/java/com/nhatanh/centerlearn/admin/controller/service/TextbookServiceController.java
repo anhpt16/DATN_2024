@@ -9,6 +9,7 @@ import com.nhatanh.centerlearn.admin.model.SaveTextbookModel;
 import com.nhatanh.centerlearn.admin.model.SubjectTextbookModel;
 import com.nhatanh.centerlearn.admin.model.TextbookModel;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookResponse;
+import com.nhatanh.centerlearn.admin.response.AdminTextbookShortResponse;
 import com.nhatanh.centerlearn.admin.service.SubjectTextbookService;
 import com.nhatanh.centerlearn.admin.service.TextbookService;
 import com.nhatanh.centerlearn.common.entity.SubjectTextbookId;
@@ -20,7 +21,9 @@ import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @Service
 @AllArgsConstructor
@@ -66,5 +69,13 @@ public class TextbookServiceController {
     public List<TextbookStatus> getAllTextbookStatus() {
         List<TextbookStatus> textbookStatuses = Arrays.asList(TextbookStatus.values());
         return textbookStatuses;
+    }
+
+    public List<AdminTextbookShortResponse> getAll() {
+        List<TextbookModel> textbookModels = this.textbookService.getAll();
+        if (textbookModels.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(textbookModels, this.adminModelToResponseConverter::toTextbookShortResponse);
     }
 }

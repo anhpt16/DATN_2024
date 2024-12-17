@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.admin.filter.TextbookFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.AddTextbookRequest;
 import com.nhatanh.centerlearn.admin.request.SaveTextbookRequest;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookResponse;
+import com.nhatanh.centerlearn.admin.response.AdminTextbookShortResponse;
 import com.nhatanh.centerlearn.admin.validator.TextbookValidator;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.enums.TextbookStatus;
@@ -104,6 +105,12 @@ public class AdminTextbookApiController {
         return Arrays.stream(TextbookStatus.values())
             .map(TextbookStatus::toJson)
             .collect(Collectors.toList());
+    }
+
+    @DoGet("/all-short")
+    public ResponseEntity getAllTextbookShort() {
+        List<AdminTextbookShortResponse> textbookShortResponses = this.textbookServiceController.getAll();
+        return ResponseEntity.ok(textbookShortResponses);
     }
 
     /* Common (Quản trị + Quản lý + Giảng viên)

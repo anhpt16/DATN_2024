@@ -17,6 +17,7 @@ import com.tvd12.ezyfox.util.Next;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
@@ -65,5 +66,21 @@ public class TextbookService {
             .currentPage(page)
             .totalPage(totalPage)
             .build();
+    }
+
+    public List<TextbookModel> getTextbooksByIds(List<Long> ids) {
+        List<Textbook> textbooks = this.textbookRepository.findListByIds(ids);
+        if (textbooks.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(textbooks, this.adminEntityToModelConverter::toModel);
+    }
+
+    public List<TextbookModel> getAll() {
+        List<Textbook> textbooks = this.textbookRepository.findAll();
+        if (textbooks.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(textbooks, this.adminEntityToModelConverter::toModel);
     }
 }

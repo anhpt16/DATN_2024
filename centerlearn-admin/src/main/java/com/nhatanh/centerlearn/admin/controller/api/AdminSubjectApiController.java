@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.admin.filter.SubjectFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.AddSubjectRequest;
 import com.nhatanh.centerlearn.admin.request.SaveSubjectRequest;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
+import com.nhatanh.centerlearn.admin.response.AdminTextbookShortResponse;
 import com.nhatanh.centerlearn.admin.validator.SubjectValidator;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
@@ -94,4 +95,39 @@ public class AdminSubjectApiController {
             .map(SubjectStatus::toJson)
             .collect(Collectors.toList());
     }
+
+    // Thêm giáo trình cho một môn học
+    @DoPost("/{subjectId}/textbook")
+    public ResponseEntity addSubjectTextbook(
+        @PathVariable long subjectId,
+        @RequestParam (value = "textbookId") long textbookId
+    ) {
+        // Validate
+        this.subjectValidator.validateAdd(subjectId, textbookId);
+        this.subjectServiceController.addSubjectTextbookById(subjectId, textbookId);
+        return ResponseEntity.noContent();
+    }
+
+    // Xóa giáo trình của một môn học
+    @DoDelete("/{subjectId}/textbook")
+    public ResponseEntity deleteSubjectTextbook(
+        @PathVariable long subjectId,
+        @RequestParam (value = "textbookId") long textbookId
+    ) {
+        //validate
+        this.subjectValidator.validateDelete(subjectId, textbookId);
+        this.subjectServiceController.deleteSubjectTextbookById(subjectId, textbookId);
+        return ResponseEntity.noContent();
+    }
+
+    // Lấy ra các giáo trình của một môn học
+    @DoGet("/{subjectId}/textbook")
+    public ResponseEntity getSubjectTextbooks(
+        @PathVariable long subjectId
+    ) {
+        this.subjectValidator.validateGet(subjectId);
+        List<AdminTextbookShortResponse> textbookShortResponses = this.subjectServiceController.getTextbooksBySubjectId(subjectId);
+        return ResponseEntity.ok(textbookShortResponses);
+    }
+
 }

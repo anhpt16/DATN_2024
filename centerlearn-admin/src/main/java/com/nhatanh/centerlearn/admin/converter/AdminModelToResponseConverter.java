@@ -172,4 +172,12 @@ public class AdminModelToResponseConverter {
             .displayName(model.getDisplayName())
             .build();
     }
+
+    public AdminTextbookShortResponse toTextbookShortResponse(TextbookModel model) {
+        return AdminTextbookShortResponse.builder()
+            .id(model.getId())
+            .name(model.getName())
+            .author(model.getAuthor())
+            .build();
+    }
 }

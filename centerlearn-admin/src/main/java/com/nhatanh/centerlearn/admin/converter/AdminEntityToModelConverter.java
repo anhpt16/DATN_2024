@@ -161,4 +161,11 @@ public class AdminEntityToModelConverter {
                 .build();
         }
     }
+
+    public SubjectTextbookModel toSubjectTextbookModel(SubjectTextbook subjectTextbook) {
+        return SubjectTextbookModel.builder()
+            .subjectId(subjectTextbook.getSubjectId())
+            .textbookId(subjectTextbook.getTextbookId())
+            .build();
+    }
 }
