@@ -3,6 +3,7 @@ import { showConfirmation } from "../ui/notification.js";
 import { ImageModal } from "./image_modal.js";
 import subjectUI from "../ui/SubjectUI.js";
 import subjectService from "../service/SubjectService.js";
+import textbookService from "../service/TextbookService.js";
 
 $(document).ready(function() {
     let currentContext = null;
@@ -36,6 +37,11 @@ $(document).ready(function() {
     const nameEditModal = $("#subjectEditName");
     const displayNameEditModal = $("#subjectEditDisplayName");
     const descriptionEditModal = $("#subjectEditDescription");
+    // textbook modal
+    const textbookModal = $("#add-textbook-modal");
+    const addTextbookButton = $("#add-textbook-btn");
+    const idTextbookModal = $("#textbookInfoId");
+    const selectTextbookModal = $("#select-textbook-subject");
     //message
     const errorMessage = $("#error-message");
     const message = $("#error-message .error-content");
@@ -273,7 +279,6 @@ $(document).ready(function() {
         console.log(subjectId);
         try {
             const response = await subjectService.updateSubject(subjectId, formData);
-            
             showNotification('success', '', 'Cập nhật thành công');
             subjectUI.closeEditModal();
             editModal.find('.modal').modal('hide');
@@ -319,6 +324,88 @@ $(document).ready(function() {
     refreshBtn.on('click', function() {
         getSubjectByFilter(currentPage);
     })
+
+    // Thêm giáo trình cho môn học
+    tbodyEl.on('click', '.add-btn', async function() {
+        const getRow = $(this).closest('tr');
+        const subjectId = getRow.attr('data-id');
+        try {
+            const subject = await subjectService.getSubjectDetailById(subjectId);
+            const textbooks = await textbookService.getAllTextbookShort();
+            const textbooksBySubject = await subjectService.getTextbooksBySubjectId(subjectId);
+            console.log($("#select-textbook-subject"))
+            subjectUI.renderInfoTextbookModal(subject);
+            subjectUI.renderTableTextbookModal(textbooksBySubject);
+            subjectUI.renderSelectTextbook(textbooks, textbooksBySubject);
+            textbookModal.find('.modal').modal('show');
+        } catch (error) {
+            console.log("Error: " + error);
+        }
+    })
+
+    // Khi nhấn nút thêm
+    addTextbookButton.on('click', async function() {
+        let subjectId = idTextbookModal.attr('data-id');
+        let textbookId = selectTextbookModal.val();
+        console.log(subjectId)
+        console.log(textbookId)
+        if (subjectId <= 0) {
+            console.log("Subject Id Invalid");
+            return;
+        }
+        if (textbookId <= 0 ) {
+            console.log("Textbook Id Invalid");
+        }
+        let queryString = '';
+        queryString += "&textbookId=" + textbookId;
+        try {
+            const response = await subjectService.addSubjectTextbook(subjectId, queryString);
+            showNotification('success', '', "Thêm thành công");
+        } catch (error) {
+            showNotification('error','','Thêm thất bại');
+        } finally {
+            await reloadTextbookModal(subjectId);
+        }
+    })
+
+    // Khi nhấn nút xóa
+    $("#table-textbook").on('click', '.delete-btn', async function() {
+        const textbookId = $(this).closest('tr').attr('data-id');
+        if (textbookId == null || textbookId <= 0) {
+            console.log("Textbook Id Invalid")
+            return;
+        }
+        let subjectId = idTextbookModal.attr('data-id');
+        if (subjectId == null || subjectId <= 0) {
+            console.log("Subject Id Invalid")
+            return;
+        }
+        let queryString = '';
+        queryString += "&textbookId=" + textbookId;
+        console.log(textbookId);
+        console.log(subjectId);
+        try {
+            const response = await subjectService.deleteSubjectTextbook(subjectId, queryString);
+            showNotification('success', '', 'Xóa thành công');
+        } catch (error) {
+            console.log("Error: " + error);
+            showNotification('error', '', 'Xóa thất bại');
+        } finally {
+            await reloadTextbookModal(subjectId);
+        }
+    })
+
+    // reload textbook modal
+    async function reloadTextbookModal(subjectId) {
+        try {
+            const textbooks = await textbookService.getAllTextbookShort();
+            const textbooksBySubject = await subjectService.getTextbooksBySubjectId(subjectId);
+            subjectUI.renderTableTextbookModal(textbooksBySubject);
+            subjectUI.renderSelectTextbook(textbooks, textbooksBySubject);
+        } catch (error) {
+            console.log("Error: " + error);
+        }
+    }
 
     // Lấy danh sách môn học
     async function getSubjectByFilter(page = 0, size = 10) {

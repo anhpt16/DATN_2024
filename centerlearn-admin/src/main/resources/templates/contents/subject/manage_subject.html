@@ -298,6 +298,61 @@
         </div>
       </div>
   </div>
+  <div id="add-textbook-modal">
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Quản lý giáo trình môn học</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="image-container d-flex flex-column justify-content-center">
+              <div class="rounded-3 p-2 d-flex justify-content-center align-items-center" id="textbookInfoImage">
+              </div>
+              <div>
+                <p class="text-center" id="textbookInfoId"></p>
+              </div>
+              <div>
+                <p class="text-center" id="textbookInfoStatus"></p>
+              </div>
+            </div>
+            <div class="content-container p-3 pt-4 border-top">
+              <div class="row p-2">
+                <div class="col-lg-3 fw-bold">Tên: </div>
+                <div class="col-lg-9" id="textbookInfoName"></div>
+              </div>
+              <div class="row p-2">
+                <div class="col-lg-3 fw-bold">Tên hiển thị: </div>
+                <div class="col-lg-9" id="textbookInfoDisplayName"></div>
+              </div>
+            </div>
+            <div class="add-textbook-menu d-flex justify-content-center align-items-center mt-2 pb-4 border-bottom">
+              <select class="form-select" name="" id="select-textbook-subject">
+              </select>
+              <button type="button" id="add-textbook-btn" class="btn btn-outline-primary ms-2">Thêm</button>
+            </div>
+            <table class="table-textbook mt-4">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Tên</th>
+                  <th>Tác giả</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="table-textbook">
+              
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <th:block layout:fragment="post-scripts">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

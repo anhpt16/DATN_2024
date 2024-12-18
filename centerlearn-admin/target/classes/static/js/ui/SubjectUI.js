@@ -23,6 +23,15 @@ const subjectUI = {
          nameEditModal: $("#subjectEditName"),
          displayNameEditModal: $("#subjectEditDisplayName"),
          descriptionEditModal: $("#subjectEditDescription"),
+         // Textbook modal
+         imageTextbookModal: $("#textbookInfoImage"),
+         statusTextbookModal: $("#textbookInfoStatus"),
+         idTextbookModal: $("#textbookInfoId"),
+         nameTextbookModal: $("#textbookInfoName"),
+         displayNameTextbookModal: $("#textbookInfoDisplayName"),
+         tableTextbook: $("#table-textbook"),
+         selectTextbook: $("#select-textbook-subject"),
+
     },
 
     renderTable: (subjects) => {
@@ -81,6 +90,40 @@ const subjectUI = {
         setTimeout(function() {
             subjectUI.el.listCard.find('.card-container').addClass('showCard');
         }, 100);
+    },
+
+    renderInfoTextbookModal: (subject) => {
+        if (subject == null || subject == undefined) {
+            return;
+        }
+        if (subject.imageUrl !== null && subject.imageUrl !== undefined) {
+            subjectUI.el.imageTextbookModal.empty();
+            if (subject.imageUrl === '') {
+                let img = $(`<img src="/images/image_default.webp" alt="Image">`)
+                subjectUI.el.imageTextbookModal.append(img);
+            } else {
+                let img = $(`<img src="${subject.imageUrl}" alt="Image">`)
+                subjectUI.el.imageTextbookModal.append(img);
+            }
+        }
+        if (subject.id !== null && subject.id !== undefined && subject.id !== '') {
+            subjectUI.el.idTextbookModal.text("#" + subject.id);
+            subjectUI.el.idTextbookModal.attr('data-id', subject.id);
+        }
+        if (subject.status !== null && subject.status !== undefined) {
+            if (subject.status.displayName !== null && subject.status.displayName !== undefined && subject.status.displayName !== '') {
+                subjectUI.el.statusTextbookModal.text(subject.status.displayName);
+            }
+            if (subject.status.colorCode !== null && subject.status.colorCode !== undefined && subject.status.colorCode !== '') {
+                subjectUI.el.statusTextbookModal.css('color', subject.status.colorCode);
+            }
+        }
+        if (subject.name !== null && subject.name !== undefined && subject.name !== '') {
+            subjectUI.el.nameTextbookModal.text(subject.name);
+        }
+        if (subject.displayName !== null && subject.displayName !== undefined && subject.displayName !== '') {
+            subjectUI.el.displayNameTextbookModal.text(subject.displayName);
+        }
     },
 
     renderInfoDetail: (subject) => {
@@ -202,6 +245,50 @@ const subjectUI = {
         subjectUI.el.nameEditModal.val('');
         subjectUI.el.displayNameEditModal.val('');
         subjectUI.el.descriptionEditModal.val('');
+    },
+
+    renderTableTextbookModal: (textbooks) => {
+        subjectUI.el.tableTextbook.empty();
+        if (textbooks.length === 0) {
+            return;
+        }
+        textbooks.forEach(textbook => {
+            let tr = $(`
+                <tr data-id="${textbook.id}">
+                    <td>${textbook.id}</td>
+                    <td>${textbook.name}</td>
+                    <td>${textbook.author}</td>
+                    <td>
+                        <i class="fa-solid fa-trash-can delete-btn"></i>
+                    </td>
+                </tr>
+            `)
+            subjectUI.el.tableTextbook.append(tr);
+        })
+    },
+
+    renderSelectTextbook: (textbooks, textbooksBySubject) => {
+        if (textbooks.length === 0) {
+            return;
+        }
+        let results = textbooks;
+        if (textbooksBySubject.length > 0) {
+            results = textbooks.filter(textbook => {
+                return !textbooksBySubject.some(tb => {
+                    return tb.id === textbook.id && tb.name === textbook.name && tb.author === textbook.author;
+                });
+            });
+        }
+        $("#select-textbook-subject").empty();
+        if (results.length === 0) {
+            return;
+        }
+        results.forEach(textbook => {
+            let option = $(`
+                <option value="${textbook.id}">${textbook.name + " (" + textbook.author + ", " + textbook.id + ")"}</option>    
+            `)
+            $("#select-textbook-subject").append(option);
+        })
     }
 }
 

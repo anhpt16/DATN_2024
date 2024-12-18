@@ -48,7 +48,20 @@ const subjectService = {
         }
         return apiCall(`/subject${queryString}`, "GET");
     },
+    addSubjectTextbook: async (subjectId, queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString; 
+        }
+        return apiCall(`/subject/${subjectId}/textbook${queryString}`, "POST");
+    },
+    deleteSubjectTextbook: async (subjectId, queryString) => {
+        if (queryString && !queryString.includes('?')) {
+            queryString = '?' + queryString; 
+        }
+        return apiCall(`/subject/${subjectId}/textbook${queryString}`, "DELETE");
+    },
 
+    getTextbooksBySubjectId: (subjectId) => apiCall(`/subject/${subjectId}/textbook`, "GET"),
     getSubjectDetailById: (id) => apiCall(`/subject/${id}`, "GET"),
     getSubjectStatuses: () => apiCall(`/subject/statuses`, "GET"),
     addSubject: (formData) => apiCall(`/subject`, "POST", formData),

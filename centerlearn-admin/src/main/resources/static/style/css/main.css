@@ -1323,15 +1323,25 @@ div.row.permission-table-container {
   object-fit: cover;
 }
 
+#textbookInfoImage,
 #subjectEditImage,
 #subjectInfoImage {
   width: 100%;
 }
+#textbookInfoImage img,
 #subjectEditImage img,
 #subjectInfoImage img {
   width: 500px;
   height: auto;
   object-fit: cover;
+}
+
+#add-textbook-modal table {
+  width: 100%;
+}
+#add-textbook-modal table tr td, #add-textbook-modal table tr th {
+  text-align: center;
+  padding: 5px;
 }
 
 .list-subject .card-container {

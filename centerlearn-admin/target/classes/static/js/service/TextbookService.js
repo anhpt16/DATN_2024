@@ -49,6 +49,7 @@ const textbookService = {
         return apiCall(`/textbook${queryString}`, "GET");
     },
 
+    getAllTextbookShort: () => apiCall(`/textbook/all-short`, "GET"),
     addTextbook: (formData) => apiCall(`/textbook`, "POST", formData),
     getTextbookDetailById: (id) => apiCall(`/textbook/${id}`, "GET"),
     getTextbookStatus: () => apiCall(`/textbook/statuses`, "GET"),

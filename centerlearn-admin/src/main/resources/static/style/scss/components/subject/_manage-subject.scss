@@ -23,6 +23,7 @@
     }
 }
 
+#textbookInfoImage,
 #subjectEditImage,
 #subjectInfoImage {
     width: 100%;
@@ -30,6 +31,22 @@
         width: 500px;
         height: auto;
         object-fit: cover;
+    }
+}
+
+#add-textbook-modal {
+    .add-textbook-menu {
+
+    }
+    table {
+        width: 100%;
+        tr {
+            td,th {
+                text-align: center;
+                padding: 5px;
+            }
+        }
+        
     }
 }
 
