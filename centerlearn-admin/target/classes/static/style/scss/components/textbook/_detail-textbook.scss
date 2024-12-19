@@ -1,0 +1,35 @@
+
+.state-ex,
+.state-ls {
+    text-align: center;
+    padding: 10px;
+    margin-top: 5px;
+    color: #818181;
+    &:hover {
+        background-color: #e48888;
+    }
+}
+
+.state-menu {
+    padding: 2px 5px;
+    margin-left: 10px;
+    button {
+        margin-bottom: 3px;
+    }
+}
+
+.list-lesson {
+    padding: 20px 0px;
+    height: 100%;
+    border-left: 1px solid $sidebar-border-color;
+    background-color: $sidebar-bg-light;
+    color: $sidebar-color-light;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content-container {
+    // height: 1200px;
+    // overflow-y: auto;
+    // overflow-x: hidden;
+}

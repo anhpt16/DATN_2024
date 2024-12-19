@@ -19,6 +19,7 @@ const textbookUI = {
         textbookEditAuthor: $("#textbookEditAuthor"),
         textbookEditUrl: $("#textbookEditUrl"),
         textbookEditDescription: $("#textbookEditDescription"),
+        listCard: $("#list-card-textbook"),
     },
     renderTable: (textbooks) => {
         textbookUI.el.tbodyEl.empty();
@@ -131,7 +132,38 @@ const textbookUI = {
         textbookUI.el.textbookEditAuthor.val('');
         textbookUI.el.textbookEditUrl.text('');
         textbookUI.el.textbookEditDescription.val('');
-    }
+    },
+    renderCard: (textbooks) => {
+        textbookUI.el.listCard.empty();
+        if (textbooks.length === 0) {
+            textbookUI.el.listCard.append('<div>No Textbook available</div>');
+            return;
+        }
+        textbooks.forEach(textbook => {
+            let card = $(`
+                <div data-id="${textbook.id}" class="col-lg-2 card-container hideCard">
+                    <a href="${textbook != null && textbook.slug != null ? textbook.slug : '#'}" class="text-decoration-none">
+                        <div class="card-subject">
+                        <div class="card-image">
+                            <img src="/images/image_default.webp" alt="Image">
+                        </div>
+                        <div class="card-content d-flex justify-content-center align-items-center">
+                            <span >${textbook.name}</span>
+                        </div>
+                        </div>
+                        <div class="content-detail">
+                        <p class="fw-bold" >${'#' + textbook.id}</p>
+                        <p >${textbook.name}</p>
+                        </div>
+                    </a>
+                </div>
+            `)
+            textbookUI.el.listCard.append(card);
+        })
+        setTimeout(function() {
+            textbookUI.el.listCard.find('.card-container').addClass('showCard');
+        }, 100);
+    },
 }
 
 export default textbookUI;

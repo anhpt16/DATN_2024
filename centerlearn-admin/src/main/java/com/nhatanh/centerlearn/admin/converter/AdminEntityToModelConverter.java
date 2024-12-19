@@ -168,4 +168,15 @@ public class AdminEntityToModelConverter {
             .textbookId(subjectTextbook.getTextbookId())
             .build();
     }
+
+    public TextbookLessonModel toTextbookLessonModel(TextbookLesson textbookLesson) {
+        if (textbookLesson == null) {
+            return null;
+        }
+        return TextbookLessonModel.builder()
+            .lessonId(textbookLesson.getLessonId())
+            .textbookId(textbookLesson.getTextbookId())
+            .priority(textbookLesson.getPriority())
+            .build();
+    }
 }

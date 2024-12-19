@@ -28,10 +28,6 @@ public class Section {
     private long creatorId;
     private String status;
     @Column(
-        name = "term_id"
-    )
-    private long termId;
-    @Column(
         name = "created_at"
     )
     private LocalDateTime createdAt;
@@ -39,4 +35,9 @@ public class Section {
         name = "updated_at"
     )
     private LocalDateTime updatedAt;
+    private float priority;
+    @Column(
+        name = "lesson_id"
+    )
+    private long lessonId;
 }

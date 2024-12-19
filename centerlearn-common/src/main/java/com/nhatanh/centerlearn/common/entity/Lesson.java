@@ -36,4 +36,8 @@ public class Lesson {
         name = "updated_at"
     )
     private LocalDateTime updatedAt;
+    @Column(
+        name = "user_term_id"
+    )
+    private long userTermId;
 }

@@ -46,6 +46,11 @@ public class TextbookService {
         return textbook == null ? null : this.adminEntityToModelConverter.toModel(textbook);
     }
 
+    public TextbookModel getTextbookBySlug(String slug) {
+        Textbook textbook = this.textbookRepository.findTextbookBySlug(slug);
+        return textbook == null ? null : this.adminEntityToModelConverter.toModel(textbook);
+    }
+
     public void updateTextbook(SaveTextbookModel model) {
         Textbook textbook = this.textbookRepository.findById(model.getId());
         if (textbook == null) {

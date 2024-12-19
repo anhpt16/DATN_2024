@@ -78,6 +78,18 @@ public class AdminModelToEntityConverter {
         return entity;
     }
 
+    public TextbookLesson toTextbookLessonEntity(TextbookLessonModel model) {
+        TextbookLesson entity = new TextbookLesson();
+        this.mergeToEntity(entity, model);
+        return entity;
+    }
+
+    public void mergeToEntity(TextbookLesson entity, TextbookLessonModel model) {
+        entity.setTextbookId(model.getTextbookId());
+        entity.setLessonId(model.getLessonId());
+        entity.setPriority(model.getPriority());
+    }
+
     public void mergeToEntity(SubjectTextbook entity, SubjectTextbookModel model) {
         entity.setSubjectId(model.getSubjectId());
         entity.setTextbookId(model.getTextbookId());

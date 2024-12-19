@@ -62,6 +62,14 @@ public class TextbookServiceController {
         return this.adminModelToResponseConverter.toTextbookResponse(textbookModel);
     }
 
+    public AdminTextbookResponse getTextbookBySlug(String slug) {
+        TextbookModel textbookModel = this.textbookService.getTextbookBySlug(slug);
+        if (textbookModel == null) {
+            throw new HttpNotFoundException("Textbook with slug: " + slug + " invalid");
+        }
+        return this.adminModelToResponseConverter.toTextbookResponse(textbookModel);
+    }
+
     public void updatedTextbookById(SaveTextbookModel model) {
         this.textbookService.updateTextbook(model);
     }

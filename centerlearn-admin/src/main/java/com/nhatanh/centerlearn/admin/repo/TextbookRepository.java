@@ -11,4 +11,7 @@ public interface TextbookRepository extends EzyDatabaseRepository<Long, Textbook
 
     @EzyQuery("SELECT t.id FROM Textbook t WHERE t.name = ?0")
     IdResult findTextbookIdByName(String name);
+
+    @EzyQuery("SELECT t FROM Textbook t WHERE t.slug = ?0")
+    Textbook findTextbookBySlug(String slug);
 }

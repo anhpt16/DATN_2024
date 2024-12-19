@@ -35,4 +35,8 @@ public class Exercise {
         name = "updated_at"
     )
     private LocalDateTime updatedAt;
+    @Column(
+        name = "user_term_id"
+    )
+    private long userTermId;
 }

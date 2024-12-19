@@ -1,5 +1,6 @@
 package com.nhatanh.centerlearn.admin.controller.api;
 
+import com.nhatanh.centerlearn.admin.controller.service.LessonServiceController;
 import com.nhatanh.centerlearn.admin.controller.service.TextbookServiceController;
 import com.nhatanh.centerlearn.admin.converter.AdminRequestToModelConverter;
 import com.nhatanh.centerlearn.admin.filter.TextbookFilterCriteria;
@@ -11,6 +12,9 @@ import com.nhatanh.centerlearn.admin.validator.TextbookValidator;
 import com.nhatanh.centerlearn.common.enums.SubjectStatus;
 import com.nhatanh.centerlearn.common.enums.TextbookStatus;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
+import com.nhatanh.centerlearn.common.request.AddLessonRequest;
+import com.nhatanh.centerlearn.common.utils.RequestContext;
+import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +22,7 @@ import lombok.AllArgsConstructor;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Api
@@ -32,6 +37,7 @@ import java.util.stream.Collectors;
  */
 public class AdminTextbookApiController {
     private final TextbookServiceController textbookServiceController;
+    private final LessonServiceController lessonServiceController;
     private final TextbookValidator textbookValidator;
     private final AdminRequestToModelConverter adminRequestToModelConverter;
 
@@ -92,14 +98,6 @@ public class AdminTextbookApiController {
         return ResponseEntity.noContent();
     }
 
-    @DoPost("/{id}/lesson")
-    public ResponseEntity addTextbookLesson(
-
-    ) {
-
-        return ResponseEntity.noContent();
-    }
-
     @DoGet("/statuses")
     public List<Map<String, String>> getTextbookStatuses() {
         return Arrays.stream(TextbookStatus.values())
@@ -116,4 +114,52 @@ public class AdminTextbookApiController {
     /* Common (Quản trị + Quản lý + Giảng viên)
         Thêm bài học -> Thêm đề mục cho bài học -> Thêm bài tập cho bài học
      */
+
+    // Thêm một bài học đã có cho giáo trình
+    @DoPost("/{textbookId}/lesson/{lessonId}")
+    public ResponseEntity addLessonToTextbookWithLessonId(
+        @PathVariable long textbookId,
+        @PathVariable long lessonId,
+        @RequestParam float priority
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validate(textbookId, lessonId, accountId);
+        this.lessonServiceController.addExistLessonForTextbook(lessonId, textbookId, priority);
+        return ResponseEntity.noContent();
+    }
+
+    // Thêm một bài học mới cho giáo trình
+    @DoPost("/{textbookId}/lesson")
+    public ResponseEntity addNewLessonToTextbook(
+        @PathVariable long textbookId,
+        @RequestBody AddLessonRequest request
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validate(request, accountId, textbookId);
+        this.lessonServiceController.addNewLessonForTextbook(this.adminRequestToModelConverter.toAddLessonModel(request, accountId), textbookId);
+        return ResponseEntity.noContent();
+    }
+
+    // Xóa một bài học khỏi giáo trình
+    @DoDelete("/{textbookId}/lesson/{lessonId}")
+    public ResponseEntity deleteLessonFromTextbook(
+        @PathVariable long textbookId,
+        @PathVariable long lessonId
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validateDelete(textbookId, lessonId, accountId);
+        this.lessonServiceController.deleteLessonForTextbook(lessonId, textbookId);
+        return ResponseEntity.noContent();
+    }
+
+
 }

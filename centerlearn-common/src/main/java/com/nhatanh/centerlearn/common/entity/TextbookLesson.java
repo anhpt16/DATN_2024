@@ -25,4 +25,5 @@ public class TextbookLesson {
         name = "lesson_id"
     )
     private long lessonId;
+    private float priority;
 }

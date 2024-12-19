@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.admin.converter;
 
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
+import com.nhatanh.centerlearn.common.model.AddLessonModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
@@ -56,6 +57,22 @@ public class AdminModelToModelConverter {
         return SubjectTextbookModel.builder()
             .subjectId(subjectId)
             .textbookId(textbookId)
+            .build();
+    }
+
+    public TextbookLessonModel toTextbookLessonModelConverter(long textbookId, long lessonId, AddLessonModel model) {
+        return TextbookLessonModel.builder()
+            .lessonId(lessonId)
+            .textbookId(textbookId)
+            .priority(model.getPriority())
+            .build();
+    }
+
+    public TextbookLessonModel toTextbookLessonModelConverter(long textbookId, long lessonId, float priority) {
+        return TextbookLessonModel.builder()
+            .lessonId(lessonId)
+            .textbookId(textbookId)
+            .priority(priority)
             .build();
     }
 }

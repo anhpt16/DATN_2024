@@ -25,4 +25,5 @@ public class LessonExercise {
         name = "exercise_id"
     )
     private long exerciseId;
+    private float priority;
 }

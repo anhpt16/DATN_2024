@@ -5,6 +5,8 @@ import com.nhatanh.centerlearn.admin.controller.service.TermServiceController;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.request.*;
 import com.nhatanh.centerlearn.common.enums.*;
+import com.nhatanh.centerlearn.common.model.AddLessonModel;
+import com.nhatanh.centerlearn.common.request.AddLessonRequest;
 import com.nhatanh.centerlearn.common.validator.FormValidator;
 import com.nhatanh.centerlearn.common.entity.PermissionId;
 import com.nhatanh.centerlearn.common.utils.Base64Util;
@@ -175,6 +177,17 @@ public class AdminRequestToModelConverter {
             .author(request.getAuthor())
             .url(request.getUrl())
             .status(request.getStatus())
+            .build();
+    }
+
+    public AddLessonModel toAddLessonModel(AddLessonRequest request, long creatorId) {
+        return AddLessonModel.builder()
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .creatorId(creatorId)
+            .note(request.getNote())
+            .priority(request.getPriority())
+            .userTermId(request.getUserTermId())
             .build();
     }
 }
