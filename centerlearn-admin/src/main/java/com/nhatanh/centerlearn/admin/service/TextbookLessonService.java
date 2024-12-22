@@ -11,6 +11,10 @@ import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
+import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
+
 @Service
 @AllArgsConstructor
 public class TextbookLessonService {
@@ -30,6 +34,14 @@ public class TextbookLessonService {
         );
     }
 
+    public List<TextbookLessonModel> getTextbookLessonsByTextbookId(long textbookId) {
+        List<TextbookLesson> textbookLessons = this.textbookLessonRepository.findListByTextbookId(textbookId);
+        if (textbookLessons.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(textbookLessons, this.adminEntityToModelConverter::toTextbookLessonModel);
+    }
+
     public TextbookLessonModel getTextbookLessonByTextbookIdAndLessonId(long textbookId, long lessonId) {
         TextbookLesson textbookLesson = this.textbookLessonRepository.findTextbookLessonByTextbookIdAndLessonId(textbookId, lessonId);
         return textbookLesson == null ? null : this.adminEntityToModelConverter.toTextbookLessonModel(textbookLesson);
@@ -41,5 +53,14 @@ public class TextbookLessonService {
             throw new HttpNotFoundException("TextbookLesson Not Found");
         }
         this.textbookLessonRepository.delete(textbookLessonId);
+    }
+
+    public void updateTextbookLesson(TextbookLessonId textbookLessonId, Float priority) {
+        TextbookLesson textbookLesson = this.textbookLessonRepository.findById(textbookLessonId);
+        if (textbookLesson == null) {
+            throw new HttpNotFoundException("TextbookLesson Not Found");
+        }
+        this.adminModelToEntityConverter.mergeToSaveEntity(textbookLesson, priority);
+        this.textbookLessonRepository.save(textbookLesson);
     }
 }

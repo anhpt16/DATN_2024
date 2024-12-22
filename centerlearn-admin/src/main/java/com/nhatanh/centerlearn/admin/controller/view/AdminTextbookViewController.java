@@ -3,6 +3,7 @@ package com.nhatanh.centerlearn.admin.controller.view;
 import com.nhatanh.centerlearn.admin.controller.service.SubjectServiceController;
 import com.nhatanh.centerlearn.admin.controller.service.TextbookServiceController;
 import com.nhatanh.centerlearn.admin.filter.TextbookFilterCriteria;
+import com.nhatanh.centerlearn.admin.response.AdminLessonSectionResponse;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectShortResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookResponse;
 import com.nhatanh.centerlearn.common.enums.TextbookStatus;
@@ -27,10 +28,10 @@ public class AdminTextbookViewController {
         @PathVariable String slug
     ) {
         AdminTextbookResponse adminTextbookResponse = this.textbookServiceController.getTextbookBySlug(slug);
-
+        List<AdminLessonSectionResponse> lessonSectionResponses = this.textbookServiceController.getLessonsSectionsByTextbookId(adminTextbookResponse.getId());
         return View.builder()
             .addVariable("textbook", adminTextbookResponse)
-
+            .addVariable("lessonsSections", lessonSectionResponses)
             .template("/contents/textbook/detail_textbook")
             .build();
     }

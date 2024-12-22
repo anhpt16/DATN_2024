@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.common.exception;
 
 import com.tvd12.ezyfox.exception.NotFoundException;
 import com.tvd12.ezyfox.util.EzyLoggable;
+import com.tvd12.ezyhttp.core.exception.DeserializeBodyException;
 import com.tvd12.ezyhttp.core.exception.HttpUnauthorizedException;
 import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.ExceptionHandler;
@@ -64,5 +65,21 @@ public class GlobalExceptionHandler extends EzyLoggable {
             .status(302)
             .body("Global Exception: " + e.getMessage())
             .build();
+    }
+
+    @TryCatch(DeserializeBodyException.class)
+    public ResponseEntity handleException(
+        DeserializeBodyException e
+    ) {
+        logger.info("Global Exception: " + e.getMessage());
+        return ResponseEntity.badRequest(e.getMessage());
+    }
+
+    @TryCatch(ResourceNotFoundException.class)
+    public ResponseEntity handleRequest(
+        ResourceNotFoundException e
+    ) {
+        logger.info("Global Exception: " + e.getMessage());
+        return ResponseEntity.notFound(e.getMessage());
     }
 }

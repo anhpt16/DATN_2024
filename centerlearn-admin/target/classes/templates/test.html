@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{page}">
+<body>
+<div layout:fragment="content" class="row content">
+    <div>
+        <label>Số tài khoản:</label>
+        <input type="text" id="accountNumber" placeholder="Nhập số tài khoản MB Bank">
+    </div>
+    <div>
+        <label>Số tiền:</label>
+        <input type="number" id="amount" placeholder="Nhập số tiền (VNĐ)">
+    </div>
+    <div>
+        <label>Nội dung thanh toán:</label>
+        <input type="text" id="orderDescription" placeholder="Nội dung thanh toán">
+    </div>
+    <div>
+        <label>Tên người nhận:</label>
+        <input type="text" id="receiverName" placeholder="Tên người nhận">
+    </div>
+    <button id="generateQR">Tạo mã QR</button>
+    <canvas id="qrcode"></canvas>
+</div>
+<th:block layout:fragment="post-scripts">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="/js/contents/test.js"></script>
+</th:block>
+</body>
+</html>

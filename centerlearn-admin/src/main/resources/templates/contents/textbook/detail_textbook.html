@@ -9,7 +9,7 @@
   <div class="col-lg-10 bg-white content-container">
     <div class="">
         <div class="mt-2 ms-2">
-            <button class="btn btn-primary">Quay lại</button>
+            <button id="btn-back" class="btn btn-primary">Quay lại</button>
         </div>
         <div class="row textbook-info">
             <div class="col-lg-5 border rounded-3 pt-3 pb-3 ps-4 m-2">
@@ -35,28 +35,46 @@
                 </div>
             </div>
             <div class="col-lg-5 border rounded-3 pt-3 pb-3 ps-4 m-2">
-                <div class="d-flex">
-                    <div class="width-150 d-flex flex-column">
-                        <div class="fw-bold text-center">MENU</div>
-                        <a class="text-decoration-none state-ls" href="#">Đề mục</a>
-                        <a class="text-decoration-none state-ex" href="#">Bài tập</a>
+                <div class="">
+                    <div class="row p-2 menu-lesson">
+                        <div class="col-lg-2 fw-bold d-flex align-items-center justify-content-center">
+                            Bài học
+                        </div>
+                        <div class="col-lg-10 menu-lesson-btn">
+                            <button type="button" id="lesson-btn-view" class="btn btn-outline-primary" disabled>Xem</button>
+                            <button type="button" id="lesson-btn-edit" class="btn btn-outline-warning" disabled>Sửa</button>
+                            <button type="button" id="lesson-btn-delete" class="btn btn-outline-danger" disabled>Xóa</button>
+                            <button type="button" id="lesson-btn-add" class="btn btn-outline-success">Thêm</button>
+                            <button type="button" id="lesson-btn-add-exist" class="btn btn-outline-success">Thêm từ kho</button>
+                        </div>
                     </div>
-                    <div class="state-menu">
-                        <button class="btn btn-outline-primary">Thêm mới</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
-                        <button class="btn btn-outline-primary">Thêm từ kho</button>
+                    <div class="row p-2 menu-section">
+                        <div class="col-lg-2 d-flex align-items-center justify-content-center">
+                            <a class="nav-link text-decoration-none p-1 rounded-3 border menu-choose active" data-selected="true" id="menu-choose-section" href="javascript:void(0)">Đề mục</a>
+                        </div>
+                        <div class="col-lg-10 menu-section-btn">
+                            <button type="button" id="section-btn-view" class="btn btn-outline-primary" disabled>Xem</button>
+                            <button type="button" id="section-btn-edit" class="btn btn-outline-warning" disabled>Sửa</button>
+                            <button type="button" id="section-btn-delete" class="btn btn-outline-danger" disabled>Xóa</button>
+                            <button type="button" id="section-btn-add" class="btn btn-outline-success" disabled>Thêm</button>
+                        </div>
+                    </div>
+                    <div class="row p-2 menu-exercise">
+                        <div class="col-lg-2 d-flex align-items-center justify-content-center">
+                            <a class="nav-link text-decoration-none p-1 rounded-3 border menu-choose" id="menu-choose-exercise" href="javascript:void(0)">Bài tập</a>
+                        </div>
+                        <div class="col-lg-10 menu-exercise-btn d-none">
+                            <button type="button" id="exercise-btn-view" class="btn btn-outline-primary" disabled>Xem</button>
+                            <button type="button" id="exercise-btn-edit" class="btn btn-outline-warning" disabled>Sửa</button>
+                            <button type="button" id="exercise-btn-delete" class="btn btn-outline-danger" disabled>Xóa</button>
+                            <button type="button" id="exercise-btn-add" class="btn btn-outline-success" disabled>Thêm</button>
+                            <button type="button" id="exercise-btn-add-exist" class="btn btn-outline-success" disabled>Thêm từ kho</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1 d-flex flex-column justify-content-between pt-3 pb-3 ms-3">
-                <button type="button " class="btn btn-outline-danger">Xóa</button>
-                <button type="button" class="btn btn-outline-warning">Sửa</button>
-                <button type="button" class="btn btn-outline-success">Lưu</button>
+            <div class="col-lg-1 d-flex flex-column justify-content-center align-items-center pt-3 pb-3 ms-3">
+                <button type="button" id="detail-content-save" class="btn btn-outline-success" disabled>Lưu Nội Dung</button>
             </div>
         </div>
         <div class="section-content ps-2 pe-2">
@@ -65,79 +83,83 @@
     </div>
   </div>
   <aside class="col-lg-2 bg-light list-lesson scrollable">
-    <ul>
-        <li>
-            <a href="">
-                <div>Bài 1</div>
+    <ul class="list-lesson-container">
+        <li th:each="lessonSection : ${lessonsSections}" class="lesson-item" th:attr="data-id=${lessonSection.id}">
+            <a href="javascript:void(0)" class="lesson-title-container d-flex justify-content-between align-items-center border-bottom">
+                <input type="checkbox" class="checkbox-lesson">
+                <span class="lesson-title" th:text="${lessonSection.title}"></span>
+                <i class="fa-solid fa-angle-down"></i>
             </a>
-            <ul>
-                <li>Cú pháp cơ bản</li>
-                <li>Cú pháp nâng cao</li>
-                <li>Thực hành</li>
+            <ul class="lesson-detail d-none">
+                <li class="lesson-detail-item" th:each="section : ${lessonSection.sections}" th:attr="data-id=${section.id}">
+                    <a href="javascript:void(0)" class="nav-link d-flex align-items-center text-decoration-none">
+                        <strong th:text="${section.priority}"></strong>.
+                        <span class="lesson-detail-title" th:text="${section.title}"></span>
+                    </a>
+                </li>
+                <!-- Hiển thị thông báo nếu sections rỗng -->
+                <li th:if="${lessonSection.sections == null || lessonSection.sections.isEmpty()}" class="lesson-detail-item">
+                    No sections available
+                </li>
             </ul>
         </li>
     </ul>
   </aside>
   <div id="notification-container"></div>
   <div id="confirmation-modal"></div>
-  <div id="edit-modal"></div>
-  <div id="info-modal"></div>
-  <div class="modal modal-lg fade" id="add-modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
+  <div id="edit-modal">
+    <div class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-header">
-                <strong>Thêm tài khoản</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 class="modal-title">Chỉnh sửa thông tin</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="add-account">
-                    <div id="add-account-container" class="add-account-container">
-                      <div class="add-account-content-container">
-                        <form id="form-add-user">
-                          <div>
-                            <label for="">[[#{account_username}]]</label>
-                            <input type="text" autocomplete="off" id="add-account-username">
-                          </div>
-                          <div>
-                            <label for="">[[#{account_password}]]</label>
-                            <input type="text" autocomplete="off" id="add-account-password">
-                          </div>
-                          <div>
-                            <label for="">[[#{account_display_name}]]</label>
-                            <input type="text" autocomplete="off" id="add-account-display-name">
-                          </div>
-                          <div>
-                            <label for="">[[#{account_email}]]</label>
-                            <input type="text" autocomplete="off" id="add-account-email">
-                          </div>
-                          <div>
-                            <label for="">[[#{account_phone}]]</label>
-                            <input type="text" autocomplete="off" id="add-account-phone">
-                          </div>
-                          <div>
-                            <label for="">[[#{account_role}]]</label>
-                            <select name="" id="add-account-role" autocomplete="off">
-                              <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}"></option>
-                            </select>
-                          </div>
-                          <div class="add-account-action-container">
-                            <button type="submit">[[#{create}]]</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                </div>
-                <div id="error-message" class="error-message d-none">
-                    <div class="d-flex justify-content-end close-icon">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </div>
-                    <div class="error-content mt-2">
-                    </div>
-                </div>
+                
+            </div>
+            <div class="modal-footer d-flex justify-content-between align-items-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" id="edit-modal-save" class="btn btn-primary">Lưu</button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div id="info-modal">
+    <div class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Thông tin chi tiết</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div id="add-modal">
+    <div class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Thêm mới</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer d-flex justify-content-between align-items-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" id="add-new-btn" class="btn btn-primary">Thêm</button>
+            </div>
+          </div>
         </div>
     </div>
   </div>

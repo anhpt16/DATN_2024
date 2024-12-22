@@ -97,4 +97,16 @@ public class RequestToModelConverter {
             .userTermId(request.getUserTermId())
             .build();
     }
+
+    public UpdateExerciseFromLessonModel toUpdateExerciseFromLessonModel(UpdateExerciseFromLesson request, long exerciseId, long lessonId) {
+        return UpdateExerciseFromLessonModel.builder()
+            .id(exerciseId)
+            .title(request.getTitle())
+            .content(request.getContent())
+            .status(request.getStatus())
+            .userTermId(request.getUserTermId())
+            .lessonId(lessonId)
+            .priority(request.getPriority())
+            .build();
+    }
 }

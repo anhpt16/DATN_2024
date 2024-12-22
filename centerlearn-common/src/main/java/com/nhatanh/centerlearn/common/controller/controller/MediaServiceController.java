@@ -29,7 +29,6 @@ import java.util.UUID;
 @EzySingleton
 @AllArgsConstructor
 public class MediaServiceController {
-    private final FileUploader fileUploader;
     private final MediaService mediaService;
     private final RequestToModelConverter requestToModelConverter;
     private final ModelToResponseConverter modelToResponseConverter;

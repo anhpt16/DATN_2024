@@ -1430,12 +1430,69 @@ div.row.permission-table-container {
   margin-bottom: 3px;
 }
 
+.menu-choose {
+  color: #818181;
+}
+
 .list-lesson {
   padding: 20px 0px;
-  height: 100%;
+  height: calc(100vh - 72px);
   border-left: 1px solid #e3e3e3;
   background-color: #EEEEEE;
   color: #6e6e6e;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.list-lesson .list-lesson-container {
+  padding: 10px;
+}
+.list-lesson .list-lesson-container .lesson-item {
+  list-style: none;
+}
+.list-lesson .list-lesson-container .lesson-item .lesson-title-container {
+  padding: 15px 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #818181;
+}
+.list-lesson .list-lesson-container .lesson-item .lesson-title-container input {
+  margin-right: 8px;
+}
+.list-lesson .list-lesson-container .lesson-item .lesson-title-container .lesson-title {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+}
+.list-lesson .list-lesson-container .lesson-item .lesson-title-container i {
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+.list-lesson .list-lesson-container .lesson-item .lesson-title-container:hover {
+  background-color: #eae8e8;
+}
+.list-lesson .list-lesson-container .lesson-detail {
+  list-style: none;
+  padding: 10px 20px;
+}
+.list-lesson .list-lesson-container .lesson-detail .lesson-detail-item a {
+  color: #818181;
+  padding: 10px 5px;
+}
+.list-lesson .list-lesson-container .lesson-detail .lesson-detail-item:hover {
+  background-color: #eae8e8;
+}
+
+.cut {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content-container {
+  height: calc(100vh - 72px);
   overflow-y: auto;
   overflow-x: hidden;
 }

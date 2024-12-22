@@ -50,7 +50,7 @@
             </div>
             <div class="row list-subject mt-3" id="list-card-textbook">
                 <div th:each="textbook : ${textbookPagination.items}" th:attr="data-id=${textbook.id}" class="col-lg-2 card-container">
-                  <a th:href="${textbook != null and textbook.slug != null} ? ${textbook.slug} : '#'" class="text-decoration-none">
+                  <a th:href="${textbook != null and textbook.slug != null} ? ${textbook.slug} + '?lang=vi' : '#'" class="text-decoration-none">
                     <div class="card-subject">
                       <div class="card-image">
                         <img src="/images/image_default.webp" alt="Image">

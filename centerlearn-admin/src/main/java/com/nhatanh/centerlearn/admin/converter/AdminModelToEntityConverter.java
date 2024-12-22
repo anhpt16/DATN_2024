@@ -244,4 +244,10 @@ public class AdminModelToEntityConverter {
         }
         entity.setUpdatedAt(this.clock.nowDateTime());
     }
+
+    public void mergeToSaveEntity(TextbookLesson entity, Float priority) {
+        if (priority != null) {
+            entity.setPriority(priority);
+        }
+    }
 }

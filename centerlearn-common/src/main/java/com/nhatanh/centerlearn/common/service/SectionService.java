@@ -12,6 +12,10 @@ import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
+import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
+
 @Service
 @AllArgsConstructor
 public class SectionService {
@@ -53,5 +57,13 @@ public class SectionService {
             throw new HttpNotFoundException("Section Not Found");
         }
         this.sectionRepository.delete(sectionId);
+    }
+
+    public List<SectionModel> getListByLessonId(long lessonId) {
+        List<Section> sections = this.sectionRepository.findListByLessonId(lessonId);
+        if (sections.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(sections, this.entityToModelConverter::toSectionModel);
     }
 }

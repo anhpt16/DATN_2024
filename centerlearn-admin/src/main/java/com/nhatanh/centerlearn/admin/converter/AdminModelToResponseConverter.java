@@ -5,8 +5,15 @@ import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.*;
 import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.enums.*;
+import com.nhatanh.centerlearn.common.model.ExerciseModel;
+import com.nhatanh.centerlearn.common.model.ExerciseModelWithPriority;
+import com.nhatanh.centerlearn.common.model.LessonModel;
+import com.nhatanh.centerlearn.common.model.SectionModel;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.Optional;
 
 @EzySingleton
 @AllArgsConstructor
@@ -178,6 +185,40 @@ public class AdminModelToResponseConverter {
             .id(model.getId())
             .name(model.getName())
             .author(model.getAuthor())
+            .build();
+    }
+
+    public AdminListSectionResponse toListSectionResponse(SectionModel model) {
+        return AdminListSectionResponse.builder()
+            .id(model.getId())
+            .title(model.getTitle())
+            .priority(model.getPriority())
+            .build();
+    }
+
+    public AdminListExerciseResponse toListExerciseResponse(ExerciseModelWithPriority model) {
+        return AdminListExerciseResponse.builder()
+            .id(model.getId())
+            .title(model.getTitle())
+            .priority(model.getPriority())
+            .build();
+    }
+
+    public AdminLessonSectionResponse toAdminLessonSectionResponse(LessonModel lessonModel, List<AdminListSectionResponse> adminListSectionResponses, float lessonPriority) {
+        return AdminLessonSectionResponse.builder()
+            .id(lessonModel.getId())
+            .title(lessonModel.getTitle())
+            .priority(lessonPriority)
+            .sections(adminListSectionResponses)
+            .build();
+    }
+
+    public AdminLessonExerciseResponse toAdminLessonExerciseResponse(LessonModel lessonModel, List<AdminListExerciseResponse> adminListExerciseResponses, float priority) {
+        return AdminLessonExerciseResponse.builder()
+            .id(lessonModel.getId())
+            .title(lessonModel.getTitle())
+            .priority(priority)
+            .exercises(adminListExerciseResponses)
             .build();
     }
 }

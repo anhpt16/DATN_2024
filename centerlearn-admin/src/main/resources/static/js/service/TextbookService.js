@@ -54,6 +54,12 @@ const textbookService = {
     getTextbookDetailById: (id) => apiCall(`/textbook/${id}`, "GET"),
     getTextbookStatus: () => apiCall(`/textbook/statuses`, "GET"),
     updateTextbookById: (id, formData) => apiCall(`/textbook/${id}`, "PUT", formData),
+
+    addNewLesson: (textbookId, formData) => apiCall(`/textbook/${textbookId}/lesson`, "POST", formData),
+    deleteLessonFromTextbook: (textbookId, lessonId) => apiCall(`/textbook/${textbookId}/lesson/${lessonId}`, "DELETE"),
+
+    getLessonsSectionsByTextbookId: (textbookId) => apiCall(`/textbook/${textbookId}/lessons/sections`, "GET"),
+    getLessonsExercisesByTextbookId: (textbookId) => apiCall(`/textbook/${textbookId}/lessons/exercises`, "GET"),
 }
 
 export default textbookService;

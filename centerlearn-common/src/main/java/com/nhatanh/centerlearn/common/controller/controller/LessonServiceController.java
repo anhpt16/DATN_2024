@@ -3,12 +3,17 @@ package com.nhatanh.centerlearn.common.controller.controller;
 import com.nhatanh.centerlearn.common.converter.ModelToModelConverter;
 import com.nhatanh.centerlearn.common.converter.ModelToResponseConverter;
 import com.nhatanh.centerlearn.common.entity.LessonExerciseId;
+import com.nhatanh.centerlearn.common.enums.ExerciseStatus;
+import com.nhatanh.centerlearn.common.enums.LessonStatus;
 import com.nhatanh.centerlearn.common.exception.FailedCreationException;
 import com.nhatanh.centerlearn.common.model.*;
 import com.nhatanh.centerlearn.common.response.LessonResponse;
 import com.nhatanh.centerlearn.common.service.*;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -74,5 +79,14 @@ public class LessonServiceController {
 
     public void deleteLessonExerciseById(LessonExerciseId id) {
         this.lessonExerciseService.deleteLessonExerciseById(id);
+    }
+
+    public void updateExerciseFromLesson(UpdateExerciseFromLessonModel model) {
+        this.exerciseService.updateExerciseFromLesson(model);
+        this.lessonExerciseService.updateLessonExercise(model);
+    }
+
+    public List<LessonStatus> getLessonStatuses() {
+        return Arrays.asList(LessonStatus.values());
     }
 }

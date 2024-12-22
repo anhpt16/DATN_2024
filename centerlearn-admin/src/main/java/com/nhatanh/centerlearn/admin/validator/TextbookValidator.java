@@ -186,6 +186,36 @@ public class TextbookValidator {
         }
     }
 
+    public void validatePut(long textbookId, long lessonId, long accountId) {
+        List<String> errors = new ArrayList<>();
+
+        // Kiểm tra mã giáo trình
+        if (textbookId <= 0) {
+            errors.add("TextbookId Invalid");
+        } else {
+            if (this.textbookService.getTextBookById(textbookId) == null) {
+                errors.add("Textbook with id: " + textbookId + " not found");
+            }
+        }
+        // Kiểm tra mã bài học
+        if (lessonId <= 0) {
+            errors.add("LessonId Invalid");
+        } else {
+            if (this.lessonService.getLessonByIdAndCreatorId(lessonId, accountId) == null) {
+                errors.add("Lesson with id: " + lessonId + " and Creator with id: " + accountId + " not found");
+            }
+        }
+        // Kiểm tra bài học đã tồn tại trong giáo trình
+        if (textbookId > 0 && lessonId > 0) {
+            if (this.textbookLessonService.getTextbookLessonByTextbookIdAndLessonId(textbookId, lessonId) == null) {
+                errors.add("Lesson not exist on Textbook");
+            }
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
     public void validateDelete(long textbookId, long lessonId, long accountId) {
         List<String> errors = new ArrayList<>();
 
@@ -213,6 +243,18 @@ public class TextbookValidator {
         }
         if (errors.size() > 0) {
             throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validate(long textbookId) {
+        if (this.textbookService.getTextBookById(textbookId) == null) {
+            throw new HttpBadRequestException("Textbook with id: " + textbookId + " not found");
+        }
+    }
+
+    public void validate(Float priority) {
+        if (priority == null) {
+            throw new HttpBadRequestException("No Data");
         }
     }
 }

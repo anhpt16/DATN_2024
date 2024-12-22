@@ -6,6 +6,8 @@ import com.nhatanh.centerlearn.admin.converter.AdminRequestToModelConverter;
 import com.nhatanh.centerlearn.admin.filter.TextbookFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.AddTextbookRequest;
 import com.nhatanh.centerlearn.admin.request.SaveTextbookRequest;
+import com.nhatanh.centerlearn.admin.response.AdminLessonExerciseResponse;
+import com.nhatanh.centerlearn.admin.response.AdminLessonSectionResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookShortResponse;
 import com.nhatanh.centerlearn.admin.validator.TextbookValidator;
@@ -19,10 +21,7 @@ import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Api
@@ -161,5 +160,54 @@ public class AdminTextbookApiController {
         return ResponseEntity.noContent();
     }
 
+    // Sửa một bài học trong giáo trình
+    @DoPut("/{textbookId}/lesson/{lessonId}")
+    public ResponseEntity updateLessonFromTextbook(
+        @PathVariable long textbookId,
+        @PathVariable long lessonId,
+        @RequestParam Float priority
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validatePut(textbookId, lessonId, accountId);
+        this.textbookValidator.validate(priority);
+        this.lessonServiceController.updatePriorityForTextbookLesson(lessonId, textbookId, priority);
+        return ResponseEntity.noContent();
+    }
 
+    // Lấy danh sách các bài học kèm các đề mục của các bài học trong một giáo trình
+    @DoGet("/{textbookId}/lessons/sections")
+    public List<AdminLessonSectionResponse> getLessonsSectionsByTextbookId(
+        @PathVariable long textbookId
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validate(textbookId);
+        List<AdminLessonSectionResponse> lessonSectionResponses = this.textbookServiceController.getLessonsSectionsByTextbookId(textbookId);
+        if (lessonSectionResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return lessonSectionResponses;
+    }
+
+    // Lấy danh sách các bài học kèm các bài tập các các bài học trong một giáo trình
+    @DoGet("/{textbookId}/lessons/exercises")
+    public List<AdminLessonExerciseResponse> getLessonsExercisesByTextbookId(
+        @PathVariable long textbookId
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.textbookValidator.validate(textbookId);
+        List<AdminLessonExerciseResponse> lessonExerciseResponses = this.textbookServiceController.getLessonsExercisesByTextbookId(textbookId);
+        if (lessonExerciseResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return lessonExerciseResponses;
+    }
 }

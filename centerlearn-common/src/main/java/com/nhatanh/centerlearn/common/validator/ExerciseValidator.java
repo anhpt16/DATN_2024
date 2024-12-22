@@ -4,6 +4,7 @@ import com.nhatanh.centerlearn.common.entity.LessonExerciseId;
 import com.nhatanh.centerlearn.common.enums.ExerciseStatus;
 import com.nhatanh.centerlearn.common.enums.LessonStatus;
 import com.nhatanh.centerlearn.common.request.AddExerciseRequest;
+import com.nhatanh.centerlearn.common.request.UpdateExerciseFromLesson;
 import com.nhatanh.centerlearn.common.request.UpdateExerciseRequest;
 import com.nhatanh.centerlearn.common.service.ExerciseService;
 import com.nhatanh.centerlearn.common.service.LessonExerciseService;
@@ -175,6 +176,52 @@ public class ExerciseValidator {
         }
         if (errors.size() > 0) {
             throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validatePut(long lessonId, long exerciseId, long accountId, UpdateExerciseFromLesson request) {
+        List<String> errors = new ArrayList<>();
+        // Kiểm tra người dùng có quyền chỉnh sửa
+        if (exerciseId <= 0) {
+            errors.add("ExerciseId Invalid");
+        } else {
+            if (this.exerciseService.getExerciseByIdAndCreatorId(exerciseId, accountId) == null) {
+                errors.add("ExerciseId - CreatorId not found");
+            }
+        }
+        // Kiểm tra dữ liệu cập nhật
+        if (request.getTitle() != null) {
+            if (formValidator.validateBlank(request.getTitle())) {
+                errors.add("Title Blank");
+            }
+        }
+        // Trạng thái phải hợp lệ
+        if (request.getStatus() != null) {
+            if (ExerciseStatus.fromString(request.getStatus()) == null) {
+                errors.add("Status does not exist");
+            } else {
+                request.setStatus(request.getStatus().toUpperCase());
+            }
+        }
+        // Tài khoản phải sở hữu thuật ngữ
+        if (request.getUserTermId() != null && request.getUserTermId() != 0) {
+            if (this.userTermService.getUserTermByIdAndCreatorId(request.getUserTermId(), accountId) == null) {
+                errors.add("UserTerm Invalid");
+            }
+        }
+        if (errors.size() > 0) {
+            throw new HttpBadRequestException(errors);
+        }
+    }
+
+    public void validateNull(UpdateExerciseFromLesson request) {
+        if (request.getTitle() == null
+            && request.getContent() == null
+            && request.getStatus() == null
+            && request.getUserTermId() == null
+            && request.getPriority() == null
+        ) {
+            throw new HttpBadRequestException("No Data");
         }
     }
 

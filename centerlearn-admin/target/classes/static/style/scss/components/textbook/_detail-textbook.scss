@@ -18,18 +18,71 @@
     }
 }
 
+.menu-choose {
+    color: #818181;
+}
+
 .list-lesson {
     padding: 20px 0px;
-    height: 100%;
+    height: calc(100vh - 72px);
     border-left: 1px solid $sidebar-border-color;
     background-color: $sidebar-bg-light;
     color: $sidebar-color-light;
     overflow-y: auto;
     overflow-x: hidden;
+    .list-lesson-container {
+        padding: 10px;
+        .lesson-item {
+            list-style: none;
+            .lesson-title-container {
+                padding: 15px 10px;
+                overflow: hidden;
+                text-decoration: none;
+                color: #818181;
+                input {
+                    margin-right: 8px;
+                }
+                .lesson-title {
+                    flex-grow: 1;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin-right: 10px;
+                }
+                i {
+                    flex-shrink: 0;
+                    width: 20px;
+                    text-align: center;
+                }
+                &:hover {
+                    background-color: #eae8e8;
+                }
+            }
+        }
+        .lesson-detail {
+            list-style: none;
+            padding: 10px 20px;
+            .lesson-detail-item {
+                a {
+                    color: #818181;
+                    padding: 10px 5px;
+                }
+                &:hover {
+                    background-color: #eae8e8;
+                }
+            }
+        }
+    } 
+}
+
+.cut {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .content-container {
-    // height: 1200px;
-    // overflow-y: auto;
-    // overflow-x: hidden;
+    height: calc(100vh - 72px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }

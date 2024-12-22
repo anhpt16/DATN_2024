@@ -3,11 +3,12 @@ package com.nhatanh.centerlearn.admin.converter;
 import com.nhatanh.centerlearn.admin.model.*;
 import com.nhatanh.centerlearn.admin.response.AdminTermResponse;
 import com.nhatanh.centerlearn.common.model.AddLessonModel;
+import com.nhatanh.centerlearn.common.model.ExerciseModel;
+import com.nhatanh.centerlearn.common.model.ExerciseModelWithPriority;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
 
-import java.sql.Time;
 import java.util.List;
 
 @EzySingleton
@@ -72,6 +73,20 @@ public class AdminModelToModelConverter {
         return TextbookLessonModel.builder()
             .lessonId(lessonId)
             .textbookId(textbookId)
+            .priority(priority)
+            .build();
+    }
+
+    public ExerciseModelWithPriority toExerciseModelWithPriority(ExerciseModel exerciseModel, float priority) {
+        return ExerciseModelWithPriority.builder()
+            .id(exerciseModel.getId())
+            .title(exerciseModel.getTitle())
+            .content(exerciseModel.getContent())
+            .creatorId(exerciseModel.getCreatorId())
+            .status(exerciseModel.getStatus())
+            .createdAt(exerciseModel.getCreatedAt())
+            .updatedAt(exerciseModel.getUpdatedAt())
+            .userTermId(exerciseModel.getUserTermId())
             .priority(priority)
             .build();
     }

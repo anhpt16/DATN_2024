@@ -3,14 +3,20 @@ package com.nhatanh.centerlearn.common.service;
 import com.nhatanh.centerlearn.common.converter.EntityToModelConverter;
 import com.nhatanh.centerlearn.common.converter.ModelToEntityConverter;
 import com.nhatanh.centerlearn.common.entity.Exercise;
+import com.nhatanh.centerlearn.common.entity.LessonExerciseId;
 import com.nhatanh.centerlearn.common.exception.FailedCreationException;
 import com.nhatanh.centerlearn.common.model.AddExerciseModel;
 import com.nhatanh.centerlearn.common.model.ExerciseModel;
+import com.nhatanh.centerlearn.common.model.UpdateExerciseFromLessonModel;
 import com.nhatanh.centerlearn.common.model.UpdateExerciseModel;
 import com.nhatanh.centerlearn.common.repository.ExerciseRepository;
 import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
+
+import java.util.Collections;
+import java.util.List;
+import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
 @Service
 @AllArgsConstructor
@@ -45,5 +51,22 @@ public class ExerciseService {
         }
         this.modelToEntityConverter.mergeToSaveEntity(exercise, model);
         this.exerciseRepository.save(exercise);
+    }
+
+    public void updateExerciseFromLesson(UpdateExerciseFromLessonModel model) {
+        Exercise exercise = this.exerciseRepository.findById(model.getId());
+        if (exercise == null) {
+            throw new HttpNotFoundException("Exercise Not Found");
+        }
+        this.modelToEntityConverter.mergeToSaveEntity(exercise, model);
+        this.exerciseRepository.save(exercise);
+    }
+
+    public List<ExerciseModel> getListByExerciseIds(List<Long> exerciseIds) {
+        List<Exercise> exercises = this.exerciseRepository.findListByIds(exerciseIds);
+        if (exercises.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(exercises, this.entityToModelConverter::toExerciseModel);
     }
 }

@@ -23,4 +23,11 @@ public class AdminTextbookModelDecorator {
             .currentPage(textbookPaginationModel.getCurrentPage())
             .build();
     }
+
+    // Lấy ra danh sách các bài học kèm các đề mục của các bài học trong một giáo trình
+    /*
+    1. Từ id của giáo trình nhận được, lấy ra các bài học của giáo trình đó trong bảng textbook_lesson --> Danh sách id của các bài học (sắp xếp theo priority)
+    2. Từ danh sách id của các bài học, lấy ra các section tương ứng với các bài học trong bảng section --> Danh sách các section của các bài học (theo priority)
+    3. Ghép dữ liệu
+     */
 }

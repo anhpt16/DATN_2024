@@ -45,8 +45,14 @@ public class LessonServiceController {
     // Xóa một bài học khỏi giáo trình
     public void deleteLessonForTextbook(long lessonId, long textbookId) {
         TextbookLessonId textbookLessonId = new TextbookLessonId(
-            lessonId, textbookId
+            textbookId, lessonId
         );
         this.textbookLessonService.deleteLessonForTextbook(textbookLessonId);
+    }
+
+    // Sửa thứ tự cho một bài học trong giáo trình
+    public void updatePriorityForTextbookLesson(long lessonId, long textbookId, Float priority) {
+        TextbookLessonId textbookLessonId = new TextbookLessonId(textbookId, lessonId);
+        this.textbookLessonService.updateTextbookLesson(textbookLessonId, priority);
     }
 }

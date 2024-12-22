@@ -142,7 +142,7 @@ const textbookUI = {
         textbooks.forEach(textbook => {
             let card = $(`
                 <div data-id="${textbook.id}" class="col-lg-2 card-container hideCard">
-                    <a href="${textbook != null && textbook.slug != null ? textbook.slug : '#'}" class="text-decoration-none">
+                    <a href="${textbook != null && textbook.slug != null ? textbook.slug + '?lang=vi' : '#'}" class="text-decoration-none">
                         <div class="card-subject">
                         <div class="card-image">
                             <img src="/images/image_default.webp" alt="Image">
@@ -164,6 +164,62 @@ const textbookUI = {
             textbookUI.el.listCard.find('.card-container').addClass('showCard');
         }, 100);
     },
+    renderTextbookLessonDetail: (lessons) => {
+        $(".list-lesson-container").empty();
+        if (lessons.length === 0) {
+            return;
+        }
+        lessons.forEach(lesson => {
+            let sectionsOrExercises = '';
+
+            // Kiểm tra nếu mảng sections tồn tại và không rỗng
+            if (Array.isArray(lesson.sections) && lesson.sections.length > 0) {
+                sectionsOrExercises = lesson.sections.map(section => {
+                    return `
+                        <li class="lesson-detail-item" data-id="${section.id}">
+                            <a href="javascript:void(0)" class="nav-link d-flex align-items-center text-decoration-none">
+                                <strong>${section.priority}</strong>.
+                                <span class="lesson-detail-title">${section.title}</span>
+                            </a>
+                        </li>
+                    `;
+                }).join('');
+            }
+            // Nếu không có sections, kiểm tra mảng exercises
+            else if (Array.isArray(lesson.exercises) && lesson.exercises.length > 0) {
+                sectionsOrExercises = lesson.exercises.map(exercise => {
+                    // Đảm bảo sử dụng đúng thuộc tính từ đối tượng exercise
+                    return `
+                        <li class="lesson-detail-item" data-id="${exercise.id}">
+                            <a href="javascript:void(0)" class="nav-link d-flex align-items-center text-decoration-none">
+                                <strong>${exercise.priority}</strong>.
+                                <span class="lesson-detail-title">${exercise.title}</span>
+                            </a>
+                        </li>
+                    `;
+                }).join('');
+            } else {
+                sectionsOrExercises = `<li class="lesson-detail-item">No data available</li>`;
+            }
+
+            let li = $(`
+                <li class="lesson-item" data-id=${lesson.id}>
+                    <a href="javascript:void(0)" class="lesson-title-container d-flex justify-content-between align-items-center border-bottom">
+                        <input type="checkbox" class="checkbox-lesson">
+                        <span class="lesson-title">${lesson.title}</span>
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="lesson-detail d-none">
+                        ${sectionsOrExercises}
+                    </ul>
+                </li>
+            `);
+            $(".list-lesson-container").append(li);
+        })
+        setTimeout(function() {
+            $(".list-lesson-container").addClass('showCard');
+        }, 100);
+    }
 }
 
 export default textbookUI;

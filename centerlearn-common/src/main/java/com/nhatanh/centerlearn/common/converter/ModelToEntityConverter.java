@@ -58,6 +58,28 @@ public class ModelToEntityConverter {
         entity.setUpdatedAt(this.clock.nowDateTime());
     }
 
+    public void mergeToSaveEntity(Exercise entity, UpdateExerciseFromLessonModel model) {
+        if (model.getTitle() != null) {
+            entity.setTitle(model.getTitle());
+        }
+        if (model.getContent() != null) {
+            entity.setContent(model.getContent());
+        }
+        if (model.getStatus() != null) {
+            entity.setStatus(model.getStatus());
+        }
+        if (model.getUserTermId() != null) {
+            entity.setUserTermId(model.getUserTermId());
+        }
+        entity.setUpdatedAt(this.clock.nowDateTime());
+    }
+
+    public void mergeToSaveEntity(LessonExercise entity, Float priority) {
+        if (priority != null) {
+            entity.setPriority(priority);
+        }
+    }
+
     public void mergeToSaveEntity(Section entity, SaveSectionModel model) {
         if (model.getTitle() != null) {
             entity.setTitle(model.getTitle());

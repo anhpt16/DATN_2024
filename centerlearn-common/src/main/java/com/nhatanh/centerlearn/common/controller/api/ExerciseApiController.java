@@ -2,6 +2,7 @@ package com.nhatanh.centerlearn.common.controller.api;
 
 import com.nhatanh.centerlearn.common.controller.controller.ExerciseServiceController;
 import com.nhatanh.centerlearn.common.converter.RequestToModelConverter;
+import com.nhatanh.centerlearn.common.enums.ExerciseStatus;
 import com.nhatanh.centerlearn.common.model.UpdateExerciseModel;
 import com.nhatanh.centerlearn.common.request.AddExerciseRequest;
 import com.nhatanh.centerlearn.common.request.UpdateExerciseRequest;
@@ -13,6 +14,8 @@ import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Api
@@ -66,5 +69,19 @@ public class ExerciseApiController {
         this.exerciseValidator.validateNull(request);
         this.exerciseServiceController.updateExercise(this.requestToModelConverter.toUpdateExerciseModel(request, id));
         return ResponseEntity.noContent();
+    }
+
+    // Lấy danh sách các trạng thái của bài tập
+    @DoGet("/statuses")
+    public List<ExerciseStatus> getExerciseStatuses() {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        List<ExerciseStatus> exerciseStatuses = this.exerciseServiceController.getExerciseStatuses();
+        if (exerciseStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return exerciseStatuses;
     }
 }

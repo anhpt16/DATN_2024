@@ -4,6 +4,7 @@ import com.nhatanh.centerlearn.common.controller.controller.LessonServiceControl
 import com.nhatanh.centerlearn.common.controller.controller.SectionServiceController;
 import com.nhatanh.centerlearn.common.converter.RequestToModelConverter;
 import com.nhatanh.centerlearn.common.entity.LessonExerciseId;
+import com.nhatanh.centerlearn.common.enums.LessonStatus;
 import com.nhatanh.centerlearn.common.request.*;
 import com.nhatanh.centerlearn.common.response.LessonResponse;
 import com.nhatanh.centerlearn.common.response.SectionResponse;
@@ -16,6 +17,8 @@ import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Api
@@ -56,6 +59,15 @@ public class LessonApiController {
         this.lessonValidator.validateNull(request);
         this.lessonServiceController.updateLesson(this.requestToModelConverter.toLessonModel(request, id));
         return ResponseEntity.noContent();
+    }
+
+    @DoGet("/statuses")
+    public List<LessonStatus> getLessonStatuses() {
+        List<LessonStatus> lessonStatuses = this.lessonServiceController.getLessonStatuses();
+        if (lessonStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return lessonStatuses;
     }
 
     // Xem thông tin một bài học
@@ -121,6 +133,22 @@ public class LessonApiController {
         return ResponseEntity.noContent();
     }
 
+    @DoPut("/{lessonId}/exercise/{exerciseId}")
+    public ResponseEntity updateExerciseFromLesson(
+        @PathVariable long lessonId,
+        @PathVariable long exerciseId,
+        @RequestBody UpdateExerciseFromLesson request
+    ) {
+        //validate
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        this.exerciseValidator.validatePut(lessonId, exerciseId, accountId, request);
+        this.exerciseValidator.validateNull(request);
+        this.lessonServiceController.updateExerciseFromLesson(this.requestToModelConverter.toUpdateExerciseFromLessonModel(request, exerciseId, lessonId));
+        return ResponseEntity.noContent();
+    }
+
     // Xóa một bài tập ra khỏi một bài học
     @DoDelete("/{lessonId}/exercise/{exerciseId}")
     public ResponseEntity deleteExerciseFromLesson(
@@ -183,5 +211,7 @@ public class LessonApiController {
         return ResponseEntity.noContent();
     }
 
+    // Lấy danh sách các bài học kèm các đề mục của các bài học
 
+    // Lấy danh sách các bài học kèm các bài tập của bài học
 }
