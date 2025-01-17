@@ -1,4 +1,6 @@
 ## Xây dựng website bán khóa học
+Chi tiết tiến độ dự án: https://docs.google.com/spreadsheets/d/12oiQ3ceFT9LtJDL-ijIvhO_CLEfC766PEggOjr4Kmq0/edit?usp=sharing
+
 **1. Mục tiêu đề tài**
 - Nâng cao kinh nghiệm trong việc viết mã.
 - Phát triển các kỹ năng liên quan đến đặc tả hệ thống, phân tích thiết kế hệ thống, phân tích thiết kế cơ sở dữ liệu.
