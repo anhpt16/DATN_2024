@@ -1,3 +1,48 @@
+$font-family-primary: 'Roboto';
+
+$sidebar-light: 16px;
+$sidebar-medium: 18px;
+$sidebar-large: 20px;
+
+$sidebar-icon-small: 16px;
+$sidebar-icon-big: 20px;
+
+$sidebar-bg-dark: #212121;
+$sidebar-color-dark: #808080;
+$sidebar-hl-bg-dark: #333333;
+$sidebar-hl-color-dark: #ffffff;
+$sidebar-hl-icon-dark: #404D63;
+$sidebar-bg-light: #EEEEEE;
+$sidebar-color-light: #6e6e6e;
+$sidebar-hl-bg-light: #EFEFEF;
+$sidebar-hl-color-light: #353535;
+$sidebar-hl-icon-light: #635AFD;
+
+$sidebar-border-color: #e3e3e3;
+$text-muted: #a7a7a7;
+
+$submenu-bg-color: #f3f3f3;
+$menu-choosen: #352bff;
+
+$content-bg: #EEEEEE;
+
+//Icon
+$edit-color:  #f1c40f;
+$delete-color:  #e74c3c;
+$delete-color-hover:  #922b21;
+$edit-color-hover:  #b9770e;
+$refresh-color:  #3498db;
+$refresh-color-hover:  #1f618d;
+$error-background: #a71d13;
+$error-color: #BA3C3C;
+$error-border: #C18489;
+$error-detail: #BC4C45;
+$success-message:  #27ae60;
+$success-background: #187600;
+$success-border: #ABC89D;
+$success-color: #36831e;
+$success-detail: #BDD6B6;
+$warning-background: rgb(255, 181, 53) ;
 // Backgroud Color
 $main-backgroud-light: #FFFFFF;
 $content-backgroud-light: #F5F5F5;
@@ -7,9 +52,12 @@ $primary-color-light: #3f3a64;
 $primary-hover-color-light: #3f3a646a;
 $primary-color-dark:#ecf0f1;
 $primary-color-success:  #2ecc71;
+$primary-color-light-dark: #464646;
 
 // Button Color
 $button-color-func:  #3498db;
+$button-add: #27ae60;
+$button-add-hover: #176839;
 
 //Nav Main
 $nav-main-content: 18px;
@@ -20,7 +68,8 @@ $nav-icon: 25px;
 //Line
 $line-color-light:#3f3a641b;
 $line-color-highlight: #4d524f;
-$line-color-blue:    #3498db;
+$line-color-blue:#3498db;
+$line-color-darkblue: #027ac5;
 
 // Text Size
 $text-banner-title: 28px;
@@ -29,3 +78,13 @@ $text-size-big: 22px;
 $text-size-medium: 20px;
 $text-size-small: 18px;
 $text-size-detail: 16px;
+
+// Admin menu
+$color-text-menu: #A0A0A0;
+$color-text-menu-hover: #0C0C0E;
+$background-menu-hover: #EFEFEF;
+
+// Table Color
+$color-table-head: #007bff;
+$color-white: #fff;
+$color-disabled: #8F8F8F;

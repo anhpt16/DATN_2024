@@ -1,0 +1,25 @@
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+
+}
+
+.form-login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        height: 600px;
+        object-fit: cover;
+    }
+}

@@ -1314,6 +1314,7 @@ div.row.permission-table-container {
   min-height: 200px;
 }
 
+#form-add-course .image-subject-container,
 #form-add-subject .image-subject-container {
   width: 100%;
   height: auto;
@@ -1321,17 +1322,22 @@ div.row.permission-table-container {
   border: 0.5px solid #ececec;
   border-radius: 8px;
 }
+#form-add-course .image-subject-container img,
 #form-add-subject .image-subject-container img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
+#courseInfoImage,
+#courseEditImage,
 #textbookInfoImage,
 #subjectEditImage,
 #subjectInfoImage {
   width: 100%;
 }
+#courseInfoImage img,
+#courseEditImage img,
 #textbookInfoImage img,
 #subjectEditImage img,
 #subjectInfoImage img {
@@ -1346,6 +1352,10 @@ div.row.permission-table-container {
 #add-textbook-modal table tr td, #add-textbook-modal table tr th {
   text-align: center;
   padding: 5px;
+}
+
+.table-textbook-add tr th, .table-textbook-add tr td {
+  text-align: center;
 }
 
 .list-subject .card-container {
@@ -1491,7 +1501,7 @@ div.row.permission-table-container {
   text-overflow: ellipsis;
 }
 
-.content-container {
+.content-container-detail-textbook {
   height: calc(100vh - 72px);
   overflow-y: auto;
   overflow-x: hidden;

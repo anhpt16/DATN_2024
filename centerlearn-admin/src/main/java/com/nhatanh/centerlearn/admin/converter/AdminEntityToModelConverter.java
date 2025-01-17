@@ -179,4 +179,38 @@ public class AdminEntityToModelConverter {
             .priority(textbookLesson.getPriority())
             .build();
     }
+
+    public CourseModel toCourseModel(Course course) {
+        if (course == null) {
+            return null;
+        }
+        return CourseModel.builder()
+            .id(course.getId())
+            .code(course.getCode())
+            .displayName(course.getDisplayName())
+            .courseType(course.getCourseType())
+            .duration(course.getDuration())
+            .description(course.getDescription())
+            .status(course.getStatus())
+            .createdAt(course.getCreatedAt())
+            .updatedAt(course.getUpdatedAt())
+            .creatorId(course.getCreatorId())
+            .imageId(course.getImageId())
+            .slug(course.getSlug())
+            .price(course.getPrice())
+            .managerId(course.getManagerId())
+            .build();
+    }
+
+    public CourseSubjectModel toCourseSubjectModel(CourseSubject courseSubject) {
+        if (courseSubject == null) {
+            return null;
+        }
+        return CourseSubjectModel.builder()
+            .id(courseSubject.getId())
+            .courseId(courseSubject.getCourseId())
+            .subjectId(courseSubject.getSubjectId())
+            .textbookId(courseSubject.getTextbookId())
+            .build();
+    }
 }

@@ -190,4 +190,31 @@ public class AdminRequestToModelConverter {
             .userTermId(request.getUserTermId())
             .build();
     }
+
+    public AddCourseModel toAddCourseModel(AddCourseRequest request, long accountId) {
+        return AddCourseModel.builder()
+            .code(request.getCode())
+            .displayName(request.getDisplayName())
+            .courseType(request.getCourseType())
+            .description(request.getDescription())
+            .status(CourseStatus.INACTIVE.name())
+            .creatorId(accountId)
+            .imageId(request.getImageId())
+            .price(request.getPrice())
+            .slug(SlugGenerate.createSlugWithId(request.getDisplayName()))
+            .build();
+    }
+
+    public UpdateCourseModel toUpdateCourseModel(UpdateCourseRequest request, long courseId) {
+        return UpdateCourseModel.builder()
+            .id(courseId)
+            .code(request.getCode())
+            .displayName(request.getDisplayName())
+            .courseType(request.getCourseType())
+            .status(request.getStatus())
+            .description(request.getDescription())
+            .imageId(request.getImageId())
+            .price(request.getPrice())
+            .build();
+    }
 }

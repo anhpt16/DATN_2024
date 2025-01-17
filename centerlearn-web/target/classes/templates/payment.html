@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{page}">
+<body>
+<div layout:fragment="content">
+  <div class="container-fluid order">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="fw-bold">THÔNG TIN CHUYỂN KHOẢN</div>
+                    <div class="image-qr">
+                        <img src="/images/qrcode.jpg" alt="QRCode">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">Nội dung chuyển khoản: </div>
+                        <div class="col-lg-8 fw-bold">[[${order.code}]]</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">Số tiền: </div>
+                        <div class="col-lg-8 fw-bold">[[${order.price}]]</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div>THÔNG TIN ĐƠN HÀNG</div>
+                    <div class="row">
+                        <div class="col-lg-4">Mã môn học: </div>
+                        <div class="col-lg-8">[[${course.code}]]</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">Tên môn học: </div>
+                        <div class="col-lg-8">[[${course.displayName}]]</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">Hình thức học: </div>
+                        <div class="col-lg-8">[[${course.courseType}]]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+<th:block layout:fragment="post-scripts">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  <script type="module" src="/js/contents/payment.js"></script>
+</th:block>
+</body>
+</html>

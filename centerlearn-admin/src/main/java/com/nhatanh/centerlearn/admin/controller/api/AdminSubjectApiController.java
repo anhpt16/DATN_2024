@@ -6,6 +6,7 @@ import com.nhatanh.centerlearn.admin.filter.SubjectFilterCriteria;
 import com.nhatanh.centerlearn.admin.request.AddSubjectRequest;
 import com.nhatanh.centerlearn.admin.request.SaveSubjectRequest;
 import com.nhatanh.centerlearn.admin.response.AdminSubjectResponse;
+import com.nhatanh.centerlearn.admin.response.AdminSubjectShortResponse;
 import com.nhatanh.centerlearn.admin.response.AdminTextbookShortResponse;
 import com.nhatanh.centerlearn.admin.validator.SubjectValidator;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
@@ -17,10 +18,7 @@ import com.tvd12.ezyhttp.core.response.ResponseEntity;
 import com.tvd12.ezyhttp.server.core.annotation.*;
 import lombok.AllArgsConstructor;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Api
@@ -30,6 +28,15 @@ public class AdminSubjectApiController {
     private final SubjectValidator subjectValidator;
     private final SubjectServiceController subjectServiceController;
     private final AdminRequestToModelConverter adminRequestToModelConverter;
+
+    @DoGet("/all-short")
+    public List<AdminSubjectShortResponse> getAllSubjectShorts() {
+        List<AdminSubjectShortResponse> subjectShortResponses = this.subjectServiceController.getAllSubjectShort();
+        if (subjectShortResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return subjectShortResponses;
+    }
 
     @DoPost
     public ResponseEntity addSubject(

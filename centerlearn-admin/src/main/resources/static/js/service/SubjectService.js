@@ -66,7 +66,7 @@ const subjectService = {
     getSubjectStatuses: () => apiCall(`/subject/statuses`, "GET"),
     addSubject: (formData) => apiCall(`/subject`, "POST", formData),
     updateSubject: (id, formData) => apiCall(`/subject/${id}`, "PUT", formData),
-
+    getAllSubjectShort: () => apiCall(`/subject/all-short`, "GET"),
 };
 
 export default subjectService;

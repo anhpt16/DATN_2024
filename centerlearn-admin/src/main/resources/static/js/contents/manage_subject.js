@@ -4,6 +4,7 @@ import { ImageModal } from "./image_modal.js";
 import subjectUI from "../ui/SubjectUI.js";
 import subjectService from "../service/SubjectService.js";
 import textbookService from "../service/TextbookService.js";
+import courseService from "../service/CourseService.js";
 
 $(document).ready(function() {
     let currentContext = null;

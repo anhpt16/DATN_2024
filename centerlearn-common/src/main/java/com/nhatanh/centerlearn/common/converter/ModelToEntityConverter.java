@@ -2,10 +2,13 @@ package com.nhatanh.centerlearn.common.converter;
 
 import com.nhatanh.centerlearn.common.entity.*;
 import com.nhatanh.centerlearn.common.enums.LessonStatus;
+import com.nhatanh.centerlearn.common.enums.OrderStatus;
 import com.nhatanh.centerlearn.common.model.*;
 import com.nhatanh.centerlearn.common.utils.ClockProxy;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import lombok.AllArgsConstructor;
+
+import java.util.UUID;
 
 @EzySingleton
 @AllArgsConstructor
@@ -40,6 +43,24 @@ public class ModelToEntityConverter {
         LessonExercise entity = new LessonExercise();
         this.mergeToEntity(entity, model);
         return entity;
+    }
+
+    public Order toOrderEntityConverter(long accountId, long courseId, double price) {
+        Order entity = new Order();
+        this.mergeToEntity(entity, accountId, courseId, price);
+        return entity;
+    }
+
+    public void mergeToEntity(Order entity, long accountId, long courseId, double price) {
+        String fullUUID = UUID.randomUUID().toString();
+        String shortUUID = fullUUID.replace("-", "").substring(0, 16).toUpperCase();
+        entity.setAccountId(accountId);
+        entity.setStatus(OrderStatus.WAIT.name());
+        entity.setTotalPrice(price);
+        entity.setCourseId(courseId);
+        entity.setCreatedAt(this.clock.nowDateTime());
+        entity.setUpdatedAt(this.clock.nowDateTime());
+        entity.setCode(shortUUID);
     }
 
     public void mergeToSaveEntity(Exercise entity, UpdateExerciseModel model) {

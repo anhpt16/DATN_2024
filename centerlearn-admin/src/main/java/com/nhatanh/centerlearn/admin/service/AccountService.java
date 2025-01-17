@@ -13,16 +13,19 @@ import com.nhatanh.centerlearn.admin.repo.AccountRepositoryCustom;
 import com.nhatanh.centerlearn.admin.response.AccountAvatarResponse;
 import com.nhatanh.centerlearn.admin.result.IdResult;
 import com.nhatanh.centerlearn.common.entity.Account;
+import com.nhatanh.centerlearn.common.entity.Media;
 import com.nhatanh.centerlearn.common.enums.AccountStatus;
 import com.nhatanh.centerlearn.common.enums.MethodName;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
+import com.nhatanh.centerlearn.common.model.GalleryModel;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
+import com.tvd12.ezyfox.io.EzyMaps;
 import com.tvd12.ezyfox.util.Next;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -106,4 +109,14 @@ public class AccountService {
             this.accountRepository.save(account);
         }
     }
+
+    public Map<Long, String> getCreatorNameMapByIds(Collection<Long> ids) {
+        return EzyMaps.newHashMapNewValues(this.getAccountMapByIds(ids), AccountModel::getDisplayName);
+    }
+
+    public Map<Long, AccountModel> getAccountMapByIds(Collection<Long> ids) {
+        return ids.isEmpty() ? Collections.emptyMap() : this.accountRepository.findListByIds(ids).stream()
+            .collect(Collectors.toMap(Account::getId, this.entityToModelConverter::toModel, (o, n) -> n));
+    }
+
 }

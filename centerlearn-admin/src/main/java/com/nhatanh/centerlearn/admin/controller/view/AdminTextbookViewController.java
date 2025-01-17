@@ -39,7 +39,7 @@ public class AdminTextbookViewController {
     @DoGet("/list")
     public View initTextBook(
         @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size
+        @RequestParam(value = "size", defaultValue = "12") int size
     ) {
         PaginationModel<AdminTextbookResponse> textbookPaginationResponse = this.textbookServiceController.getTextbookPaginationByFilter(
             TextbookFilterCriteria.builder().build(),

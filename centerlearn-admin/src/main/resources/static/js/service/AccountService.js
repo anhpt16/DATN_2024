@@ -66,6 +66,7 @@ const accountService = {
     getAccountByPhone: (phone) => apiCall(`/accounts/phone/${phone}`),
     getAccountDetailById: (id) => apiCall(`/accounts/${id}`, "GET"),
     getAccountInfo: () => apiCall(`/account/personal`, "GET"),
+    getAccountManager: () => apiCall(`/accounts/all-manager`, "GET"),
 
     getAccountRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles`, "GET"),
     getNotAssignedRolesByAccountId: (id) => apiCall(`/accounts/${id}/roles/not-assigned`, "GET"),

@@ -8,6 +8,7 @@
     width: 100%;
     min-height: 200px;
 }
+#form-add-course,
 #form-add-subject {
     .image-subject-container {
         width: 100%;
@@ -22,7 +23,8 @@
         }
     }
 }
-
+#courseInfoImage,
+#courseEditImage,
 #textbookInfoImage,
 #subjectEditImage,
 #subjectInfoImage {
@@ -47,6 +49,14 @@
             }
         }
         
+    }
+}
+
+.table-textbook-add {
+    tr {
+        th, td {
+            text-align: center;
+        }
     }
 }
 

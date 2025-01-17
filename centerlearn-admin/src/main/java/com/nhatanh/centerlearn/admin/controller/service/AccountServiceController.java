@@ -14,6 +14,7 @@ import com.nhatanh.centerlearn.admin.response.AdminRoleResponse;
 import com.nhatanh.centerlearn.admin.service.AccountRoleService;
 import com.nhatanh.centerlearn.admin.service.AccountService;
 import com.nhatanh.centerlearn.admin.service.RoleService;
+import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.exception.AccountCreationException;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.GalleryModel;
@@ -25,6 +26,8 @@ import lombok.AllArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -141,5 +144,15 @@ public class AccountServiceController {
 
     public void updateAccountStatus(long accountId, String statusName) {
         this.accountService.updateAccountStatus(accountId, statusName);
+    }
+
+    public List<AdminAccountResponse> getAllManager() {
+        Set<Long> accountIds = this.accountRoleService.getAccountsByRoleId(Constants.ROLE_ID_MANAGER)
+            .stream()
+            .map(AccountRoleModel::getAccountId)
+            .filter(id -> id > 0)
+            .collect(Collectors.toSet());
+        List<AccountModel> accountModels = newArrayList(accountIds, this.accountService::getAccountById);
+        return newArrayList(accountModels, this.accountModelDecorator::decorateAccountModel);
     }
 }

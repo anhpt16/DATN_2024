@@ -43,4 +43,5 @@ public class LessonService {
         Lesson lesson = this.lessonRepository.findById(lessonId);
         return lesson == null ? null : this.entityToModelConverter.toLessonModel(lesson);
     }
+
 }

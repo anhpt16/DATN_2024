@@ -163,4 +163,21 @@ public class EntityToModelConverter {
             .priority(section.getPriority())
             .build();
     }
+
+    public OrderModel toOrderModel(Order order) {
+        if (order == null) {
+            return null;
+        }
+        return OrderModel.builder()
+            .id(order.getId())
+            .accountId(order.getAccountId())
+            .status(order.getStatus())
+            .managerId(order.getManagerId())
+            .price(order.getTotalPrice())
+            .courseId(order.getCourseId())
+            .createdAt(order.getCreatedAt())
+            .updatedAt(order.getUpdatedAt())
+            .code(order.getCode())
+            .build();
+    }
 }

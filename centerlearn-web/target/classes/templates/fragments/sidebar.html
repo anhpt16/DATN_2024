@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="sidebar" class="">
+    <aside class="col-md-3 col-lg-2 bg-light sidebar scrollable">
+        <div class="text-muted-cs sidebar-title">
+            Học viên
+        </div>
+        <ul class="list-unstyled">
+            <li class="nav-item">
+                <a class="nav-link sidebar-menu" href="">
+                    <div>
+                        <i class="fa-solid fa-images"></i>
+                        <div>Kho ảnh</div>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-menu" href="">
+                    <div>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <div>Thông tin cá nhân</div>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-menu" href="/personal/course?lang=vi">
+                    <div>
+                        <i class="fa-solid fa-unlock"></i>
+                        <div>Khóa học</div>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-menu" href="/personal/order?lang=vi">
+                    <div>
+                        <i class="fa-solid fa-unlock"></i>
+                        <div>Lịch sử đơn hàng</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+</th:block>
+<script th:fragment="scripts" type="text/javascript">
+</script>
+</body>
+</html>

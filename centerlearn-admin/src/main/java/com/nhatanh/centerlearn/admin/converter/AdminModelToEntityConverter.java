@@ -84,6 +84,38 @@ public class AdminModelToEntityConverter {
         return entity;
     }
 
+    public Course toCourseEntity(AddCourseModel model) {
+        Course entity = new Course();
+        this.mergeToEntity(entity, model);
+        return entity;
+    }
+
+    public CourseSubject toCourseSubjectEntity(long courseId, long subjectId, long textbookId) {
+        CourseSubject entity = new CourseSubject();
+        this.mergeToEntity(entity, courseId, subjectId, textbookId);
+        return entity;
+    }
+
+    public void mergeToEntity(CourseSubject entity, long courseId, long subjectId, long textbookId) {
+        entity.setCourseId(courseId);
+        entity.setSubjectId(subjectId);
+        entity.setTextbookId(textbookId);
+    }
+
+    public void mergeToEntity(Course entity, AddCourseModel model) {
+        entity.setCode(model.getCode());
+        entity.setDisplayName(model.getDisplayName());
+        entity.setCourseType(model.getCourseType());
+        entity.setDescription(model.getDescription());
+        entity.setStatus(model.getStatus());
+        entity.setCreatedAt(this.clock.nowDateTime());
+        entity.setUpdatedAt(this.clock.nowDateTime());
+        entity.setCreatorId(model.getCreatorId());
+        entity.setImageId(model.getImageId());
+        entity.setSlug(model.getSlug());
+        entity.setPrice(model.getPrice());
+    }
+
     public void mergeToEntity(TextbookLesson entity, TextbookLessonModel model) {
         entity.setTextbookId(model.getTextbookId());
         entity.setLessonId(model.getLessonId());
@@ -157,6 +189,35 @@ public class AdminModelToEntityConverter {
         entity.setStatus(model.getStatus());
         entity.setDescription(model.getDescription());
         entity.setUpdatedAt(this.clock.nowDate());
+    }
+
+    public void mergeToSaveEntity(Course entity, UpdateCourseModel model) {
+        if (model.getCode() != null) {
+            entity.setCode(model.getCode());
+        }
+        if (model.getDisplayName() != null) {
+            entity.setDisplayName(model.getDisplayName());
+            entity.setSlug(SlugGenerate.createSlugWithId(model.getDisplayName()));
+        }
+        if (model.getCourseType() != null) {
+            entity.setCourseType(model.getCourseType());
+        }
+        if (model.getStatus() != null) {
+            entity.setStatus(model.getStatus());
+        }
+        if (model.getDescription() != null) {
+            entity.setDescription(model.getDescription());
+        }
+        if (model.getImageId() != null) {
+            entity.setImageId(model.getImageId());
+        }
+        if (model.getPrice() != null) {
+            entity.setPrice(model.getPrice());
+        }
+    }
+
+    public void mergeToSaveEntity(Course entity, long managerId) {
+        entity.setManagerId(managerId);
     }
 
     public void mergeToEntity(SaveTermModel model, Term entity) {

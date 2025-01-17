@@ -1,12 +1,17 @@
 
 @import "global/variables";
 @import "global/mixin";
+@import "global/utils";
 
 @import "layouts/header";
 @import "layouts/footer";
 
+@import "components/admin-sidebar";
 @import "pages/home";
 @import "pages/blog";
 @import "pages/course";
+@import "components/login";
+@import "components/course-detail";
+
 
 @import "global/responsive";

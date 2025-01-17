@@ -48,4 +48,10 @@ public class Course {
         name = "image_id"
     )
     private long imageId;
+    private String slug;
+    private double price;
+    @Column(
+        name = "manage_id"
+    )
+    private long managerId;
 }

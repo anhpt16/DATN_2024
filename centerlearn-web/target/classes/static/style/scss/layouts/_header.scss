@@ -38,3 +38,24 @@ a.nav-link {
   }
 }
 
+
+
+  #user-info {
+    a {
+      text-decoration: none !important;
+    }
+    .menu {
+     
+    }
+    .login-btn {
+      color: #fff;
+      &:hover {
+        color: #dddddd;
+      }
+    }
+  }
+
+#header-avatar {
+  width: 45px;
+  height: 45px;
+}

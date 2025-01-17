@@ -74,7 +74,7 @@ $(document).ready(function(){
     // Khi nhấn vào một giáo trình
 
     // Lấy danh sách giáo trình
-    async function getTextbookByFilter(page = 0, size = 10) {
+    async function getTextbookByFilter(page = 0, size = 12) {
         let queryString = '';
         queryString += "&page=" + page;
         queryString += "&size=" + size;

@@ -221,4 +221,43 @@ public class AdminModelToResponseConverter {
             .exercises(adminListExerciseResponses)
             .build();
     }
+
+    public AdminCourseResponse toAdminCourseResponse(CourseModel model, String creatorName, String imageUrl) {
+        String apiUrl = "";
+        String creator = "";
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            apiUrl = Constants.apiImage + imageUrl;
+        }
+        if (creatorName != null) {
+            creator= creatorName;
+        }
+        return AdminCourseResponse.builder()
+            .id(model.getId())
+            .code(model.getCode())
+            .displayName(model.getDisplayName())
+            .courseType(CourseType.fromString(model.getCourseType()).getDisplayName())
+            .duration(model.getDuration())
+            .description(model.getDescription())
+            .status(CourseStatus.fromString(model.getStatus()))
+            .createdAt(model.getCreatedAt())
+            .updatedAt(model.getUpdatedAt())
+            .creatorId(model.getCreatorId())
+            .creatorName(creator)
+            .apiUrl(apiUrl)
+            .slug(model.getSlug())
+            .price(model.getPrice())
+            .managerId(model.getManagerId())
+            .build();
+    }
+
+    public AdminCourseSubjectResponse toCourseSubjectResponse(CourseSubjectModel courseSubjectModel, String subjectName, String textbookName) {
+        return AdminCourseSubjectResponse.builder()
+            .id(courseSubjectModel.getId())
+            .courseId(courseSubjectModel.getCourseId())
+            .subjectId(courseSubjectModel.getSubjectId())
+            .subjectName(subjectName)
+            .textbookId(courseSubjectModel.getTextbookId())
+            .textbookName(textbookName)
+            .build();
+    }
 }

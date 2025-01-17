@@ -53,4 +53,12 @@ public class AccountRoleService {
         }
         return this.entityToModelConverter.toModel(accountRole);
     }
+
+    public List<AccountRoleModel> getAccountsByRoleId(long id) {
+        List<AccountRole> accountRoles = this.accountRoleRepository.findAccountRolesById(id);
+        if (accountRoles.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return newArrayList(accountRoles, this.entityToModelConverter::toModel);
+    }
 }

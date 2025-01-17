@@ -3,6 +3,7 @@ package com.nhatanh.centerlearn.common.converter;
 import com.nhatanh.centerlearn.common.constant.Constants;
 import com.nhatanh.centerlearn.common.enums.ExerciseStatus;
 import com.nhatanh.centerlearn.common.enums.LessonStatus;
+import com.nhatanh.centerlearn.common.enums.OrderStatus;
 import com.nhatanh.centerlearn.common.enums.SectionStatus;
 import com.nhatanh.centerlearn.common.model.*;
 import com.nhatanh.centerlearn.common.response.*;
@@ -98,6 +99,20 @@ public class ModelToResponseConverter {
             .updatedAt(model.getUpdatedAt())
             .userTermId(model.getUserTermId())
             .userTermName(userTermName)
+            .build();
+    }
+
+    public OrderResponse toOrderResponse(OrderModel model) {
+        return OrderResponse.builder()
+            .id(model.getId())
+            .accountId(model.getAccountId())
+            .status(OrderStatus.fromString(model.getStatus()))
+            .managerId(model.getManagerId())
+            .price(model.getPrice())
+            .courseId(model.getCourseId())
+            .createdAt(model.getCreatedAt())
+            .updatedAt(model.getUpdatedAt())
+            .code(model.getCode())
             .build();
     }
 }

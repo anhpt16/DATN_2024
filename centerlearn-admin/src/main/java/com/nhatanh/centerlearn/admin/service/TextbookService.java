@@ -10,15 +10,20 @@ import com.nhatanh.centerlearn.admin.model.TextbookModel;
 import com.nhatanh.centerlearn.admin.repo.TextbookRepository;
 import com.nhatanh.centerlearn.admin.repo.TextbookRepositoryCustom;
 import com.nhatanh.centerlearn.admin.result.IdResult;
+import com.nhatanh.centerlearn.common.entity.Subject;
 import com.nhatanh.centerlearn.common.entity.Textbook;
 import com.nhatanh.centerlearn.common.exception.ResourceNotFoundException;
 import com.nhatanh.centerlearn.common.model.PaginationModel;
+import com.tvd12.ezyfox.io.EzyMaps;
 import com.tvd12.ezyfox.util.Next;
 import com.tvd12.ezyhttp.server.core.annotation.Service;
 import lombok.AllArgsConstructor;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.tvd12.ezyfox.io.EzyLists.newArrayList;
 
@@ -87,5 +92,14 @@ public class TextbookService {
             return Collections.emptyList();
         }
         return newArrayList(textbooks, this.adminEntityToModelConverter::toModel);
+    }
+
+    public Map<Long, String> getTextbookNameMapByIds(Collection<Long> ids) {
+        return EzyMaps.newHashMapNewValues(this.getTextbookMapByIds(ids), TextbookModel::getName);
+    }
+
+    public Map<Long, TextbookModel> getTextbookMapByIds(Collection<Long> ids) {
+        return ids.isEmpty() ? Collections.emptyMap() : this.textbookRepository.findListByIds(ids).stream()
+            .collect(Collectors.toMap(Textbook::getId, this.adminEntityToModelConverter::toModel, (o, n) -> n));
     }
 }

@@ -30,5 +30,5 @@ public class CourseSubject {
     @Column(
         name = "textbook_id"
     )
-    private long textbook_id;
+    private long textbookId;
 }

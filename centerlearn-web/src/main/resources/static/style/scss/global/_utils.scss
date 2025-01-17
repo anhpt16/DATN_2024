@@ -1,0 +1,327 @@
+$scrollbar-bg: #f0f0f0; // Màu nền của thanh cuộn
+$scrollbar-thumb: #c0c0c0; // Màu của thanh kéo
+$scrollbar-thumb-hover: #a0a0a0; // Màu khi hover
+
+body {
+    main .content{
+        .content-detail {
+            max-height: calc(100vh - 72px);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    }
+}
+.height-200 {
+    height: 200px;
+}
+.width-100 {
+    width: 100px;
+}
+.width-150 {
+    width: 150px;
+}
+.width-500 {
+    width: 500px;
+}
+
+.row {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0 !important;
+}
+
+.scrollable {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.content {
+    background-color: $content-bg;
+}
+
+.content-detail {
+    padding: 20px !important;
+}
+
+.location-detail {
+    color: $text-muted;
+}
+
+.edit-btn {
+    color: $edit-color;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-size: $text-size-small;
+    &:hover {
+        color: $edit-color-hover;
+    }
+}
+.refresh-btn {
+    color: $refresh-color;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    font-size: $text-size-small;
+    padding: 5px 10px;
+    &:hover {
+        color: $refresh-color-hover;
+    }
+}
+.delete-btn {
+    color: $delete-color;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-size: $text-size-small;
+    &:hover {
+        color: $delete-color-hover;
+    }
+}
+.view-btn {
+    color: $primary-color-light;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: $text-size-small;
+    transition: color 0.2s ease;
+    &:hover {
+        color: $primary-hover-color-light;
+    }
+}
+.add-btn {
+    color: $button-add;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: $text-size-small;
+    transition: color 0.2s ease;
+    &:hover {
+        color: $button-add-hover;
+    }
+}
+
+.table-list {
+    padding: 0px 20px !important;
+    .table-role {
+        width: 100%;
+        th, td {
+            padding: 10px 20px;
+
+        }
+        th {
+            border-bottom: 1px solid #6e6e6e;
+        }
+        tr {
+            &:hover {
+                background-color: #ffffff;
+            }
+        }
+    }
+}
+
+.btn-create {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #218838;
+    }
+}
+
+#notification-container {
+    max-width: 280px;
+    position: fixed;
+    top: 80px;
+    right: 50px;
+}
+.notification {
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: $primary-color-light-dark;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    // position: fixed;
+    // top: 80px;
+    // right: 50px;
+    &.success {
+        background-color: $success-background;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: #fff;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p.notification-title {
+                    color: #fff;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p.notification-detail {
+                    color: #fff;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
+
+    &.error {
+        background-color: $error-background;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: #fff;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p.notification-title {
+                    color: #fff;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p.notification-detail {
+                    color: #fff;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
+    &.warning {
+        background-color: $warning-background;
+        &>div {
+            flex-flow: row;
+            align-items: center;
+            gap: 50px;
+            i {
+                color: #fff;
+                font-size: $text-banner-title;
+            }
+            &>div {
+                flex-flow: column;
+                justify-content: space-between;
+                p.notification-title {
+                    color: #fff;
+                    font-size: $text-size-medium;
+                    margin-bottom: 0 !important;
+                    font-weight: 600;
+                }
+                p.notification-detail {
+                    color: #fff;
+                    font-size: $text-size-small;
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fade-in.show {
+    opacity: 1;
+}
+
+.disabled-link {
+    color: $line-color-light;
+    pointer-events: none !important;
+    background-color: $line-color-light;
+    i {
+        color: $line-color-light;
+    }
+    &:hover {
+        color: $line-color-light;
+        background-color: $line-color-light;
+    }
+}
+.page-link {
+    cursor: pointer;
+}
+
+.invalid {
+    border: 1px solid $delete-color !important;
+}
+// z-index modal default: 1050
+// z-index backdrop default: 1040
+
+#notification-container {
+    z-index: 1056;
+}
+#confirmation-modal {
+    z-index: 1056;
+}
+
+
+// Modal kho ảnh
+.upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px; /* Khoảng cách từ trên */
+    
+    .upload-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px; /* Chiều rộng của khu vực upload */
+      height: 90px; /* Chiều cao của khu vực upload */
+      border: 2px dashed #727272; /* Viền nét đứt */
+      border-radius: 10px; /* Làm bo góc */
+      background-color: #f8f9fa; /* Màu nền nhẹ */
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+  
+      &:hover {
+        border-color: #0056b3; /* Viền đổi màu khi hover */
+        .upload-icon {
+            color: #0056b3;
+        };
+        .upload-text {
+            color: #0056b3;
+        }
+      }
+  
+      .upload-icon {
+        font-size: 36px;
+        color: #5d5c5c; /* Màu của icon */
+        margin-right: 10px; /* Khoảng cách giữa icon và text */
+      }
+  
+      .upload-text {
+        font-size: 16px;
+        color: #5d5c5c;
+        font-weight: 600;
+      }
+  
+      /* Ẩn input file */
+      .file-upload-input {
+        display: none;
+      }
+    }
+  }

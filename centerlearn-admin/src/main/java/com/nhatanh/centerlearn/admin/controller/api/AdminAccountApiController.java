@@ -59,6 +59,18 @@ public class AdminAccountApiController {
         return ResponseEntity.noContent();
     }
 
+    @DoGet("/all-manager")
+    public List<AdminAccountResponse> getAllManager() {
+        Long accountId = Optional.ofNullable(RequestContext.get("accountId"))
+            .map(account -> (Long) account)
+            .orElseThrow(() -> new HttpUnauthorizedException("User Invalid"));
+        List<AdminAccountResponse> accountResponses = this.accountServiceController.getAllManager();
+        if (accountResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return accountResponses;
+    }
+
     @Authenticated
     @DoPost("/add-teacher")
     public ResponseEntity addTeacherAccount(
